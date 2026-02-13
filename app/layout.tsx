@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { ScrollRestoration } from "@/components/scroll-restoration"
+import { Analytics } from "@vercel/analytics/next"
 
 import { AnalyticsTracker } from "@/components/analytics-tracker"
 
@@ -35,6 +36,7 @@ export default function RootLayout({
           <Footer />
           <ScrollToTop />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )
