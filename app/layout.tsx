@@ -9,6 +9,7 @@ import { ScrollToTop } from "@/components/scroll-to-top"
 import { ScrollRestoration } from "@/components/scroll-restoration"
 
 import { AnalyticsTracker } from "@/components/analytics-tracker"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -34,6 +35,7 @@ export default function RootLayout({
           {children}
           <Footer />
           <ScrollToTop />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
