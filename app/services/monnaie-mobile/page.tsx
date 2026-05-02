@@ -46,7 +46,7 @@ export default function MonnaieeMobilePage() {
       <section className="relative py-24 px-4 md:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image src="/images/mobile-money.jpg" alt="Monnaie mobile" fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#021a2e]/90 to-[#0270bd]/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 to-[#034a30]/60" />
         </div>
         <div className="container mx-auto relative z-10">
           <Link href="/services" className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-8 text-sm">
@@ -66,7 +66,7 @@ export default function MonnaieeMobilePage() {
               securite. Transferts, paiements, recharges : tout est possible
               avec notre service monnaie mobile.
             </p>
-            <Button asChild size="lg" className="bg-[#e0822d] hover:bg-[#d16522] text-white shadow-lg">
+            <Button asChild size="lg" className="bg-[#D4A373] hover:bg-[#c28a52] text-white shadow-lg">
               <Link href="/contact">Commencer</Link>
             </Button>
           </div>
@@ -77,7 +77,7 @@ export default function MonnaieeMobilePage() {
       <section className="py-20 px-4 md:px-6 lg:px-8 bg-background">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#0270bd]/10 text-sm font-medium text-[#0270bd] mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#023020]/10 text-sm font-medium text-[#023020] mb-4">
               Avantages
             </span>
             <h2 className="text-3xl font-bold tracking-tight mb-4 text-gradient">
@@ -88,8 +88,8 @@ export default function MonnaieeMobilePage() {
             {features.map((f) => (
               <Card key={f.title} className="card-hover border-none shadow-lg bg-card">
                 <CardContent className="pt-8 pb-6">
-                  <div className="w-14 h-14 rounded-xl bg-[#0270bd]/10 flex items-center justify-center mb-5">
-                    <f.icon className="h-7 w-7 text-[#0270bd]" />
+                  <div className="w-14 h-14 rounded-xl bg-[#023020]/10 flex items-center justify-center mb-5">
+                    <f.icon className="h-7 w-7 text-[#023020]" />
                   </div>
                   <h3 className="text-lg font-semibold mb-3 text-foreground">{f.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{f.desc}</p>
@@ -125,12 +125,12 @@ export default function MonnaieeMobilePage() {
                   "Limites de transfert elevees",
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-foreground">
-                    <CheckCircle2 className="h-5 w-5 text-[#0270bd] flex-shrink-0" />
+                    <CheckCircle2 className="h-5 w-5 text-[#023020] flex-shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <Button asChild className="bg-[#0270bd] hover:bg-[#035999] text-white">
+              <Button asChild className="bg-[#023020] hover:bg-[#034a30] text-white">
                 <Link href="/contact">
                   En savoir plus <ArrowRight className="h-4 w-4 ml-2" />
                 </Link>
@@ -151,8 +151,8 @@ export default function MonnaieeMobilePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {operations.map((op) => (
               <div key={op.title} className="flex items-start gap-4 p-6 rounded-xl bg-card shadow-md card-hover">
-                <div className="w-10 h-10 rounded-lg bg-[#e0822d]/10 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="h-5 w-5 text-[#e0822d]" />
+                <div className="w-10 h-10 rounded-lg bg-[#D4A373]/10 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="h-5 w-5 text-[#D4A373]" />
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1 text-foreground">{op.title}</h3>
@@ -168,7 +168,7 @@ export default function MonnaieeMobilePage() {
       <section className="relative py-20 px-4 md:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image src="/images/hero-bg.jpg" alt="Background" fill className="object-cover" />
-          <div className="absolute inset-0 bg-[#021a2e]/85" />
+          <div className="absolute inset-0 bg-[#023020]/85" />
         </div>
         <div className="container mx-auto text-center relative z-10">
           <h2 className="text-3xl font-bold tracking-tight mb-6 text-white text-balance">
@@ -179,7 +179,7 @@ export default function MonnaieeMobilePage() {
             pour commencer a utiliser nos services monnaie mobile.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg" className="bg-[#e0822d] hover:bg-[#d16522] text-white shadow-lg">
+            <Button asChild size="lg" className="bg-[#D4A373] hover:bg-[#c28a52] text-white shadow-lg">
               <Link href="/contact">Nous contacter</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10">

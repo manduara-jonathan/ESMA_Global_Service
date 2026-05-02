@@ -71,12 +71,12 @@ export default function AdminLayout({
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile/Tablet Header - Always visible on small screens */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-3 border-b border-border bg-[#021a2e] text-white lg:hidden">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-3 border-b border-border bg-[#023020] text-white lg:hidden">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-[#e59a4b]/20 flex items-center justify-center">
-            <Shield className="h-4 w-4 text-[#e59a4b]" />
+          <div className="w-8 h-8 rounded-lg bg-[#D4A373]/20 flex items-center justify-center">
+            <Shield className="h-4 w-4 text-[#D4A373]" />
           </div>
-          <span className="font-bold text-lg text-[#e59a4b]">MK ADMIN</span>
+          <span className="font-bold text-lg text-[#D4A373]">MK ADMIN</span>
         </div>
         <Button
           variant="ghost"
@@ -93,17 +93,17 @@ export default function AdminLayout({
         <aside
           className={`${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 fixed lg:sticky lg:top-0 inset-y-0 left-0 z-40 w-72 lg:w-64 bg-[#021a2e] text-white transition-transform duration-300 ease-in-out lg:h-screen lg:min-h-screen`}
+          } lg:translate-x-0 fixed lg:sticky lg:top-0 inset-y-0 left-0 z-40 w-72 lg:w-64 bg-[#023020] text-white transition-transform duration-300 ease-in-out lg:h-screen lg:min-h-screen`}
         >
           <div className="flex flex-col h-full overflow-y-auto">
             {/* Logo - Desktop only */}
             <div className="hidden lg:block p-6 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#e59a4b]/20 flex items-center justify-center">
-                  <Shield className="h-5 w-5 text-[#e59a4b]" />
+                <div className="w-10 h-10 rounded-xl bg-[#D4A373]/20 flex items-center justify-center">
+                  <Shield className="h-5 w-5 text-[#D4A373]" />
                 </div>
                 <div>
-                  <h1 className="font-bold text-xl text-[#e59a4b]">MK ADMIN</h1>
+                  <h1 className="font-bold text-xl text-[#D4A373]">MK ADMIN</h1>
                   <p className="text-white/60 text-xs">Securise</p>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export default function AdminLayout({
                     href={item.href}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                       isActive
-                        ? "bg-[#e59a4b]/20 text-[#e59a4b] font-medium"
+                        ? "bg-[#D4A373]/20 text-[#D4A373] font-medium"
                         : "text-white/70 hover:bg-white/10 hover:text-white"
                     }`}
                   >

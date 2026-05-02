@@ -17,7 +17,7 @@ export default function AboutPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#021a2e]/90 to-[#0270bd]/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 to-[#034a30]/70" />
         </div>
         <div className="container mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -41,7 +41,7 @@ export default function AboutPage() {
               </p>
               <Button
                 asChild
-                className="bg-[#e0822d] hover:bg-[#d16522] text-white shadow-lg"
+                className="bg-[#D4A373] hover:bg-[#c28a52] text-[#023020] shadow-lg"
               >
                 <Link href="/contact">Contactez-nous</Link>
               </Button>
@@ -136,15 +136,15 @@ export default function AboutPage() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {[
-              {
-                name: "NGOY KEMBO MERVEILLE",
-                role: "Fondatrice & Directrice",
-                desc: "Visionnaire et leader passionne, guidant l'entreprise vers l'excellence.",
-              },
+{
+              name: "NGOY KEMBO MERVEILLE",
+              role: "Fondatrice & Directrice",
+              desc: "Visionnaire et leader passionnée, guidant l'entreprise vers l'excellence.",
+            },
               {
                 name: "MANDUARA TSHIMPAKA JONATHAN",
                 role: "Responsable Technique",
-                desc: "Developpeur Web et mobile avec 3 ans d'experience en reseau et telecommunications. Expert en graphisme, design visuel et marketing pour la plate-forme.",
+                desc: "Développeur Web et mobile avec 3 ans d'expérience en réseau et télécommunications. Expert en graphisme, design visuel et marketing pour la plateforme.",
               },
             ].map((member) => (
               <Card key={member.name} className="card-hover border-none shadow-lg bg-card text-center">

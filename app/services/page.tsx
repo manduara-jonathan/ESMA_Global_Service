@@ -93,7 +93,7 @@ export default function ServicesPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#021a2e]/90 to-[#0270bd]/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 to-[#034a30]/70" />
         </div>
         <div className="container mx-auto text-center relative z-10">
           <span className="inline-block px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-sm text-sm font-medium text-white mb-4 border border-white/20">
@@ -129,7 +129,7 @@ export default function ServicesPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <div className="w-10 h-10 rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center">
-                      <service.icon className="h-5 w-5 text-[#0270bd]" />
+                      <service.icon className="h-5 w-5 text-[#023020]" />
                     </div>
                   </div>
                 </div>
@@ -146,7 +146,7 @@ export default function ServicesPage() {
                         key={feat}
                         className="flex items-center gap-2 text-sm text-foreground"
                       >
-                        <ArrowRight className="h-3.5 w-3.5 text-[#0270bd] flex-shrink-0" />
+                        <ArrowRight className="h-3.5 w-3.5 text-[#023020] flex-shrink-0" />
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -155,7 +155,7 @@ export default function ServicesPage() {
                 <CardFooter>
                   <Button
                     asChild
-                    className="w-full bg-[#0270bd] hover:bg-[#035999] text-white"
+                    className="w-full bg-[#023020] hover:bg-[#034a30] text-white"
                   >
                     <Link href={`/services/${service.slug}`}>Decouvrir ce service</Link>
                   </Button>
@@ -201,10 +201,10 @@ export default function ServicesPage() {
               <div className="mt-8 p-4 bg-card rounded-lg shadow-sm">
                 <p className="text-sm text-muted-foreground mb-2">Contact direct :</p>
                 <p className="font-medium">
-                  <a href="tel:+243819145660" className="text-primary hover:underline">+243 819 145 660</a>
+                  <a href="https://wa.me/243819145660" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">+243 819 145 660</a>
                 </p>
                 <p className="font-medium">
-                  <a href="mailto:mkglobalservices01@gmail.com" className="text-primary hover:underline">mkglobalservices01@gmail.com</a>
+                  <a href="mailto:esmaglobaleservices@gmail.com" className="text-primary hover:underline">esmaglobaleservices@gmail.com</a>
                 </p>
               </div>
             </div>
@@ -224,7 +224,7 @@ export default function ServicesPage() {
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-[#021a2e]/85" />
+          <div className="absolute inset-0 bg-[#023020]/85" />
         </div>
         <div className="container mx-auto text-center relative z-10">
           <h2 className="text-3xl font-bold tracking-tight mb-6 text-white text-balance">
@@ -237,9 +237,9 @@ export default function ServicesPage() {
             <Button
               asChild
               size="lg"
-              className="bg-[#e0822d] hover:bg-[#d16522] text-white shadow-lg"
+              className="bg-[#D4A373] hover:bg-[#c28a52] text-[#023020] shadow-lg"
             >
-              <a href="tel:+243819145660">Appeler maintenant</a>
+              <a href="https://wa.me/243819145660" target="_blank" rel="noopener noreferrer">Appeler maintenant</a>
             </Button>
             <Button
               asChild
@@ -247,7 +247,7 @@ export default function ServicesPage() {
               variant="outline"
               className="bg-transparent border-white/30 text-white hover:bg-white/10"
             >
-              <a href="mailto:mkglobalservices01@gmail.com">Envoyer un email</a>
+              <a href="mailto:esmaglobaleservices@gmail.com">Envoyer un email</a>
             </Button>
           </div>
         </div>

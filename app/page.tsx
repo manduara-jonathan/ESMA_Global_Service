@@ -252,15 +252,15 @@ export default function Home() {
                 {[
                   {
                     icon: Phone,
-                    title: "Telephone",
+                    title: "Téléphone",
                     value: "+243 819 145 660",
-                    link: "tel:+243819145660",
+                    link: "https://wa.me/243819145660",
                   },
                   {
                     icon: Mail,
                     title: "Email",
-                    value: "mkglobalservices01@gmail.com",
-                    link: "mailto:mkglobalservices01@gmail.com",
+                    value: "esmaglobaleservices@gmail.com",
+                    link: "mailto:esmaglobaleservices@gmail.com",
                   },
                   {
                     icon: MapPin,
