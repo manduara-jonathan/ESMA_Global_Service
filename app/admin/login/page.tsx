@@ -31,11 +31,13 @@ export default function AdminLoginPage() {
       })
 
       const data = await res.json()
+      console.log("[v0] Login response:", data, "Status:", res.status)
 
       if (data.success) {
-        router.push("/admin")
-        router.refresh()
+        console.log("[v0] Login successful, redirecting to /admin")
+        window.location.href = "/admin"
       } else {
+        console.log("[v0] Login failed:", data.error)
         setError(data.error || "Erreur de connexion")
       }
     } catch {
@@ -109,9 +111,9 @@ export default function AdminLoginPage() {
           </form>
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p className="mb-2">Identifiants par defaut:</p>
+            <p className="mb-2">Identifiants par défaut:</p>
             <code className="bg-muted px-2 py-1 rounded text-xs">
-              mervrille@kembo / M@nage01++
+              esmaglobaleservices@gmail.com / jojoA2@19
             </code>
           </div>
         </CardContent>
