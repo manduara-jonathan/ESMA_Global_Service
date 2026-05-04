@@ -76,7 +76,7 @@ export default function AdminLayout({
           <div className="w-8 h-8 rounded-lg bg-[#D4A373]/20 flex items-center justify-center">
             <Shield className="h-4 w-4 text-[#D4A373]" />
           </div>
-          <span className="font-bold text-lg text-[#D4A373]">MK ADMIN</span>
+          <span className="font-bold text-lg text-[#D4A373]">ESMA ADMIN</span>
         </div>
         <Button
           variant="ghost"
@@ -103,7 +103,7 @@ export default function AdminLayout({
                   <Shield className="h-5 w-5 text-[#D4A373]" />
                 </div>
                 <div>
-                  <h1 className="font-bold text-xl text-[#D4A373]">MK ADMIN</h1>
+                  <h1 className="font-bold text-xl text-[#D4A373]">ESMA ADMIN</h1>
                   <p className="text-white/60 text-xs">Securise</p>
                 </div>
               </div>

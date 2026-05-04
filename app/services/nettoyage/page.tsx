@@ -16,9 +16,9 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Service de Nettoyage - MK GLOBAL SERVICE",
+  title: "Service de Nettoyage - ESMA GLOBAL SERVICE",
   description:
-    "Service professionnel de nettoyage d'immeubles, bureaux et locaux commerciaux par MK GLOBAL SERVICE.",
+    "Service professionnel de nettoyage d'immeubles, bureaux et locaux commerciaux par ESMA GLOBAL SERVICE.",
 }
 
 const features = [
@@ -205,7 +205,7 @@ export default function NettoyagePage() {
             Des locaux propres, une image impeccable
           </h2>
           <p className="text-white/80 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Faites confiance a MK GLOBAL SERVICE pour l{"'"}entretien de vos
+            Faites confiance a ESMA GLOBAL SERVICE pour l{"'"}entretien de vos
             espaces. Demandez votre devis gratuit des maintenant.
           </p>
           <div className="flex flex-wrap justify-center gap-4">

@@ -22,7 +22,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <h3 className="font-bold text-xl mb-6 text-[#D4A373]">
-              MK GLOBAL SERVICE
+              ESMA GLOBAL SERVICE
             </h3>
             <p className="text-white/70 mb-6 text-sm leading-relaxed">
               Votre partenaire de confiance pour les voyages, les services
@@ -147,7 +147,7 @@ export function Footer() {
 
         <div className="border-t border-white/10 mt-12 pt-8 text-center text-white/50 text-sm">
           <p>
-            &copy; {new Date().getFullYear()} MK GLOBAL SERVICE. Tous droits
+            &copy; {new Date().getFullYear()} ESMA GLOBAL SERVICE. Tous droits
             réservés.
           </p>
         </div>

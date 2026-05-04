@@ -87,14 +87,14 @@ export async function sendAdminNotification(
       ` : ''}
       <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
       <p style="color: #999; font-size: 12px;">
-        Cet email a été envoyé par MK Global Service Admin
+        Cet email a été envoyé par ESMA GLOBAL SERVICE Admin
       </p>
     </div>
   `
 
   return sendEmail({
     to: settings.adminEmail,
-    subject: `[MK Global] ${title}`,
+    subject: `[ESMA Global] ${title}`,
     html,
     text: `${title}\n\n${message}\n${link ? `\nLien: ${link}` : ''}`,
   })
@@ -124,8 +124,8 @@ export async function sendAutoReply(
       </p>
       <div style="background-color: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0;">
         <p style="color: #666; margin: 0;">
-          <strong>MK Global Service</strong><br>
-          Email: contact@mkglobalservice.com<br>
+          <strong>ESMA GLOBAL SERVICE</strong><br>
+          Email: esmaglobaleservices@gmail.com<br>
           Téléphone: +243 000 000 000
         </p>
       </div>
@@ -134,8 +134,8 @@ export async function sendAutoReply(
 
   return sendEmail({
     to,
-    subject: "Confirmation de reception - MK Global Service",
+    subject: "Confirmation de reception - ESMA GLOBAL SERVICE",
     html,
-    text: `Bonjour ${name},\n\nNous avons bien reçu votre message concernant ${service}. Notre équipe vous répondra dans les plus brefs délais.\n\nMK Global Service`,
+    text: `Bonjour ${name},\n\nNous avons bien reçu votre message concernant ${service}. Notre équipe vous répondra dans les plus brefs délais.\n\nESMA GLOBAL SERVICE`,
   })
 }

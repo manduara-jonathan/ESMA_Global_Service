@@ -16,9 +16,9 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Facilitation de Visas - MK GLOBAL SERVICE",
+  title: "Facilitation de Visas - ESMA GLOBAL SERVICE",
   description:
-    "Obtenez votre visa touristique, affaires ou etudes rapidement avec l'accompagnement expert de MK GLOBAL SERVICE.",
+    "Obtenez votre visa touristique, affaires ou etudes rapidement avec l'accompagnement expert de ESMA GLOBAL SERVICE.",
 }
 
 const visaTypes = [
@@ -111,7 +111,7 @@ export default function VisasPage() {
               </h2>
               <p className="text-muted-foreground mb-6 leading-relaxed">
                 Obtenir un visa peut etre un processus complexe et stressant.
-                Chez MK GLOBAL SERVICE, nous simplifions chaque etape pour
+                Chez ESMA GLOBAL SERVICE, nous simplifions chaque etape pour
                 vous permettre de vous concentrer sur la preparation de votre voyage.
               </p>
               <ul className="flex flex-col gap-4 mb-8">

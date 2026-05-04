@@ -3,17 +3,17 @@ import { Star, Users } from "lucide-react"
 
 const testimonials = [
   {
-    text: "J'ai utilise les services de MK GLOBAL SERVICE pour l'organisation de mon voyage d'affaires. Leur equipe a ete tres professionnelle et reactive. Je recommande vivement.",
+    text: "J'ai utilise les services de ESMA GLOBAL SERVICE pour l'organisation de mon voyage d'affaires. Leur equipe a ete tres professionnelle et reactive. Je recommande vivement.",
     name: "Jean Dupont",
     role: "Entrepreneur",
   },
   {
-    text: "Le service traiteur de MK GLOBAL SERVICE a ete exceptionnel pour notre evenement d'entreprise. Les plats etaient delicieux et le service impeccable.",
+    text: "Le service traiteur de ESMA GLOBAL SERVICE a ete exceptionnel pour notre evenement d'entreprise. Les plats etaient delicieux et le service impeccable.",
     name: "Marie Martin",
     role: "Directrice marketing",
   },
   {
-    text: "Grace a MK GLOBAL SERVICE, j'ai pu obtenir mon visa rapidement et sans stress. Leur equipe m'a guide tout au long du processus. Je les recommande sans hesitation.",
+    text: "Grace a ESMA GLOBAL SERVICE, j'ai pu obtenir mon visa rapidement et sans stress. Leur equipe m'a guide tout au long du processus. Je les recommande sans hesitation.",
     name: "Pierre Dubois",
     role: "Ingenieur",
   },

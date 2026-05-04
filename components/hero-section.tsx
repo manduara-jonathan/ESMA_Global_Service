@@ -8,7 +8,7 @@ export function HeroSection() {
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/hero-bg.jpg"
-          alt="MK Global Service background"
+          alt="ESMA Global Service background"
           fill
           className="object-cover"
           priority
@@ -28,7 +28,7 @@ export function HeroSection() {
               tous vos besoins
             </h1>
             <p className="mb-8 text-lg text-white/90 max-w-xl leading-relaxed">
-              MK GLOBAL SERVICE vous propose une gamme complete de services
+              ESMA GLOBAL SERVICE vous propose une gamme complete de services
               premium : vente de billets d{"'"}avion, facilitation de visas,
               services monnaie mobile, nettoyage d{"'"}immeubles et service
               traiteur.
@@ -55,7 +55,7 @@ export function HeroSection() {
             <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/20">
               <Image
                 src="/images/hero-services.jpg"
-                alt="MK GLOBAL SERVICE"
+                alt="ESMA GLOBAL SERVICE"
                 width={800}
                 height={600}
                 className="w-full h-auto object-cover"

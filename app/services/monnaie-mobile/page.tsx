@@ -16,9 +16,9 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Services Monnaie Mobile - MK GLOBAL SERVICE",
+  title: "Services Monnaie Mobile - ESMA GLOBAL SERVICE",
   description:
-    "Transferts d'argent, paiements de factures et recharges telephoniques rapides et securises avec MK GLOBAL SERVICE.",
+    "Transferts d'argent, paiements de factures et recharges telephoniques rapides et securises avec ESMA GLOBAL SERVICE.",
 }
 
 const features = [

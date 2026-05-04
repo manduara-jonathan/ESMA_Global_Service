@@ -59,7 +59,7 @@ const defaultSettings: SiteSettings = {
     bodyFont: "Inter",
   },
   branding: {
-    siteName: "MK GLOBAL SERVICE",
+    siteName: "ESMA GLOBAL SERVICE",
     tagline: "Votre partenaire de confiance",
     logoUrl: "/logo.png",
   },

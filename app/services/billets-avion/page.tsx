@@ -16,9 +16,9 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Billets d'avion - MK GLOBAL SERVICE",
+  title: "Billets d'avion - ESMA GLOBAL SERVICE",
   description:
-    "Reservez vos billets d'avion nationaux et internationaux aux meilleurs tarifs avec MK GLOBAL SERVICE.",
+    "Reservez vos billets d'avion nationaux et internationaux aux meilleurs tarifs avec ESMA GLOBAL SERVICE.",
 }
 
 const features = [
@@ -111,7 +111,7 @@ export default function BilletsAvionPage() {
               Pourquoi reserver avec nous ?
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              MK GLOBAL SERVICE vous offre une experience de reservation
+              ESMA GLOBAL SERVICE vous offre une experience de reservation
               incomparable avec des avantages exclusifs.
             </p>
           </div>

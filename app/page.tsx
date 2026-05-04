@@ -179,7 +179,7 @@ export default function Home() {
               Pourquoi nous choisir
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              MK GLOBAL SERVICE s{"'"}engage a offrir des services de qualite
+              ESMA GLOBAL SERVICE s{"'"}engage a offrir des services de qualite
               superieure avec une attention particuliere aux details.
             </p>
           </div>

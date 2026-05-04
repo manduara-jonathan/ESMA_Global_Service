@@ -12,7 +12,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/office.jpg"
-            alt="Bureau MK GLOBAL SERVICE"
+            alt="Bureau ESMA GLOBAL SERVICE"
             fill
             className="object-cover"
             priority
@@ -26,10 +26,10 @@ export default function AboutPage() {
                 Notre histoire
               </span>
               <h1 className="text-4xl font-bold tracking-tight mb-6 text-balance">
-                A propos de MK GLOBAL SERVICE
+                A propos de ESMA GLOBAL SERVICE
               </h1>
               <p className="text-white/90 mb-6 leading-relaxed">
-                Bienvenue chez MK GLOBAL SERVICE, votre partenaire de confiance
+                Bienvenue chez ESMA GLOBAL SERVICE, votre partenaire de confiance
                 pour tous vos besoins en matiere de voyages, services financiers,
                 entretien et restauration. Depuis notre creation, nous nous
                 efforceons d{"'"}offrir des services de qualite superieure a nos
@@ -50,7 +50,7 @@ export default function AboutPage() {
               <div className="rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/20">
                 <Image
                   src="/images/team.jpg"
-                  alt="Equipe MK GLOBAL SERVICE"
+                  alt="Equipe ESMA GLOBAL SERVICE"
                   width={800}
                   height={600}
                   className="w-full h-auto object-cover"
@@ -190,7 +190,7 @@ export default function AboutPage() {
               </h2>
               <div className="flex flex-col gap-4 text-muted-foreground leading-relaxed">
                 <p>
-                  MK GLOBAL SERVICE a ete fondee avec une vision claire : offrir
+                  ESMA GLOBAL SERVICE a ete fondee avec une vision claire : offrir
                   des services diversifies et de qualite pour repondre aux besoins
                   varies de nos clients. Ce qui a commence comme une petite agence
                   de voyages s{"'"}est transforme en une entreprise

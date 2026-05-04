@@ -16,9 +16,9 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Service Traiteur - MK GLOBAL SERVICE",
+  title: "Service Traiteur - ESMA GLOBAL SERVICE",
   description:
-    "Service traiteur professionnel pour tous vos evenements : mariages, conferences, fetes et ceremonies par MK GLOBAL SERVICE.",
+    "Service traiteur professionnel pour tous vos evenements : mariages, conferences, fetes et ceremonies par ESMA GLOBAL SERVICE.",
 }
 
 const features = [
