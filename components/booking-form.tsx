@@ -211,12 +211,12 @@ export function BookingForm({ defaultService }: BookingFormProps) {
       <div className="text-center text-sm text-muted-foreground">
         Ou contactez-nous directement :{`
         `}
-        <a href="tel:+243819145660" className="text-primary hover:underline">
+        <a href="https://wa.me/243819145660" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
           +243 819 145 660
         </a>
         {` `}|{` `}
-        <a href="mailto:mkglobalservices01@gmail.com" className="text-primary hover:underline">
-          mkglobalservices01@gmail.com
+        <a href="mailto:esmaglobaleservices@gmail.com" className="text-primary hover:underline">
+          esmaglobaleservices@gmail.com
         </a>
       </div>
     </form>

@@ -51,7 +51,7 @@ export function Header() {
                   className="flex items-center gap-2 font-bold text-xl text-gradient"
                   onClick={() => setIsOpen(false)}
                 >
-                  MK GLOBAL SERVICE
+                  ESMA GLOBAL SERVICE
                 </Link>
               </div>
               <nav className="flex flex-col gap-4 text-lg mt-8 px-7">
@@ -78,10 +78,10 @@ export function Header() {
             </SheetContent>
           </Sheet>
           <Link href="/" className="font-bold text-xl hidden md:flex text-gradient">
-            MK GLOBAL SERVICE
+            ESMA GLOBAL SERVICE
           </Link>
           <Link href="/" className="font-bold text-xl md:hidden text-gradient">
-            MK
+            ESMA
           </Link>
         </div>
 

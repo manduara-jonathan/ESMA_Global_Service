@@ -21,12 +21,12 @@ async function verifyPassword(password: string, hash: string): Promise<boolean> 
   return passwordHash === hash
 }
 
-// Default admin user: mervrille@kembo / M@nage01++
+// Default admin user: esmaglobaleservices@gmail.com / jojoA2@19
 const adminUsers: AdminUser[] = [
   {
     id: "admin-001",
-    username: "mervrille@kembo",
-    passwordHash: "c4d78b8ea95809bf4b56850318f2ff6661dd8a29d49c7906b05c771a6aef030e",
+    username: "esmaglobaleservices@gmail.com",
+    passwordHash: "b89a494ce6f2ee6a02a84ab2c8dddb6e9d116308e832487b2dc28f7ba42ab852",
     role: "superadmin",
     createdAt: new Date().toISOString(),
   },

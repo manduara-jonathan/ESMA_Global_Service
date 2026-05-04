@@ -13,9 +13,9 @@ import { AnalyticsTracker } from "@/components/analytics-tracker"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "MK GLOBAL SERVICE - Services de Voyage, Visa, Monnaie Mobile, Nettoyage et Traiteur",
+  title: "ESMA GLOBAL SERVICE - Services de Voyage, Visa, Monnaie Mobile, Nettoyage et Traiteur",
   description:
-    "MK GLOBAL SERVICE offre des services de vente de billets d'avion, facilitation de visas, monnaie mobile, nettoyage d'immeubles et service traiteur.",
+    "ESMA GLOBAL SERVICE offre des services de vente de billets d'avion, facilitation de visas, monnaie mobile, nettoyage d'immeubles et service traiteur.",
     generator: 'v0.app'
 }
 
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning className="bg-background">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <AnalyticsTracker />

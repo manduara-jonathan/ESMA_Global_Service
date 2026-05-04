@@ -17,12 +17,12 @@ const usefulLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#021a2e] text-white py-16 px-4 md:px-6 lg:px-8">
+    <footer className="bg-[#023020] text-white py-16 px-4 md:px-6 lg:px-8">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
-            <h3 className="font-bold text-xl mb-6 text-[#e59a4b]">
-              MK GLOBAL SERVICE
+            <h3 className="font-bold text-xl mb-6 text-[#D4A373]">
+              ESMA GLOBAL SERVICE
             </h3>
             <p className="text-white/70 mb-6 text-sm leading-relaxed">
               Votre partenaire de confiance pour les voyages, les services
@@ -89,7 +89,7 @@ export function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-white/60 hover:text-[#e59a4b] transition-colors text-sm flex items-center gap-2"
+                    className="text-white/60 hover:text-[#D4A373] transition-colors text-sm flex items-center gap-2"
                   >
                     <ArrowIcon />
                     {link.label}
@@ -108,7 +108,7 @@ export function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-white/60 hover:text-[#e59a4b] transition-colors text-sm flex items-center gap-2"
+                    className="text-white/60 hover:text-[#D4A373] transition-colors text-sm flex items-center gap-2"
                   >
                     <ArrowIcon />
                     {link.label}
@@ -122,7 +122,7 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-6 text-white">Contact</h3>
             <ul className="flex flex-col gap-4">
               <li className="flex items-start gap-3 text-white/60 text-sm">
-                <MapPin className="h-4 w-4 mt-0.5 text-[#e59a4b] flex-shrink-0" />
+                <MapPin className="h-4 w-4 mt-0.5 text-[#D4A373] flex-shrink-0" />
                 <span>
                   123 Avenue Principale
                   <br />
@@ -130,15 +130,15 @@ export function Footer() {
                 </span>
               </li>
               <li className="flex items-center gap-3 text-white/60 text-sm">
-                <Phone className="h-4 w-4 text-[#e59a4b] flex-shrink-0" />
-                <a href="tel:+243819145660" className="hover:text-white transition-colors">
+                <Phone className="h-4 w-4 text-[#D4A373] flex-shrink-0" />
+                <a href="https://wa.me/243819145660" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                   +243 819 145 660
                 </a>
               </li>
               <li className="flex items-center gap-3 text-white/60 text-sm">
-                <Mail className="h-4 w-4 text-[#e59a4b] flex-shrink-0" />
-                <a href="mailto:mkglobalservices01@gmail.com" className="hover:text-white transition-colors">
-                  mkglobalservices01@gmail.com
+                <Mail className="h-4 w-4 text-[#D4A373] flex-shrink-0" />
+                <a href="mailto:esmaglobaleservices@gmail.com" className="hover:text-white transition-colors">
+                  esmaglobaleservices@gmail.com
                 </a>
               </li>
             </ul>
@@ -147,8 +147,8 @@ export function Footer() {
 
         <div className="border-t border-white/10 mt-12 pt-8 text-center text-white/50 text-sm">
           <p>
-            &copy; {new Date().getFullYear()} MK GLOBAL SERVICE. Tous droits
-            reserves.
+            &copy; {new Date().getFullYear()} ESMA GLOBAL SERVICE. Tous droits
+            réservés.
           </p>
         </div>
       </div>

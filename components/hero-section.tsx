@@ -8,13 +8,13 @@ export function HeroSection() {
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/hero-bg.jpg"
-          alt="MK Global Service background"
+          alt="ESMA Global Service background"
           fill
           className="object-cover"
           priority
         />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-[#021a2e]/90 via-[#0270bd]/70 to-[#d16522]/50 z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 via-[#034a30]/70 to-[#D4A373]/50 z-[1]" />
 
       <div className="container mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -24,11 +24,11 @@ export function HeroSection() {
             </span>
             <h1 className="text-4xl font-bold tracking-tight mb-6 lg:text-5xl xl:text-6xl text-balance leading-tight">
               Des services{" "}
-              <span className="text-[#e59a4b]">exceptionnels</span> pour
+              <span className="text-[#D4A373]">exceptionnels</span> pour
               tous vos besoins
             </h1>
             <p className="mb-8 text-lg text-white/90 max-w-xl leading-relaxed">
-              MK GLOBAL SERVICE vous propose une gamme complete de services
+              ESMA GLOBAL SERVICE vous propose une gamme complete de services
               premium : vente de billets d{"'"}avion, facilitation de visas,
               services monnaie mobile, nettoyage d{"'"}immeubles et service
               traiteur.
@@ -37,7 +37,7 @@ export function HeroSection() {
               <Button
                 asChild
                 size="lg"
-                className="bg-[#e0822d] hover:bg-[#d16522] text-white font-semibold shadow-lg shadow-orange-500/25"
+                className="bg-[#D4A373] hover:bg-[#c28a52] text-[#023020] font-semibold shadow-lg shadow-[#D4A373]/25"
               >
                 <Link href="/services">Decouvrir nos services</Link>
               </Button>
@@ -55,7 +55,7 @@ export function HeroSection() {
             <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/20">
               <Image
                 src="/images/hero-services.jpg"
-                alt="MK GLOBAL SERVICE"
+                alt="ESMA GLOBAL SERVICE"
                 width={800}
                 height={600}
                 className="w-full h-auto object-cover"
@@ -67,7 +67,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[hsl(210,40%,98%)] to-transparent z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[hsl(60,20%,97%)] to-transparent z-10" />
     </section>
   )
 }

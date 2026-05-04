@@ -92,7 +92,7 @@ const notifications: Notification[] = [
   {
     id: "1",
     type: "info",
-    title: "Bienvenue sur MK GLOBAL SERVICE",
+    title: "Bienvenue sur ESMA GLOBAL SERVICE",
     message: "Decouvrez tous nos services et n'hesitez pas a nous contacter pour toute question.",
     read: false,
     link: "/services",
@@ -274,7 +274,7 @@ export function deleteNotification(id: string): boolean {
 
 // Site Settings
 let siteSettings: SiteSettings = {
-  adminEmail: "admin@mkglobalservice.com",
+  adminEmail: "esmaglobaleservices@gmail.com",
   notificationsEnabled: true,
   autoReplyEnabled: false,
   maintenanceMode: false,

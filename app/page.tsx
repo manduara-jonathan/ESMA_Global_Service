@@ -179,7 +179,7 @@ export default function Home() {
               Pourquoi nous choisir
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              MK GLOBAL SERVICE s{"'"}engage a offrir des services de qualite
+              ESMA GLOBAL SERVICE s{"'"}engage a offrir des services de qualite
               superieure avec une attention particuliere aux details.
             </p>
           </div>
@@ -252,15 +252,15 @@ export default function Home() {
                 {[
                   {
                     icon: Phone,
-                    title: "Telephone",
+                    title: "Téléphone",
                     value: "+243 819 145 660",
-                    link: "tel:+243819145660",
+                    link: "https://wa.me/243819145660",
                   },
                   {
                     icon: Mail,
                     title: "Email",
-                    value: "mkglobalservices01@gmail.com",
-                    link: "mailto:mkglobalservices01@gmail.com",
+                    value: "esmaglobaleservices@gmail.com",
+                    link: "mailto:esmaglobaleservices@gmail.com",
                   },
                   {
                     icon: MapPin,

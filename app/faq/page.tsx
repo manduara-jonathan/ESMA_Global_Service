@@ -64,7 +64,7 @@ export default function FAQPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#021a2e]/90 to-[#0270bd]/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 to-[#034a30]/70" />
         </div>
         <div className="container mx-auto text-center relative z-10">
           <span className="inline-block px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-sm text-sm font-medium text-white mb-4 border border-white/20">
@@ -107,7 +107,7 @@ export default function FAQPage() {
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-[#021a2e]/85" />
+          <div className="absolute inset-0 bg-[#023020]/85" />
         </div>
         <div className="container mx-auto text-center relative z-10">
           <h2 className="text-2xl font-bold tracking-tight mb-4 text-white">
@@ -121,7 +121,7 @@ export default function FAQPage() {
           <Button
             asChild
             size="lg"
-            className="bg-[#e0822d] hover:bg-[#d16522] text-white shadow-lg"
+            className="bg-[#D4A373] hover:bg-[#c28a52] text-[#023020] shadow-lg"
           >
             <Link href="/contact">Contactez-nous</Link>
           </Button>

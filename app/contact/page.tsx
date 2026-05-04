@@ -15,7 +15,7 @@ export default function ContactPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#021a2e]/90 to-[#0270bd]/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 to-[#034a30]/70" />
         </div>
         <div className="container mx-auto text-center relative z-10">
           <span className="inline-block px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-sm text-sm font-medium text-white mb-4 border border-white/20">
@@ -44,13 +44,13 @@ export default function ContactPage() {
                 {[
                   {
                     icon: Phone,
-                    title: "Telephone",
+                    title: "Téléphone (WhatsApp)",
                     lines: ["+243 819 145 660"],
                   },
                   {
                     icon: Mail,
                     title: "Email",
-                    lines: ["mkglobalservices01@gmail.com"],
+                    lines: ["esmaglobaleservices@gmail.com"],
                   },
                   {
                     icon: MapPin,
@@ -61,9 +61,9 @@ export default function ContactPage() {
                     icon: Clock,
                     title: "Heures d'ouverture",
                     lines: [
-                      "Lundi - Vendredi: 8h00 - 18h00",
-                      "Samedi: 9h00 - 15h00",
-                      "Dimanche: Ferme",
+                      "Lundi - Vendredi : 8h00 - 18h00",
+                      "Samedi : 9h00 - 15h00",
+                      "Dimanche : Fermé",
                     ],
                   },
                 ].map((item) => (

@@ -31,11 +31,13 @@ export default function AdminLoginPage() {
       })
 
       const data = await res.json()
+      console.log("[v0] Login response:", data, "Status:", res.status)
 
       if (data.success) {
-        router.push("/admin")
-        router.refresh()
+        console.log("[v0] Login successful, redirecting to /admin")
+        window.location.href = "/admin"
       } else {
+        console.log("[v0] Login failed:", data.error)
         setError(data.error || "Erreur de connexion")
       }
     } catch {
@@ -46,7 +48,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#021a2e] to-[#0270bd] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#023020] to-[#034a30] p-4">
       <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="space-y-4 text-center">
           <div className="mx-auto w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
@@ -109,9 +111,9 @@ export default function AdminLoginPage() {
           </form>
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p className="mb-2">Identifiants par defaut:</p>
+            <p className="mb-2">Identifiants par défaut:</p>
             <code className="bg-muted px-2 py-1 rounded text-xs">
-              mervrille@kembo / M@nage01++
+              esmaglobaleservices@gmail.com / jojoA2@19
             </code>
           </div>
         </CardContent>
