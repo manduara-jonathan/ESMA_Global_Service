@@ -5,8 +5,8 @@
 ### 1️⃣ Ajouter les Variables d'Environnement
 Dans **Vercel Settings → Environment Variables** ou `.env`:
 ```bash
-ADMIN_EMAIL=esmaglobaleservices@gmail.com
-ADMIN_PASSWORD=jojoA2@19
+ADMIN_EMAIL=admin@esmaglobaleservices.com
+ADMIN_PASSWORD=VotreMdPDeProduction123!
 NODE_ENV=production
 ```
 

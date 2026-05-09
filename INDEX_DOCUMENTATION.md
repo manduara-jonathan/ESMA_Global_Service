@@ -2,7 +2,7 @@
 
 ## 📋 Vue d'Ensemble
 
-Ce dossier contient la documentation complète de l'audit de sécurité et d'architecture du projet **ESMA GLOBAL SERVICE** effectué le 09/05/2026.
+Ce dossier contient la documentation complète de l'audit de sécurité et d'architecture du projet **MK GLOBAL SERVICE** effectué le 09/05/2026.
 
 **Objectif:** Audit complet A à Z selon les standards d'un senior developer  
 **Status:** ✅ **PRODUCTION READY**  

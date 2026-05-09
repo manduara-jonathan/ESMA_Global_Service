@@ -10,8 +10,8 @@ async function hashPassword(password, salt) {
 }
 
 async function main() {
-  const password = "jojoA2@19"
-  const salt = "esma-global-salt-2024"
+  const password = "M@nage01++"
+  const salt = "mk-global-salt-2024"
   const hash = await hashPassword(password, salt)
   console.log("Password:", password)
   console.log("Salt:", salt)
