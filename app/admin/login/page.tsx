@@ -40,8 +40,9 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        // Hard redirect so the browser sends the fresh cookie to the middleware
-        window.location.replace("/admin")
+        // Small delay to ensure cookie is stored by browser before redirect
+        await new Promise(resolve => setTimeout(resolve, 50))
+        window.location.href = "/admin"
         return
       } else {
         setError(data.error || "Erreur de connexion")
