@@ -3,15 +3,8 @@ import type { NextRequest } from "next/server"
 
 const SESSION_COOKIE_NAME = "esma_admin_session"
 
-// Middleware to protect admin routes and add security headers
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
-  const sessionId = request.cookies.get(SESSION_COOKIE_NAME)?.value
-
-  // Create response
-  let response = NextResponse.next()
-
-  // Add security headers to all responses
+// Security headers to apply to all responses
+function addSecurityHeaders(response: NextResponse): void {
   response.headers.set("X-Frame-Options", "SAMEORIGIN")
   response.headers.set("X-Content-Type-Options", "nosniff")
   response.headers.set("X-XSS-Protection", "1; mode=block")
@@ -23,28 +16,37 @@ export function middleware(request: NextRequest) {
       "max-age=31536000; includeSubDomains"
     )
   }
+}
 
-  // Only protect admin routes except login
+// Middleware to protect admin routes
+// NOTE: Middleware runs on Edge Runtime and cannot call Redis directly.
+// We only check cookie existence here. Full session validation happens in API routes.
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+  const sessionId = request.cookies.get(SESSION_COOKIE_NAME)?.value
+
+  // Create base response with security headers
+  const response = NextResponse.next()
+  addSecurityHeaders(response)
+
+  // Protect admin routes (except login page)
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
     if (!sessionId) {
       const loginUrl = new URL("/admin/login", request.url)
       const redirect = NextResponse.redirect(loginUrl)
-      // Preserve security headers on redirects
-      response.headers.forEach((value, key) => redirect.headers.set(key, value))
+      addSecurityHeaders(redirect)
       return redirect
     }
-
+    // Cookie exists - allow through. API routes will validate session in Redis.
     return response
   }
 
-  // Redirect logged-in users away from login page — they already have a session
-  if (pathname === "/admin/login") {
-    if (sessionId) {
-      const adminUrl = new URL("/admin", request.url)
-      const redirect = NextResponse.redirect(adminUrl)
-      response.headers.forEach((value, key) => redirect.headers.set(key, value))
-      return redirect
-    }
+  // Login page: redirect to dashboard if already has session cookie
+  if (pathname === "/admin/login" && sessionId) {
+    const adminUrl = new URL("/admin", request.url)
+    const redirect = NextResponse.redirect(adminUrl)
+    addSecurityHeaders(redirect)
+    return redirect
   }
 
   return response

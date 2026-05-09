@@ -2,6 +2,19 @@ import { NextResponse } from "next/server"
 import { authenticateUser, logout, validateSession, SESSION_COOKIE_NAME, getSessionExpiry } from "@/lib/auth"
 import type { ApiResponse } from "@/lib/types"
 
+// Helper to set session cookie on response
+function setSessionCookie(response: NextResponse, sessionId: string): void {
+  response.cookies.set({
+    name: SESSION_COOKIE_NAME,
+    value: sessionId,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: getSessionExpiry(),
+    path: "/",
+  })
+}
+
 // POST /api/auth - Authenticate user
 export async function POST(request: Request) {
   try {
@@ -28,22 +41,12 @@ export async function POST(request: Request) {
       )
     }
 
-    // Create response with session cookie
+    // Return JSON with session cookie
     const response = NextResponse.json<ApiResponse>({
       success: true,
       message: "Connexion réussie",
     })
-
-    // Set HTTP-only cookie with session ID
-    response.cookies.set({
-      name: SESSION_COOKIE_NAME,
-      value: result.sessionId,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: getSessionExpiry(),
-      path: "/",
-    })
+    setSessionCookie(response, result.sessionId)
 
     return response
   } catch (error) {

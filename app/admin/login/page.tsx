@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
@@ -14,6 +14,7 @@ export default function AdminLoginPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const formRef = useRef<HTMLFormElement>(null)
 
   // Prefetch admin dashboard so assets are ready immediately after login
   useEffect(() => {
@@ -40,9 +41,9 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        // Small delay to ensure cookie is stored by browser before redirect
-        await new Promise(resolve => setTimeout(resolve, 50))
-        window.location.href = "/admin"
+        // Force a full page reload to /admin
+        // This ensures the browser sends the fresh cookie
+        document.location.href = "/admin"
         return
       } else {
         setError(data.error || "Erreur de connexion")
@@ -64,12 +65,12 @@ export default function AdminLoginPage() {
           <div>
             <CardTitle className="text-2xl">Administration</CardTitle>
             <CardDescription>
-              Connectez-vous pour acceder au panneau d'administration
+              Connectez-vous pour acceder au panneau d&apos;administration
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <div className="flex items-start gap-3 rounded-lg p-3 text-sm bg-red-50 text-red-800 ring-1 ring-red-200">
                 <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
@@ -84,8 +85,9 @@ export default function AdminLoginPage() {
                 name="email"
                 type="email"
                 required
-                placeholder="your@email.com"
+                placeholder="votre@email.com"
                 autoComplete="email"
+                disabled={isLoading}
               />
             </div>
 
@@ -98,6 +100,7 @@ export default function AdminLoginPage() {
                 required
                 placeholder="••••••••"
                 autoComplete="current-password"
+                disabled={isLoading}
               />
             </div>
 

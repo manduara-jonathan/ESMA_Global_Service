@@ -97,9 +97,14 @@ export async function authenticateUser(
   }
 
   // Store session in Redis with expiry
-  await redis.set(`session:${sessionId}`, JSON.stringify(session), {
-    ex: SESSION_EXPIRY,
-  })
+  try {
+    await redis.set(`session:${sessionId}`, JSON.stringify(session), {
+      ex: SESSION_EXPIRY,
+    })
+  } catch (error) {
+    console.error("Failed to store session in Redis:", error)
+    return { success: false, error: "Erreur lors de la création de la session" }
+  }
 
   return { success: true, sessionId }
 }
