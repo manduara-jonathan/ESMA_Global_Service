@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server"
-import { authenticateUser, logout, validateSession, SESSION_COOKIE_NAME, getSessionExpiry } from "@/lib/auth"
+import { authenticateUser, logout, validateSession } from "@/lib/auth"
 import type { ApiResponse } from "@/lib/types"
 
-// POST /api/auth - Authenticate user
+// POST /api/auth/login - Authenticate user
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { email, password } = body
+    const { username, password } = body
 
-    if (!email || !password) {
+    if (!username || !password) {
       return NextResponse.json<ApiResponse>(
-        { success: false, error: "Email et mot de passe requis" },
+        { success: false, error: "Nom d'utilisateur et mot de passe requis" },
         { status: 400 }
       )
     }
@@ -19,42 +19,34 @@ export async function POST(request: Request) {
     const ip = request.headers.get("x-forwarded-for") || "unknown"
     const userAgent = request.headers.get("user-agent") || "unknown"
 
-    console.log("[v0] Auth POST - Email:", email)
-    
-    const result = await authenticateUser(email, password, ip, userAgent)
-    console.log("[v0] Auth result:", result.success ? "success" : "failed")
+    const result = await authenticateUser(username, password, ip, userAgent)
 
     if (!result.success) {
-      console.log("[v0] Auth failed:", result.error)
       return NextResponse.json<ApiResponse>(
         { success: false, error: result.error },
         { status: 401 }
       )
     }
 
-    console.log("[v0] Auth success, creating session cookie with ID:", result.sessionId.substring(0, 8) + "...")
-
-    // Create response with session cookie
+    // Set HTTP-only cookie with token
     const response = NextResponse.json<ApiResponse>({
       success: true,
-      message: "Connexion réussie",
+      data: { user: result.user },
+      message: "Connexion reussie",
     })
 
-    // Set HTTP-only cookie with session ID
     response.cookies.set({
-      name: SESSION_COOKIE_NAME,
-      value: result.sessionId,
+      name: "admin_token",
+      value: result.token,
       httpOnly: true,
-      secure: false, // Set to false for development
+      secure: false,
       sameSite: "lax",
-      maxAge: getSessionExpiry(),
+      maxAge: 24 * 60 * 60,
       path: "/",
     })
 
-    console.log("[v0] Cookie set:", SESSION_COOKIE_NAME)
     return response
-  } catch (error) {
-    console.error("Auth error:", error)
+  } catch {
     return NextResponse.json<ApiResponse>(
       { success: false, error: "Erreur lors de la connexion" },
       { status: 500 }
@@ -62,28 +54,25 @@ export async function POST(request: Request) {
   }
 }
 
-// DELETE /api/auth - Logout user
+// DELETE /api/auth/logout - Logout user
 export async function DELETE(request: Request) {
   try {
-    const cookieHeader = request.headers.get("cookie") || ""
-    const sessionIdMatch = cookieHeader.match(new RegExp(`${SESSION_COOKIE_NAME}=([^;]+)`))
-    const sessionId = sessionIdMatch?.[1]
+    const token = request.headers.get("cookie")?.match(/admin_token=([^;]+)/)?.[1]
 
-    if (sessionId) {
-      await logout(sessionId)
+    if (token) {
+      logout(token)
     }
 
     const response = NextResponse.json<ApiResponse>({
       success: true,
-      message: "Déconnexion réussie",
+      message: "Deconnexion reussie",
     })
 
-    // Clear the session cookie
     response.cookies.set({
-      name: SESSION_COOKIE_NAME,
+      name: "admin_token",
       value: "",
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "lax",
       maxAge: 0,
       path: "/",
@@ -92,27 +81,25 @@ export async function DELETE(request: Request) {
     return response
   } catch {
     return NextResponse.json<ApiResponse>(
-      { success: false, error: "Erreur lors de la déconnexion" },
+      { success: false, error: "Erreur lors de la deconnexion" },
       { status: 500 }
     )
   }
 }
 
-// GET /api/auth - Get current user
+// GET /api/auth/me - Get current user
 export async function GET(request: Request) {
   try {
-    const cookieHeader = request.headers.get("cookie") || ""
-    const sessionIdMatch = cookieHeader.match(new RegExp(`${SESSION_COOKIE_NAME}=([^;]+)`))
-    const sessionId = sessionIdMatch?.[1]
+    const token = request.headers.get("cookie")?.match(/admin_token=([^;]+)/)?.[1]
 
-    if (!sessionId) {
+    if (!token) {
       return NextResponse.json<ApiResponse>(
-        { success: false, error: "Non authentifié" },
+        { success: false, error: "Non authentifie" },
         { status: 401 }
       )
     }
 
-    const result = await validateSession(sessionId)
+    const result = await validateSession(token)
 
     if (!result.valid) {
       const response = NextResponse.json<ApiResponse>(
@@ -122,10 +109,10 @@ export async function GET(request: Request) {
 
       // Clear invalid cookie
       response.cookies.set({
-        name: SESSION_COOKIE_NAME,
+        name: "admin_token",
         value: "",
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: false,
         sameSite: "lax",
         maxAge: 0,
         path: "/",

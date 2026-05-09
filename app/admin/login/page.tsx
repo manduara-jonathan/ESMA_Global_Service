@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,6 +12,7 @@ import { Shield, Loader2, AlertCircle } from "lucide-react"
 export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -19,17 +20,14 @@ export default function AdminLoginPage() {
     setError(null)
 
     const formData = new FormData(e.currentTarget)
-    const email = formData.get("email") as string
+    const username = formData.get("username") as string
     const password = formData.get("password") as string
 
     try {
-      console.log("[v0] Login attempt with email:", email)
-      
       const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include", // Important for cookies
+        body: JSON.stringify({ username, password }),
       })
 
       const data = await res.json()
@@ -37,19 +35,14 @@ export default function AdminLoginPage() {
 
       if (data.success) {
         console.log("[v0] Login successful, redirecting to /admin")
-        // Small delay to ensure cookie is set before redirect
-        setTimeout(() => {
-          window.location.href = "/admin"
-        }, 100)
-        return
+        window.location.href = "/admin"
       } else {
         console.log("[v0] Login failed:", data.error)
         setError(data.error || "Erreur de connexion")
-        setIsLoading(false)
       }
-    } catch (err) {
-      console.error("[v0] Login error:", err)
+    } catch {
       setError("Erreur de connexion au serveur")
+    } finally {
       setIsLoading(false)
     }
   }
@@ -78,14 +71,14 @@ export default function AdminLoginPage() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="username">Nom d'utilisateur</Label>
               <Input
-                id="email"
-                name="email"
-                type="email"
+                id="username"
+                name="username"
+                type="text"
                 required
-                placeholder="your@email.com"
-                autoComplete="email"
+                placeholder="admin"
+                autoComplete="username"
               />
             </div>
 
@@ -116,6 +109,13 @@ export default function AdminLoginPage() {
               )}
             </Button>
           </form>
+
+          <div className="mt-6 text-center text-sm text-muted-foreground">
+            <p className="mb-2">Identifiants par défaut:</p>
+            <code className="bg-muted px-2 py-1 rounded text-xs">
+              esmaglobaleservices@gmail.com / jojoA2@19
+            </code>
+          </div>
         </CardContent>
       </Card>
     </div>

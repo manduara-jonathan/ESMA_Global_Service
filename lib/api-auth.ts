@@ -1,17 +1,17 @@
 import { NextResponse } from "next/server"
-import { validateSession, SESSION_COOKIE_NAME } from "@/lib/auth"
+import { validateSession } from "@/lib/auth"
 import type { ApiResponse } from "@/lib/types"
 
-// Helper function to extract session ID from cookie header
-function getSessionIdFromCookie(request: Request): string | undefined {
+// Helper function to extract token from cookie header
+function getTokenFromCookie(request: Request): string | undefined {
   const cookieHeader = request.headers.get("cookie")
   if (!cookieHeader) return undefined
   
-  // Parse cookie header to find session cookie
+  // Parse cookie header to find admin_token
   const cookies = cookieHeader.split(';')
   for (const cookie of cookies) {
     const [name, value] = cookie.trim().split('=')
-    if (name === SESSION_COOKIE_NAME) {
+    if (name === 'admin_token') {
       return value
     }
   }
@@ -19,10 +19,10 @@ function getSessionIdFromCookie(request: Request): string | undefined {
 }
 
 // Helper function to check auth on admin API routes
-export async function checkAuth(request: Request): Promise<{ authenticated: true; sessionId: string } | { authenticated: false; response: NextResponse }> {
-  const sessionId = getSessionIdFromCookie(request)
+export async function checkAuth(request: Request): Promise<{ authenticated: true; token: string } | { authenticated: false; response: NextResponse }> {
+  const token = getTokenFromCookie(request)
 
-  if (!sessionId) {
+  if (!token) {
     return {
       authenticated: false,
       response: NextResponse.json<ApiResponse>(
@@ -32,7 +32,7 @@ export async function checkAuth(request: Request): Promise<{ authenticated: true
     }
   }
 
-  const result = await validateSession(sessionId)
+  const result = await validateSession(token)
 
   if (!result.valid) {
     const response = NextResponse.json<ApiResponse>(
@@ -40,10 +40,10 @@ export async function checkAuth(request: Request): Promise<{ authenticated: true
       { status: 401 }
     )
     response.cookies.set({
-      name: SESSION_COOKIE_NAME,
+      name: "admin_token",
       value: "",
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "lax",
       maxAge: 0,
       path: "/",
@@ -51,5 +51,5 @@ export async function checkAuth(request: Request): Promise<{ authenticated: true
     return { authenticated: false, response }
   }
 
-  return { authenticated: true, sessionId }
+  return { authenticated: true, token }
 }
