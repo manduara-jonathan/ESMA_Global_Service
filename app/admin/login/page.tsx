@@ -15,12 +15,9 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Preload admin dashboard for faster navigation after login
+  // Prefetch admin dashboard so assets are ready immediately after login
   useEffect(() => {
     router.prefetch("/admin")
-    // Also prefetch common admin sub-pages
-    router.prefetch("/admin/bookings")
-    router.prefetch("/admin/messages")
   }, [router])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -43,9 +40,8 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        // Immediate redirect - cookie is set synchronously by the API response
-        router.push("/admin")
-        router.refresh()
+        // Hard redirect so the browser sends the fresh cookie to the middleware
+        window.location.replace("/admin")
         return
       } else {
         setError(data.error || "Erreur de connexion")

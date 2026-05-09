@@ -28,17 +28,22 @@ export function middleware(request: NextRequest) {
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
     if (!sessionId) {
       const loginUrl = new URL("/admin/login", request.url)
-      return NextResponse.redirect(loginUrl)
+      const redirect = NextResponse.redirect(loginUrl)
+      // Preserve security headers on redirects
+      response.headers.forEach((value, key) => redirect.headers.set(key, value))
+      return redirect
     }
 
     return response
   }
 
-  // Redirect logged-in users away from login page
+  // Redirect logged-in users away from login page — they already have a session
   if (pathname === "/admin/login") {
     if (sessionId) {
       const adminUrl = new URL("/admin", request.url)
-      return NextResponse.redirect(adminUrl)
+      const redirect = NextResponse.redirect(adminUrl)
+      response.headers.forEach((value, key) => redirect.headers.set(key, value))
+      return redirect
     }
   }
 
