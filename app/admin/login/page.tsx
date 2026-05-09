@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
@@ -14,6 +14,14 @@ export default function AdminLoginPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Preload admin dashboard for faster navigation after login
+  useEffect(() => {
+    router.prefetch("/admin")
+    // Also prefetch common admin sub-pages
+    router.prefetch("/admin/bookings")
+    router.prefetch("/admin/messages")
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -35,11 +43,9 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        // Small delay to ensure cookie is set before redirect
-        setTimeout(() => {
-          router.push("/admin")
-          router.refresh()
-        }, 100)
+        // Immediate redirect - cookie is set synchronously by the API response
+        router.push("/admin")
+        router.refresh()
         return
       } else {
         setError(data.error || "Erreur de connexion")

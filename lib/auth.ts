@@ -75,8 +75,8 @@ export async function authenticateUser(
     
     loginAttempts.set(attemptKey, currentAttempts)
     
-    // Add small delay to prevent timing attacks
-    await new Promise(resolve => setTimeout(resolve, 500))
+    // Add small delay only on failed attempts to prevent timing attacks
+    await new Promise(resolve => setTimeout(resolve, 200))
     return { success: false, error: "Email ou mot de passe incorrect" }
   }
   
