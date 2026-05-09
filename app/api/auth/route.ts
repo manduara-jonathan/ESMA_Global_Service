@@ -18,21 +18,15 @@ export async function POST(request: Request) {
     // Get IP and User-Agent for session tracking
     const ip = request.headers.get("x-forwarded-for") || "unknown"
     const userAgent = request.headers.get("user-agent") || "unknown"
-
-    console.log("[v0] Auth POST - Email:", email)
     
     const result = await authenticateUser(email, password, ip, userAgent)
-    console.log("[v0] Auth result:", result.success ? "success" : "failed")
 
     if (!result.success) {
-      console.log("[v0] Auth failed:", result.error)
       return NextResponse.json<ApiResponse>(
         { success: false, error: result.error },
         { status: 401 }
       )
     }
-
-    console.log("[v0] Auth success, creating session cookie with ID:", result.sessionId.substring(0, 8) + "...")
 
     // Create response with session cookie
     const response = NextResponse.json<ApiResponse>({
@@ -45,13 +39,12 @@ export async function POST(request: Request) {
       name: SESSION_COOKIE_NAME,
       value: result.sessionId,
       httpOnly: true,
-      secure: false, // Set to false for development
+      secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: getSessionExpiry(),
       path: "/",
     })
 
-    console.log("[v0] Cookie set:", SESSION_COOKIE_NAME)
     return response
   } catch (error) {
     console.error("Auth error:", error)

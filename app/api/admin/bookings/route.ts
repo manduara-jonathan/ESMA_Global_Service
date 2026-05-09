@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { getBookings, updateBookingStatus, deleteBooking } from "@/lib/store"
+import { getBookings } from "@/lib/store"
 import { checkAuth } from "@/lib/api-auth"
 import type { ApiResponse, BookingRequest } from "@/lib/types"
 

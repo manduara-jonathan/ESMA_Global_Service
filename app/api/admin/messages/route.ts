@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { getContactMessages, updateContactMessageStatus, deleteContactMessage } from "@/lib/store"
+import { getContactMessages } from "@/lib/store"
 import { checkAuth } from "@/lib/api-auth"
 import type { ApiResponse, ContactMessage } from "@/lib/types"
 

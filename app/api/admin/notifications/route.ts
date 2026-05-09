@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { getNotifications, createNotification, deleteNotification } from "@/lib/store"
+import { getNotifications, createNotification } from "@/lib/store"
 import { checkAuth } from "@/lib/api-auth"
 import type { ApiResponse, Notification } from "@/lib/types"
 

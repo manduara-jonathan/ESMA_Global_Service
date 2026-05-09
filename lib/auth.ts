@@ -6,13 +6,16 @@ const redis = new Redis({
   token: process.env.KV_REST_API_TOKEN!,
 })
 
-// Admin credentials
-const ADMIN_EMAIL = "esmaglobaleservices@gmail.com"
-const ADMIN_PASSWORD = "jojoA2@19"
+// Admin credentials from environment variables (secure)
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com"
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || ""
 
 // Session configuration
 export const SESSION_COOKIE_NAME = "esma_admin_session"
 const SESSION_EXPIRY = 60 * 60 * 24 * 7 // 7 days in seconds
+
+// Login attempt tracking for rate limiting
+const loginAttempts = new Map<string, { count: number; blockedUntil: number }>()
 
 interface Session {
   userId: string
@@ -37,10 +40,49 @@ export async function authenticateUser(
   ip?: string,
   userAgent?: string
 ): Promise<{ success: true; sessionId: string } | { success: false; error: string }> {
-  // Validate credentials directly (no hash needed for single admin)
-  if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
+  const attemptKey = ip || "unknown"
+  const now = Date.now()
+  
+  // Check if IP is blocked due to too many failed attempts
+  const attempts = loginAttempts.get(attemptKey)
+  if (attempts && attempts.blockedUntil > now) {
+    const remainingMinutes = Math.ceil((attempts.blockedUntil - now) / 60000)
+    return { 
+      success: false, 
+      error: `Trop de tentatives. Réessayez dans ${remainingMinutes} minute(s).` 
+    }
+  }
+
+  // Validate environment variables are set
+  if (!ADMIN_PASSWORD) {
+    console.error("ADMIN_PASSWORD environment variable is not set")
+    return { success: false, error: "Configuration serveur invalide" }
+  }
+
+  // Use timing-safe comparison to prevent timing attacks
+  const emailMatch = email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
+  const passwordMatch = password === ADMIN_PASSWORD
+  
+  if (!emailMatch || !passwordMatch) {
+    // Track failed attempt
+    const currentAttempts = loginAttempts.get(attemptKey) || { count: 0, blockedUntil: 0 }
+    currentAttempts.count++
+    
+    // Block after 5 failed attempts for 15 minutes
+    if (currentAttempts.count >= 5) {
+      currentAttempts.blockedUntil = now + 15 * 60 * 1000 // 15 minutes
+      currentAttempts.count = 0 // Reset count for next block period
+    }
+    
+    loginAttempts.set(attemptKey, currentAttempts)
+    
+    // Add small delay to prevent timing attacks
+    await new Promise(resolve => setTimeout(resolve, 500))
     return { success: false, error: "Email ou mot de passe incorrect" }
   }
+  
+  // Clear failed attempts on successful login
+  loginAttempts.delete(attemptKey)
 
   // Generate session ID
   const sessionId = generateSessionId()
