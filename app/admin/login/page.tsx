@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,7 +12,6 @@ import { Shield, Loader2, AlertCircle } from "lucide-react"
 export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -24,24 +23,33 @@ export default function AdminLoginPage() {
     const password = formData.get("password") as string
 
     try {
+      console.log("[v0] Login attempt with email:", email)
+      
       const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
+        credentials: "include", // Important for cookies
       })
 
       const data = await res.json()
+      console.log("[v0] Login response:", data, "Status:", res.status)
 
       if (data.success) {
-        // Redirection rapide sans bloquer
-        window.location.href = "/admin"
+        console.log("[v0] Login successful, redirecting to /admin")
+        // Small delay to ensure cookie is set before redirect
+        setTimeout(() => {
+          window.location.href = "/admin"
+        }, 100)
         return
       } else {
+        console.log("[v0] Login failed:", data.error)
         setError(data.error || "Erreur de connexion")
+        setIsLoading(false)
       }
     } catch (err) {
+      console.error("[v0] Login error:", err)
       setError("Erreur de connexion au serveur")
-    } finally {
       setIsLoading(false)
     }
   }
