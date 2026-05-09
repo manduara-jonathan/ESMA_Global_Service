@@ -1,6 +1,6 @@
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                   AUDIT DE SÉCURITÉ - RÉSUMÉ EXÉCUTIF                        ║
-║                    MK GLOBAL SERVICE - 09/05/2026                            ║
+║                    ESMA GLOBAL SERVICE - 09/05/2026                            ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 📊 RÉSULTATS PRINCIPAUX
@@ -135,7 +135,7 @@ Pour planification long-terme:
 ✨ CONCLUSION
 ────────────────────────────────────────────────────────────────────────────────
 
-Le projet MK GLOBAL SERVICE est maintenant PRODUCTION-READY avec:
+Le projet ESMA GLOBAL SERVICE est maintenant PRODUCTION-READY avec:
   ✅ Toutes les failles critiques corrigées
   ✅ Sécurité renforcée (70% d'amélioration)
   ✅ Documentation complète fournie

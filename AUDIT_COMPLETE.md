@@ -2,7 +2,7 @@
 
 ## 🎯 Objectif Atteint
 
-Audit complet du projet **MK GLOBAL SERVICE** du point de vue d'un senior developer, avec identification et correction de tous les problèmes critiques et importants.
+Audit complet du projet **ESMA GLOBAL SERVICE** du point de vue d'un senior developer, avec identification et correction de tous les problèmes critiques et importants.
 
 ---
 

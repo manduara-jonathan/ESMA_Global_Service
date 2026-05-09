@@ -7,8 +7,8 @@ const redis = new Redis({
 })
 
 // Admin credentials from environment variables (secure)
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com"
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || ""
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "esmaglobaleservices@gmail.com"
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "jojoA2@19"
 
 // Session configuration
 export const SESSION_COOKIE_NAME = "esma_admin_session"
