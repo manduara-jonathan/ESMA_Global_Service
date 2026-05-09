@@ -6,11 +6,11 @@ import type { ApiResponse } from "@/lib/types"
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { username, password } = body
+    const { email, password } = body
 
-    if (!username || !password) {
+    if (!email || !password) {
       return NextResponse.json<ApiResponse>(
-        { success: false, error: "Nom d'utilisateur et mot de passe requis" },
+        { success: false, error: "Email et mot de passe requis" },
         { status: 400 }
       )
     }
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     const ip = request.headers.get("x-forwarded-for") || "unknown"
     const userAgent = request.headers.get("user-agent") || "unknown"
 
-    const result = await authenticateUser(username, password, ip, userAgent)
+    const result = await authenticateUser(email, password, ip, userAgent)
 
     if (!result.success) {
       return NextResponse.json<ApiResponse>(
