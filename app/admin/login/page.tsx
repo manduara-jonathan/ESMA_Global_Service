@@ -23,25 +23,32 @@ export default function AdminLoginPage() {
     const password = formData.get("password") as string
 
     try {
+      console.log("[v0] Login attempt with email:", email)
+      
       const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-        credentials: "include",
+        credentials: "include", // Important for cookies
       })
 
       const data = await res.json()
+      console.log("[v0] Login response:", data, "Status:", res.status)
 
       if (data.success) {
+        console.log("[v0] Login successful, redirecting to /admin")
+        // Small delay to ensure cookie is set before redirect
         setTimeout(() => {
           window.location.href = "/admin"
         }, 100)
         return
       } else {
+        console.log("[v0] Login failed:", data.error)
         setError(data.error || "Erreur de connexion")
         setIsLoading(false)
       }
     } catch (err) {
+      console.error("[v0] Login error:", err)
       setError("Erreur de connexion au serveur")
       setIsLoading(false)
     }
