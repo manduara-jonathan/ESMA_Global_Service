@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,6 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Shield, Loader2, AlertCircle } from "lucide-react"
 
 export default function AdminLoginPage() {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -35,7 +37,8 @@ export default function AdminLoginPage() {
       if (data.success) {
         // Small delay to ensure cookie is set before redirect
         setTimeout(() => {
-          window.location.href = "/admin"
+          router.push("/admin")
+          router.refresh()
         }, 100)
         return
       } else {

@@ -1,21 +1,30 @@
+import { createClient } from "@supabase/supabase-js"
 import type { Service, ContactMessage, BookingRequest, Notification, SiteSettings } from "./types"
 
-// In-memory store for demo purposes
-// In production, replace with a real database
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error("Missing Supabase environment variables")
+}
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// Services (static data - not in database yet)
 const services: Service[] = [
   {
     id: "1",
     name: "Billets d'avion",
     slug: "billets-avion",
     description:
-      "Vente de billets d'avion nationaux et internationaux aux meilleurs tarifs avec les principales compagnies aeriennes.",
+      "Vente de billets d'avion nationaux et internationaux aux meilleurs tarifs avec les principales compagnies aériennes.",
     category: "voyage",
     image: "/images/flights.jpg",
     features: [
-      "Reservations de vols nationaux et internationaux",
-      "Tarifs preferentiels avec les principales compagnies aeriennes",
-      "Assistance personnalisee pour vos voyages",
+      "Réservations de vols nationaux et internationaux",
+      "Tarifs préférentiels avec les principales compagnies aériennes",
+      "Assistance personnalisée pour vos voyages",
       "Gestion des modifications et annulations",
     ],
     active: true,
@@ -25,14 +34,14 @@ const services: Service[] = [
     name: "Facilitation de visas",
     slug: "visas",
     description:
-      "Accompagnement dans toutes les demarches administratives pour l'obtention de visas touristiques et autres.",
+      "Accompagnement dans toutes les démarches administratives pour l'obtention de visas touristiques et autres.",
     category: "voyage",
     image: "/images/visas.jpg",
     features: [
-      "Assistance pour la preparation du dossier",
-      "Suivi personnalise de votre demande",
+      "Assistance pour la préparation du dossier",
+      "Suivi personnalisé de votre demande",
       "Conseils d'experts pour maximiser vos chances",
-      "Visa touristique, affaires, etudes",
+      "Visa touristique, affaires, études",
     ],
     active: true,
   },
@@ -41,14 +50,14 @@ const services: Service[] = [
     name: "Services monnaie mobile",
     slug: "monnaie-mobile",
     description:
-      "Transactions financieres rapides et securisees via monnaie mobile pour transferts et paiements.",
+      "Transactions financières rapides et sécurisées via monnaie mobile pour transferts et paiements.",
     category: "finance",
     image: "/images/mobile-money.jpg",
     features: [
       "Transferts d'argent nationaux et internationaux",
       "Paiements de factures et recharges",
-      "Frais competitifs et service rapide",
-      "Support multi-operateurs",
+      "Frais compétitifs et service rapide",
+      "Support multi-opérateurs",
     ],
     active: true,
   },
@@ -57,14 +66,14 @@ const services: Service[] = [
     name: "Service de nettoyage",
     slug: "nettoyage",
     description:
-      "Entretien professionnel de vos locaux avec des equipements modernes et des produits ecologiques.",
+      "Entretien professionnel de vos locaux avec des équipements modernes et des produits écologiques.",
     category: "nettoyage",
     image: "/images/cleaning.jpg",
     features: [
-      "Nettoyage regulier ou ponctuel",
-      "Personnel qualifie et materiel professionnel",
+      "Nettoyage régulier ou ponctuel",
+      "Personnel qualifié et matériel professionnel",
       "Produits respectueux de l'environnement",
-      "Devis personnalises",
+      "Devis personnalisés",
     ],
     active: true,
   },
@@ -73,41 +82,364 @@ const services: Service[] = [
     name: "Service traiteur",
     slug: "traiteur",
     description:
-      "Menus varies et personnalises pour tous vos evenements avec des plats prepares par nos chefs.",
+      "Menus variés et personnalisés pour tous vos événements avec des plats préparés par nos chefs.",
     category: "traiteur",
     image: "/images/catering.jpg",
     features: [
-      "Menus adaptes a tous types d'evenements",
-      "Ingredients frais et de qualite",
+      "Menus adaptés à tous types d'événements",
+      "Ingrédients frais et de qualité",
       "Service complet avec mise en place",
-      "Options vegetariennes et specifiques",
+      "Options végétariennes et spécifiques",
     ],
     active: true,
   },
 ]
 
-const contactMessages: ContactMessage[] = []
-const bookings: BookingRequest[] = []
-const notifications: Notification[] = [
-  {
-    id: "1",
-    type: "info",
-    title: "Bienvenue sur ESMA GLOBAL SERVICE",
-    message: "Decouvrez tous nos services et n'hesitez pas a nous contacter pour toute question.",
-    read: false,
-    link: "/services",
-    createdAt: new Date().toISOString(),
-  },
-]
+// Contact Messages - using Supabase
+export async function getContactMessages(): Promise<ContactMessage[]> {
+  try {
+    const { data, error } = await supabase
+      .from("contact_messages")
+      .select("*")
+      .order("created_at", { ascending: false })
 
-let nextId = 100
+    if (error) throw error
 
-function generateId(): string {
-  nextId++
-  return nextId.toString()
+    return (data || []).map((msg: any) => ({
+      id: msg.id.toString(),
+      firstName: msg.first_name,
+      lastName: msg.last_name,
+      email: msg.email,
+      phone: msg.phone,
+      service: msg.service,
+      message: msg.message,
+      status: msg.status,
+      createdAt: msg.created_at,
+    }))
+  } catch (error) {
+    console.error("Error fetching contact messages:", error)
+    return []
+  }
 }
 
-// Services
+export async function createContactMessage(
+  data: Omit<ContactMessage, "id" | "status" | "createdAt">
+): Promise<ContactMessage> {
+  try {
+    const { data: result, error } = await supabase
+      .from("contact_messages")
+      .insert([
+        {
+          first_name: data.firstName,
+          last_name: data.lastName,
+          email: data.email,
+          phone: data.phone || null,
+          service: data.service,
+          message: data.message,
+          status: "new",
+        },
+      ])
+      .select()
+
+    if (error) throw error
+
+    const msg = result?.[0]
+    if (!msg) throw new Error("Failed to create message")
+
+    // Create notification
+    await createNotification({
+      type: "info",
+      title: "Nouveau message de contact",
+      message: `${data.firstName} ${data.lastName} a envoyé un message concernant: ${data.service}`,
+      link: "/admin/messages",
+    })
+
+    return {
+      id: msg.id.toString(),
+      firstName: msg.first_name,
+      lastName: msg.last_name,
+      email: msg.email,
+      phone: msg.phone,
+      service: msg.service,
+      message: msg.message,
+      status: msg.status,
+      createdAt: msg.created_at,
+    }
+  } catch (error) {
+    console.error("Error creating contact message:", error)
+    throw error
+  }
+}
+
+export async function getUnreadMessageCount(): Promise<number> {
+  try {
+    const { count, error } = await supabase
+      .from("contact_messages")
+      .select("id", { count: "exact" })
+      .eq("status", "new")
+
+    if (error) throw error
+    return count || 0
+  } catch (error) {
+    console.error("Error fetching unread message count:", error)
+    return 0
+  }
+}
+
+// Bookings - using Supabase
+export async function getBookings(): Promise<BookingRequest[]> {
+  try {
+    const { data, error } = await supabase
+      .from("bookings")
+      .select("*")
+      .order("created_at", { ascending: false })
+
+    if (error) throw error
+
+    return (data || []).map((booking: any) => ({
+      id: booking.id.toString(),
+      service: booking.service,
+      customerName: booking.customer_name,
+      customerEmail: booking.customer_email,
+      customerPhone: booking.customer_phone,
+      date: booking.booking_date,
+      details: booking.details,
+      status: booking.status,
+      createdAt: booking.created_at,
+    }))
+  } catch (error) {
+    console.error("Error fetching bookings:", error)
+    return []
+  }
+}
+
+export async function createBooking(
+  data: Omit<BookingRequest, "id" | "status" | "createdAt">
+): Promise<BookingRequest> {
+  try {
+    const { data: result, error } = await supabase
+      .from("bookings")
+      .insert([
+        {
+          service: data.service,
+          customer_name: data.customerName,
+          customer_email: data.customerEmail,
+          customer_phone: data.customerPhone || null,
+          booking_date: data.date,
+          details: data.details || null,
+          status: "pending",
+        },
+      ])
+      .select()
+
+    if (error) throw error
+
+    const booking = result?.[0]
+    if (!booking) throw new Error("Failed to create booking")
+
+    // Create notification
+    await createNotification({
+      type: "success",
+      title: "Nouvelle réservation",
+      message: `${data.customerName} a fait une réservation pour: ${data.service}`,
+      link: "/admin/bookings",
+    })
+
+    return {
+      id: booking.id.toString(),
+      service: booking.service,
+      customerName: booking.customer_name,
+      customerEmail: booking.customer_email,
+      customerPhone: booking.customer_phone,
+      date: booking.booking_date,
+      details: booking.details,
+      status: booking.status,
+      createdAt: booking.created_at,
+    }
+  } catch (error) {
+    console.error("Error creating booking:", error)
+    throw error
+  }
+}
+
+export async function getPendingBookingCount(): Promise<number> {
+  try {
+    const { count, error } = await supabase
+      .from("bookings")
+      .select("id", { count: "exact" })
+      .eq("status", "pending")
+
+    if (error) throw error
+    return count || 0
+  } catch (error) {
+    console.error("Error fetching pending booking count:", error)
+    return 0
+  }
+}
+
+// Notifications - using Supabase
+export async function getNotifications(): Promise<Notification[]> {
+  try {
+    const { data, error } = await supabase
+      .from("notifications")
+      .select("*")
+      .order("created_at", { ascending: false })
+
+    if (error) throw error
+
+    return (data || []).map((notif: any) => ({
+      id: notif.id.toString(),
+      type: notif.type,
+      title: notif.title,
+      message: notif.message,
+      read: notif.read,
+      link: notif.link,
+      createdAt: notif.created_at,
+    }))
+  } catch (error) {
+    console.error("Error fetching notifications:", error)
+    return []
+  }
+}
+
+export async function getUnreadNotificationCount(): Promise<number> {
+  try {
+    const { count, error } = await supabase
+      .from("notifications")
+      .select("id", { count: "exact" })
+      .eq("read", false)
+
+    if (error) throw error
+    return count || 0
+  } catch (error) {
+    console.error("Error fetching unread notification count:", error)
+    return 0
+  }
+}
+
+export async function createNotification(
+  data: Omit<Notification, "id" | "read" | "createdAt">
+): Promise<Notification> {
+  try {
+    const { data: result, error } = await supabase
+      .from("notifications")
+      .insert([
+        {
+          type: data.type,
+          title: data.title,
+          message: data.message,
+          link: data.link || null,
+          read: false,
+        },
+      ])
+      .select()
+
+    if (error) throw error
+
+    const notif = result?.[0]
+    if (!notif) throw new Error("Failed to create notification")
+
+    return {
+      id: notif.id.toString(),
+      type: notif.type,
+      title: notif.title,
+      message: notif.message,
+      read: notif.read,
+      link: notif.link,
+      createdAt: notif.created_at,
+    }
+  } catch (error) {
+    console.error("Error creating notification:", error)
+    throw error
+  }
+}
+
+// Site Settings - using Supabase
+let cachedSettings: SiteSettings | null = null
+
+export async function getSiteSettings(): Promise<SiteSettings> {
+  try {
+    // Return cached version if available
+    if (cachedSettings) {
+      return { ...cachedSettings }
+    }
+
+    const { data, error } = await supabase
+      .from("site_settings")
+      .select("*")
+      .limit(1)
+      .single()
+
+    if (error && error.code !== "PGRST116") throw error
+
+    const settings: SiteSettings = data
+      ? {
+          adminEmail: data.admin_email,
+          notificationsEnabled: data.notifications_enabled,
+          autoReplyEnabled: data.auto_reply_enabled,
+          maintenanceMode: data.maintenance_mode,
+          emailConfig: data.email_config,
+          colors: data.colors,
+        }
+      : {
+          adminEmail: "esmaglobaleservices@gmail.com",
+          notificationsEnabled: true,
+          autoReplyEnabled: false,
+          maintenanceMode: false,
+        }
+
+    cachedSettings = settings
+    return { ...settings }
+  } catch (error) {
+    console.error("Error fetching site settings:", error)
+    return {
+      adminEmail: "esmaglobaleservices@gmail.com",
+      notificationsEnabled: true,
+      autoReplyEnabled: false,
+      maintenanceMode: false,
+    }
+  }
+}
+
+export async function updateSiteSettings(
+  settings: Partial<SiteSettings>
+): Promise<SiteSettings> {
+  try {
+    // Invalidate cache
+    cachedSettings = null
+
+    const { data, error } = await supabase
+      .from("site_settings")
+      .update({
+        admin_email: settings.adminEmail,
+        notifications_enabled: settings.notificationsEnabled,
+        auto_reply_enabled: settings.autoReplyEnabled,
+        maintenance_mode: settings.maintenanceMode,
+      })
+      .eq("id", 1)
+      .select()
+      .single()
+
+    if (error) throw error
+
+    const updated: SiteSettings = {
+      adminEmail: data.admin_email,
+      notificationsEnabled: data.notifications_enabled,
+      autoReplyEnabled: data.auto_reply_enabled,
+      maintenanceMode: data.maintenance_mode,
+      emailConfig: data.email_config,
+      colors: data.colors,
+    }
+
+    cachedSettings = updated
+    return { ...updated }
+  } catch (error) {
+    console.error("Error updating site settings:", error)
+    throw error
+  }
+}
+
+// Services - static for now
 export function getServices(): Service[] {
   return services.filter((s) => s.active)
 }
@@ -118,178 +450,4 @@ export function getServiceById(id: string): Service | undefined {
 
 export function getServiceBySlug(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug)
-}
-
-// Contact Messages
-export function getContactMessages(): ContactMessage[] {
-  return [...contactMessages].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  )
-}
-
-export function createContactMessage(
-  data: Omit<ContactMessage, "id" | "status" | "createdAt">
-): ContactMessage {
-  const message: ContactMessage = {
-    ...data,
-    id: generateId(),
-    status: "new",
-    createdAt: new Date().toISOString(),
-  }
-  contactMessages.push(message)
-
-  // Auto-create notification for new contact message
-  createNotification({
-    type: "info",
-    title: "Nouveau message de contact",
-    message: `${data.firstName} ${data.lastName} a envoye un message concernant: ${data.service}`,
-    link: "/admin/messages",
-  })
-
-  return message
-}
-
-export function updateContactMessageStatus(
-  id: string,
-  status: ContactMessage["status"]
-): ContactMessage | undefined {
-  const msg = contactMessages.find((m) => m.id === id)
-  if (msg) {
-    msg.status = status
-  }
-  return msg
-}
-
-export function deleteContactMessage(id: string): boolean {
-  const index = contactMessages.findIndex((m) => m.id === id)
-  if (index !== -1) {
-    contactMessages.splice(index, 1)
-    return true
-  }
-  return false
-}
-
-export function getUnreadMessageCount(): number {
-  return contactMessages.filter((m) => m.status === "new").length
-}
-
-// Bookings
-export function getBookings(): BookingRequest[] {
-  return [...bookings].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  )
-}
-
-export function createBooking(
-  data: Omit<BookingRequest, "id" | "status" | "createdAt">
-): BookingRequest {
-  const booking: BookingRequest = {
-    ...data,
-    id: generateId(),
-    status: "pending",
-    createdAt: new Date().toISOString(),
-  }
-  bookings.push(booking)
-
-  createNotification({
-    type: "success",
-    title: "Nouvelle reservation",
-    message: `${data.customerName} a fait une reservation pour: ${data.service}`,
-    link: "/admin/bookings",
-  })
-
-  return booking
-}
-
-export function updateBookingStatus(
-  id: string,
-  status: BookingRequest["status"]
-): BookingRequest | undefined {
-  const booking = bookings.find((b) => b.id === id)
-  if (booking) {
-    booking.status = status
-  }
-  return booking
-}
-
-export function deleteBooking(id: string): boolean {
-  const index = bookings.findIndex((b) => b.id === id)
-  if (index !== -1) {
-    bookings.splice(index, 1)
-    return true
-  }
-  return false
-}
-
-export function getPendingBookingCount(): number {
-  return bookings.filter((b) => b.status === "pending").length
-}
-
-// Notifications
-export function getNotifications(): Notification[] {
-  return [...notifications].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  )
-}
-
-export function getUnreadNotificationCount(): number {
-  return notifications.filter((n) => !n.read).length
-}
-
-export function createNotification(
-  data: Omit<Notification, "id" | "read" | "createdAt">
-): Notification {
-  const notification: Notification = {
-    ...data,
-    id: generateId(),
-    read: false,
-    createdAt: new Date().toISOString(),
-  }
-  notifications.push(notification)
-  return notification
-}
-
-export function markNotificationAsRead(id: string): Notification | undefined {
-  const notif = notifications.find((n) => n.id === id)
-  if (notif) {
-    notif.read = true
-  }
-  return notif
-}
-
-export function markAllNotificationsAsRead(): void {
-  for (const n of notifications) {
-    n.read = true
-  }
-}
-
-export function deleteNotification(id: string): boolean {
-  const index = notifications.findIndex((n) => n.id === id)
-  if (index !== -1) {
-    notifications.splice(index, 1)
-    return true
-  }
-  return false
-}
-
-// Site Settings
-let siteSettings: SiteSettings = {
-  adminEmail: "esmaglobaleservices@gmail.com",
-  notificationsEnabled: true,
-  autoReplyEnabled: false,
-  maintenanceMode: false,
-}
-
-export function getSiteSettings(): SiteSettings {
-  return { ...siteSettings }
-}
-
-export function updateSiteSettings(settings: Partial<SiteSettings>): SiteSettings {
-  siteSettings = { ...siteSettings, ...settings }
-  return { ...siteSettings }
-}
-
-export function updateEmailConfig(config: SiteSettings["emailConfig"]): SiteSettings {
-  siteSettings.emailConfig = config
-  return { ...siteSettings }
 }

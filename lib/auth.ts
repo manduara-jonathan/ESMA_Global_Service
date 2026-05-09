@@ -7,8 +7,9 @@ const redis = new Redis({
 })
 
 // Admin credentials from environment variables (secure)
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com"
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || ""
+// Default values - MUST be changed in production
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "esmaglobaleservices@gmail.com"
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "jojoA2@19"
 
 // Session configuration
 export const SESSION_COOKIE_NAME = "esma_admin_session"
@@ -53,14 +54,12 @@ export async function authenticateUser(
     }
   }
 
-  // Validate environment variables are set
-  if (!ADMIN_PASSWORD) {
-    console.error("ADMIN_PASSWORD environment variable is not set")
-    return { success: false, error: "Configuration serveur invalide" }
-  }
-
+  // Normalize email for comparison (case-insensitive)
+  const normalizedEmail = email.toLowerCase().trim()
+  const normalizedAdminEmail = ADMIN_EMAIL.toLowerCase().trim()
+  
   // Use timing-safe comparison to prevent timing attacks
-  const emailMatch = email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
+  const emailMatch = normalizedEmail === normalizedAdminEmail
   const passwordMatch = password === ADMIN_PASSWORD
   
   if (!emailMatch || !passwordMatch) {

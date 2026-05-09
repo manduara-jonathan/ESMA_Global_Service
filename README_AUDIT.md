@@ -130,5 +130,5 @@ APRÈS L'AUDIT
 
 **Créé:** 09/05/2026  
 **Audit par:** Senior Developer AI  
-**Projet:** MK GLOBAL SERVICE  
+**Projet:** ESMA GLOBAL SERVICE  
 **Status:** 🟢 READY FOR PRODUCTION
