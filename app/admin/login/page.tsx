@@ -33,10 +33,8 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        // Small delay to ensure cookie is set before redirect
-        setTimeout(() => {
-          window.location.href = "/admin"
-        }, 100)
+        // Redirect to admin dashboard - cookie is set via Set-Cookie header
+        window.location.href = "/admin"
         return
       } else {
         setError(data.error || "Erreur de connexion")

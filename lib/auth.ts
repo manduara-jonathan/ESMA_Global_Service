@@ -53,12 +53,6 @@ export async function authenticateUser(
     }
   }
 
-  // Validate environment variables are set
-  if (!ADMIN_PASSWORD) {
-    console.error("ADMIN_PASSWORD environment variable is not set")
-    return { success: false, error: "Configuration serveur invalide" }
-  }
-
   // Use timing-safe comparison to prevent timing attacks
   const emailMatch = email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
   const passwordMatch = password === ADMIN_PASSWORD
