@@ -292,7 +292,7 @@ export async function getNotifications(): Promise<Notification[]> {
       type: notif.type,
       title: notif.title,
       message: notif.message,
-      read: notif.read,
+      read: notif.is_read,
       link: notif.link,
       createdAt: notif.created_at,
     }))
@@ -307,7 +307,7 @@ export async function getUnreadNotificationCount(): Promise<number> {
     const { count, error } = await supabase
       .from("notifications")
       .select("id", { count: "exact" })
-      .eq("read", false)
+      .eq("is_read", false)
 
     if (error) throw error
     return count || 0
@@ -329,7 +329,7 @@ export async function createNotification(
           title: data.title,
           message: data.message,
           link: data.link || null,
-          read: false,
+          is_read: false,
         },
       ])
       .select()
@@ -344,7 +344,7 @@ export async function createNotification(
       type: notif.type,
       title: notif.title,
       message: notif.message,
-      read: notif.read,
+      read: notif.is_read,
       link: notif.link,
       createdAt: notif.created_at,
     }
@@ -450,4 +450,18 @@ export function getServiceById(id: string): Service | undefined {
 
 export function getServiceBySlug(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug)
+}
+
+export async function markAllNotificationsAsRead(): Promise<void> {
+  try {
+    const { error } = await supabase
+      .from("notifications")
+      .update({ is_read: true })
+      .eq("is_read", false)
+
+    if (error) throw error
+  } catch (error) {
+    console.error("Error marking notifications as read:", error)
+    throw error
+  }
 }
