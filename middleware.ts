@@ -3,10 +3,26 @@ import type { NextRequest } from "next/server"
 
 const SESSION_COOKIE_NAME = "esma_admin_session"
 
-// Middleware to protect admin routes
+// Middleware to protect admin routes and add security headers
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const sessionId = request.cookies.get(SESSION_COOKIE_NAME)?.value
+
+  // Create response
+  let response = NextResponse.next()
+
+  // Add security headers to all responses
+  response.headers.set("X-Frame-Options", "SAMEORIGIN")
+  response.headers.set("X-Content-Type-Options", "nosniff")
+  response.headers.set("X-XSS-Protection", "1; mode=block")
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
+
+  if (process.env.NODE_ENV === "production") {
+    response.headers.set(
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains"
+    )
+  }
 
   // Only protect admin routes except login
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
@@ -15,7 +31,7 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl)
     }
 
-    return NextResponse.next()
+    return response
   }
 
   // Redirect logged-in users away from login page
@@ -26,7 +42,7 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next()
+  return response
 }
 
 // Configure which routes the middleware runs on

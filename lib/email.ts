@@ -13,9 +13,8 @@ export async function sendEmail(data: EmailData): Promise<{ success: boolean; er
   try {
     const settings = getSiteSettings()
     
-    // If email config is not set up, log and return success (for demo)
+    // If email config is not set up, return success (for demo)
     if (!settings.emailConfig) {
-      console.log("Email would be sent (no config set):", data)
       return { success: true }
     }
 
@@ -23,14 +22,7 @@ export async function sendEmail(data: EmailData): Promise<{ success: boolean; er
     // Example with a generic SMTP or email API
     const { smtpHost, smtpPort, smtpUser, smtpPassword, fromEmail, fromName } = settings.emailConfig
 
-    // For demo purposes, we'll just log the email
-    console.log("Sending email:", {
-      from: `${fromName} <${fromEmail}>`,
-      to: data.to,
-      subject: data.subject,
-      smtp: `${smtpHost}:${smtpPort}`,
-    })
-
+    // For demo purposes, we'll just silently process the email
     // In production, uncomment and implement actual email sending:
     // const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
     //   method: 'POST',
@@ -51,7 +43,6 @@ export async function sendEmail(data: EmailData): Promise<{ success: boolean; er
 
     return { success: true }
   } catch (error) {
-    console.error("Error sending email:", error)
     return { success: false, error: "Failed to send email" }
   }
 }
