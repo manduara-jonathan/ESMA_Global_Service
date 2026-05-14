@@ -41,9 +41,10 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        // Force a full page reload to /admin
-        // This ensures the browser sends the fresh cookie
-        document.location.href = "/admin"
+        // Force browser to process the Set-Cookie header before navigating
+        // Using a microtask ensures the cookie is persisted first
+        await new Promise(resolve => requestAnimationFrame(resolve))
+        window.location.replace("/admin")
         return
       } else {
         setError(data.error || "Erreur de connexion")

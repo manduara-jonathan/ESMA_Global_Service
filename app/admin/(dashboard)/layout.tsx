@@ -40,8 +40,11 @@ export default function AdminLayout({
   const [isMobile, setIsMobile] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
 
-  // Verify session on mount
+  // Verify session on mount with retry logic for timing issues
   useEffect(() => {
+    let attempts = 0
+    const maxAttempts = 2
+    
     const verifySession = async () => {
       try {
         const res = await fetch("/api/auth", { 
@@ -55,12 +58,18 @@ export default function AdminLayout({
             return
           }
         }
-        // Not authenticated - redirect to login
+        // Retry once after a short delay (handles cookie timing issues)
+        attempts++
+        if (attempts < maxAttempts) {
+          await new Promise(resolve => setTimeout(resolve, 100))
+          return verifySession()
+        }
+        // Not authenticated after retries - redirect to login
         setIsAuthenticated(false)
-        window.location.href = "/admin/login"
+        window.location.replace("/admin/login")
       } catch {
         setIsAuthenticated(false)
-        window.location.href = "/admin/login"
+        window.location.replace("/admin/login")
       }
     }
     verifySession()

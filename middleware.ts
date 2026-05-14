@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
+// NOTE: Cannot import from @/lib/auth in Edge Runtime - must keep in sync manually
 const SESSION_COOKIE_NAME = "esma_admin_session"
 
 // Security headers to apply to all responses
