@@ -41,10 +41,12 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        // Force browser to process the Set-Cookie header before navigating
-        // Using a microtask ensures the cookie is persisted first
-        await new Promise(resolve => requestAnimationFrame(resolve))
-        window.location.replace("/admin")
+        // Wait for the cookie to be stored by the browser
+        // Use multiple frame delays to ensure cookie persistence
+        await new Promise(resolve => setTimeout(resolve, 100))
+        
+        // Navigate to admin - the cookie should be set now
+        window.location.href = "/admin"
         return
       } else {
         setError(data.error || "Erreur de connexion")
