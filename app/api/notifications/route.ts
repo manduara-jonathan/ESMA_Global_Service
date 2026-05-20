@@ -8,8 +8,8 @@ import type { ApiResponse, Notification } from "@/lib/types"
 
 export async function GET() {
   try {
-    const notifications = getNotifications()
-    const unreadCount = getUnreadNotificationCount()
+    const notifications = await getNotifications()
+    const unreadCount = await getUnreadNotificationCount()
 
     return NextResponse.json<
       ApiResponse<{ notifications: Notification[]; unreadCount: number }>
@@ -27,7 +27,7 @@ export async function GET() {
 
 export async function PUT() {
   try {
-    markAllNotificationsAsRead()
+    await markAllNotificationsAsRead()
     return NextResponse.json<ApiResponse>({
       success: true,
       message: "Toutes les notifications ont ete marquees comme lues",

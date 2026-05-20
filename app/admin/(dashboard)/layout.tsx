@@ -14,6 +14,7 @@ import {
   X,
   Shield,
   ChevronRight,
+  Loader2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
@@ -37,6 +38,42 @@ export default function AdminLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
+
+  // Verify session on mount with retry logic for timing issues
+  useEffect(() => {
+    let attempts = 0
+    const maxAttempts = 2
+    
+    const verifySession = async () => {
+      try {
+        const res = await fetch("/api/auth", { 
+          method: "GET",
+          credentials: "include" 
+        })
+        if (res.ok) {
+          const data = await res.json()
+          if (data.success) {
+            setIsAuthenticated(true)
+            return
+          }
+        }
+        // Retry once after a short delay (handles cookie timing issues)
+        attempts++
+        if (attempts < maxAttempts) {
+          await new Promise(resolve => setTimeout(resolve, 100))
+          return verifySession()
+        }
+        // Not authenticated after retries - redirect to login
+        setIsAuthenticated(false)
+        window.location.replace("/admin/login")
+      } catch {
+        setIsAuthenticated(false)
+        window.location.replace("/admin/login")
+      }
+    }
+    verifySession()
+  }, [])
 
   // Detect mobile/tablet
   useEffect(() => {
@@ -66,6 +103,23 @@ export default function AdminLayout({
     } finally {
       setIsLoggingOut(false)
     }
+  }
+
+  // Show loading while verifying authentication
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-muted-foreground">Verification de la session...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // If not authenticated, don't render anything (redirect is happening)
+  if (!isAuthenticated) {
+    return null
   }
 
   return (

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { getContactMessages, createContactMessage } from "@/lib/store"
 import { sendAdminNotification, sendAutoReply } from "@/lib/email"
+import { sanitizeInput, isValidEmail, checkRateLimit } from "@/lib/utils"
 import type { ApiResponse, ContactMessage } from "@/lib/types"
 
 export async function GET() {
@@ -20,6 +21,17 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    // Rate limiting: 5 requests per minute per IP
+    const ip = request.headers.get("x-forwarded-for") || "unknown"
+    const rateLimit = checkRateLimit(`contact:${ip}`, 5, 60000)
+    
+    if (!rateLimit.allowed) {
+      return NextResponse.json<ApiResponse>(
+        { success: false, error: "Trop de requêtes. Veuillez patienter." },
+        { status: 429 }
+      )
+    }
+
     const body = await request.json()
 
     const { firstName, lastName, email, phone, service, message } = body
@@ -28,27 +40,27 @@ export async function POST(request: Request) {
       return NextResponse.json<ApiResponse>(
         {
           success: false,
-          error: "Les champs prenom, nom, email et message sont obligatoires",
+          error: "Les champs prénom, nom, email et message sont obligatoires",
         },
         { status: 400 }
       )
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
+    if (!isValidEmail(email)) {
       return NextResponse.json<ApiResponse>(
         { success: false, error: "Adresse email invalide" },
         { status: 400 }
       )
     }
 
+    // Sanitize all inputs to prevent XSS
     const contactMessage = createContactMessage({
-      firstName,
-      lastName,
-      email,
-      phone: phone || undefined,
-      service: service || "general",
-      message,
+      firstName: sanitizeInput(firstName),
+      lastName: sanitizeInput(lastName),
+      email: sanitizeInput(email),
+      phone: phone ? sanitizeInput(phone) : undefined,
+      service: sanitizeInput(service) || "general",
+      message: sanitizeInput(message),
     })
 
     // Send admin notification email

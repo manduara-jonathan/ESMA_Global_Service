@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server"
-import { changePassword } from "@/lib/auth"
 import { checkAuth } from "@/lib/api-auth"
 import type { ApiResponse } from "@/lib/types"
 
 // PUT /api/auth/password - Change admin password
+// Note: This is a placeholder. In a production environment,
+// you would store admin credentials in a database (not hardcoded).
 export async function PUT(request: Request) {
   const auth = await checkAuth(request)
   if (!auth.authenticated) {
@@ -21,30 +22,12 @@ export async function PUT(request: Request) {
       )
     }
 
-    // Get user from token - we need to parse the token to get userId
-    const token = request.headers.get("cookie")?.match(/admin_token=([^;]+)/)?.[1]
-    if (!token) {
-      return NextResponse.json<ApiResponse>(
-        { success: false, error: "Token invalide" },
-        { status: 401 }
-      )
-    }
-
-    // For now, we use a fixed user ID since we only have one admin
-    // In a multi-user system, you'd extract the userId from the token
-    const result = await changePassword("admin-001", oldPassword, newPassword)
-
-    if (!result.success) {
-      return NextResponse.json<ApiResponse>(
-        { success: false, error: result.error },
-        { status: 400 }
-      )
-    }
-
-    return NextResponse.json<ApiResponse>({
-      success: true,
-      message: "Mot de passe change avec succes",
-    })
+    // In this version, credentials are hardcoded.
+    // To change the password, update lib/auth.ts directly.
+    return NextResponse.json<ApiResponse>(
+      { success: false, error: "Le changement de mot de passe n'est pas disponible dans cette version." },
+      { status: 400 }
+    )
   } catch {
     return NextResponse.json<ApiResponse>(
       { success: false, error: "Erreur lors du changement de mot de passe" },

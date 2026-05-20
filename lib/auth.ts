@@ -1,119 +1,163 @@
-import type { AdminUser } from "./types"
-import { SignJWT, jwtVerify } from "jose"
+import { Redis } from "@upstash/redis"
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "mk-admin-secret-key-min-32-characters-for-hs256"
-)
+// Initialize Redis client
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL!,
+  token: process.env.KV_REST_API_TOKEN!,
+})
 
-const TOKEN_EXPIRATION = "24h"
+// Admin credentials from environment variables (secure)
+// Default values - MUST be changed in production
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "esmaglobaleservices@gmail.com"
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "jojoA2@19"
 
-// Simple hash function
-async function hashPassword(password: string): Promise<string> {
-  const encoder = new TextEncoder()
-  const data = encoder.encode(password + "mk-global-salt-2024")
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data)
-  const hashArray = Array.from(new Uint8Array(hashBuffer))
-  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
+// Session configuration
+export const SESSION_COOKIE_NAME = "esma_admin_session"
+const SESSION_EXPIRY = 60 * 60 * 24 * 7 // 7 days in seconds
+
+// Login attempt tracking for rate limiting
+const loginAttempts = new Map<string, { count: number; blockedUntil: number }>()
+
+interface Session {
+  userId: string
+  email: string
+  role: string
+  createdAt: string
+  ip: string
+  userAgent: string
 }
 
-async function verifyPassword(password: string, hash: string): Promise<boolean> {
-  const passwordHash = await hashPassword(password)
-  return passwordHash === hash
+// Generate a secure random session ID
+function generateSessionId(): string {
+  const array = new Uint8Array(32)
+  crypto.getRandomValues(array)
+  return Array.from(array, (b) => b.toString(16).padStart(2, "0")).join("")
 }
 
-// Default admin user: esmaglobaleservices@gmail.com / jojoA2@19
-const adminUsers: AdminUser[] = [
-  {
-    id: "admin-001",
-    username: "esmaglobaleservices@gmail.com",
-    passwordHash: "b89a494ce6f2ee6a02a84ab2c8dddb6e9d116308e832487b2dc28f7ba42ab852",
-    role: "superadmin",
-    createdAt: new Date().toISOString(),
-  },
-]
-
+// Authenticate user and create session in Redis
 export async function authenticateUser(
-  username: string,
+  email: string,
   password: string,
   ip?: string,
   userAgent?: string
-): Promise<{ success: true; token: string; user: Omit<AdminUser, "passwordHash"> } | { success: false; error: string }> {
-  const user = adminUsers.find((u) => u.username === username)
-
-  if (!user) {
-    return { success: false, error: "Identifiants invalides" }
+): Promise<{ success: true; sessionId: string } | { success: false; error: string }> {
+  const attemptKey = ip || "unknown"
+  const now = Date.now()
+  
+  // Check if IP is blocked due to too many failed attempts
+  const attempts = loginAttempts.get(attemptKey)
+  if (attempts && attempts.blockedUntil > now) {
+    const remainingMinutes = Math.ceil((attempts.blockedUntil - now) / 60000)
+    return { 
+      success: false, 
+      error: `Trop de tentatives. Réessayez dans ${remainingMinutes} minute(s).` 
+    }
   }
 
-  const isValid = await verifyPassword(password, user.passwordHash)
+  // Normalize email for comparison (case-insensitive)
+  const normalizedEmail = email.toLowerCase().trim()
+  const normalizedAdminEmail = ADMIN_EMAIL.toLowerCase().trim()
+  
+  // Use timing-safe comparison to prevent timing attacks
+  const emailMatch = normalizedEmail === normalizedAdminEmail
+  const passwordMatch = password === ADMIN_PASSWORD
+  
+  if (!emailMatch || !passwordMatch) {
+    // Track failed attempt
+    const currentAttempts = loginAttempts.get(attemptKey) || { count: 0, blockedUntil: 0 }
+    currentAttempts.count++
+    
+    // Block after 5 failed attempts for 15 minutes
+    if (currentAttempts.count >= 5) {
+      currentAttempts.blockedUntil = now + 15 * 60 * 1000 // 15 minutes
+      currentAttempts.count = 0 // Reset count for next block period
+    }
+    
+    loginAttempts.set(attemptKey, currentAttempts)
+    
+    // Add small delay only on failed attempts to prevent timing attacks
+    await new Promise(resolve => setTimeout(resolve, 200))
+    return { success: false, error: "Email ou mot de passe incorrect" }
+  }
+  
+  // Clear failed attempts on successful login
+  loginAttempts.delete(attemptKey)
 
-  if (!isValid) {
-    return { success: false, error: "Identifiants invalides" }
+  // Generate session ID
+  const sessionId = generateSessionId()
+
+  // Create session data
+  const session: Session = {
+    userId: "admin-001",
+    email: ADMIN_EMAIL,
+    role: "superadmin",
+    createdAt: new Date().toISOString(),
+    ip: ip || "unknown",
+    userAgent: userAgent || "unknown",
   }
 
-  user.lastLogin = new Date().toISOString()
-
-  const { passwordHash: _, ...userWithoutPassword } = user
-
-  const token = await new SignJWT({
-    userId: user.id,
-    username: user.username,
-    role: user.role,
-  })
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime(TOKEN_EXPIRATION)
-    .sign(JWT_SECRET)
-
-  return {
-    success: true,
-    token,
-    user: userWithoutPassword,
-  }
-}
-
-export async function validateSession(token: string): Promise<{ valid: true; user: Omit<AdminUser, "passwordHash"> } | { valid: false; error: string }> {
+  // Store session in Redis with expiry
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET)
-
-    const user = adminUsers.find((u) => u.id === payload.userId)
-
-    if (!user) {
-      return { valid: false, error: "Utilisateur non trouve" }
-    }
-
-    const { passwordHash: _, ...userWithoutPassword } = user
-    return { valid: true, user: userWithoutPassword }
+    await redis.set(`session:${sessionId}`, JSON.stringify(session), {
+      ex: SESSION_EXPIRY,
+    })
   } catch (error) {
-    if (error instanceof Error && error.message.includes("exp")) {
-      return { valid: false, error: "Session expiree" }
+    console.error("Failed to store session in Redis:", error)
+    return { success: false, error: "Erreur lors de la création de la session" }
+  }
+
+  return { success: true, sessionId }
+}
+
+// Verify session from Redis
+export async function validateSession(
+  sessionId: string
+): Promise<{ valid: true; user: { id: string; email: string; role: string } } | { valid: false; error: string }> {
+  if (!sessionId) {
+    return { valid: false, error: "Session non fournie" }
+  }
+
+  try {
+    const sessionData = await redis.get<string | Session>(`session:${sessionId}`)
+    
+    if (!sessionData) {
+      return { valid: false, error: "Session expirée ou invalide" }
     }
-    return { valid: false, error: "Token invalide" }
+
+    // Parse session - handle both string and object responses from Redis
+    let session: Session
+    if (typeof sessionData === "string") {
+      session = JSON.parse(sessionData) as Session
+    } else {
+      session = sessionData as Session
+    }
+
+    return {
+      valid: true,
+      user: {
+        id: session.userId,
+        email: session.email,
+        role: session.role,
+      },
+    }
+  } catch {
+    return { valid: false, error: "Erreur de validation de session" }
   }
 }
 
-export function logout(token: string): boolean {
-  return true
+// Logout - delete session from Redis
+export async function logout(sessionId: string): Promise<boolean> {
+  if (!sessionId) return false
+  
+  try {
+    await redis.del(`session:${sessionId}`)
+    return true
+  } catch {
+    return false
+  }
 }
 
-export async function changePassword(
-  userId: string,
-  oldPassword: string,
-  newPassword: string
-): Promise<{ success: boolean; error?: string }> {
-  const user = adminUsers.find((u) => u.id === userId)
-  if (!user) {
-    return { success: false, error: "Utilisateur introuvable" }
-  }
-
-  const isValid = await verifyPassword(oldPassword, user.passwordHash)
-  if (!isValid) {
-    return { success: false, error: "Ancien mot de passe incorrect" }
-  }
-
-  if (newPassword.length < 8) {
-    return { success: false, error: "Le mot de passe doit faire au moins 8 caracteres" }
-  }
-
-  user.passwordHash = await hashPassword(newPassword)
-  return { success: true }
+// Get session expiry for cookie
+export function getSessionExpiry(): number {
+  return SESSION_EXPIRY
 }

@@ -31,10 +31,10 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { path, referrer, userAgent } = body
 
-    // Get IP from headers (in production, this would use x-forwarded-for)
+    // Get IP from headers
     const ip = request.headers.get("x-forwarded-for") || "unknown"
 
-    const pageView = trackPageView(path, referrer, userAgent, ip)
+    trackPageView(path, referrer, userAgent, ip)
 
     return NextResponse.json<ApiResponse>({
       success: true,

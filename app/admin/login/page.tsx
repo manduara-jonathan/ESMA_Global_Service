@@ -1,8 +1,9 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,9 +11,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Shield, Loader2, AlertCircle } from "lucide-react"
 
 export default function AdminLoginPage() {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
+  const formRef = useRef<HTMLFormElement>(null)
+
+  // Prefetch admin dashboard so assets are ready immediately after login
+  useEffect(() => {
+    router.prefetch("/admin")
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -20,29 +27,33 @@ export default function AdminLoginPage() {
     setError(null)
 
     const formData = new FormData(e.currentTarget)
-    const username = formData.get("username") as string
+    const email = formData.get("email") as string
     const password = formData.get("password") as string
 
     try {
       const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
+        credentials: "include",
       })
 
       const data = await res.json()
-      console.log("[v0] Login response:", data, "Status:", res.status)
 
       if (data.success) {
-        console.log("[v0] Login successful, redirecting to /admin")
+        // Wait for the cookie to be stored by the browser
+        // Use multiple frame delays to ensure cookie persistence
+        await new Promise(resolve => setTimeout(resolve, 100))
+        
+        // Navigate to admin - the cookie should be set now
         window.location.href = "/admin"
+        return
       } else {
-        console.log("[v0] Login failed:", data.error)
         setError(data.error || "Erreur de connexion")
+        setIsLoading(false)
       }
     } catch {
       setError("Erreur de connexion au serveur")
-    } finally {
       setIsLoading(false)
     }
   }
@@ -57,12 +68,12 @@ export default function AdminLoginPage() {
           <div>
             <CardTitle className="text-2xl">Administration</CardTitle>
             <CardDescription>
-              Connectez-vous pour acceder au panneau d'administration
+              Connectez-vous pour acceder au panneau d&apos;administration
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <div className="flex items-start gap-3 rounded-lg p-3 text-sm bg-red-50 text-red-800 ring-1 ring-red-200">
                 <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
@@ -71,14 +82,15 @@ export default function AdminLoginPage() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="username">Nom d'utilisateur</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="username"
-                name="username"
-                type="text"
+                id="email"
+                name="email"
+                type="email"
                 required
-                placeholder="admin"
-                autoComplete="username"
+                placeholder="votre@email.com"
+                autoComplete="email"
+                disabled={isLoading}
               />
             </div>
 
@@ -91,6 +103,7 @@ export default function AdminLoginPage() {
                 required
                 placeholder="••••••••"
                 autoComplete="current-password"
+                disabled={isLoading}
               />
             </div>
 
@@ -109,13 +122,6 @@ export default function AdminLoginPage() {
               )}
             </Button>
           </form>
-
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p className="mb-2">Identifiants par défaut:</p>
-            <code className="bg-muted px-2 py-1 rounded text-xs">
-              esmaglobaleservices@gmail.com / jojoA2@19
-            </code>
-          </div>
         </CardContent>
       </Card>
     </div>

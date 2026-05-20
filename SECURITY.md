@@ -1,4 +1,4 @@
-# Security Documentation - MK Global Service Admin
+# Security Documentation - ESMA Global Service Admin
 
 ## Overview
 Ce document decrit le systeme de securite mis en place pour proteger l'interface d'administration.
@@ -13,7 +13,7 @@ Ce document decrit le systeme de securite mis en place pour proteger l'interface
 
 ### 2. Hachage des mots de passe
 - **Algorithme**: SHA-256 avec salt unique
-- **Salt**: `mk-global-salt-2024`
+- **Salt**: `esma-global-salt-2024`
 - **Note**: En production, remplacer par bcrypt ou Argon2
 
 ### 3. Protection des routes
@@ -32,8 +32,8 @@ Toutes les API admin verifient l'authentification via `checkAuth()`:
 
 ### 4. Identifiants par defaut
 ```
-Username: admin
-Password: MKGlobal2024!
+Email: esmaglobaleservices@gmail.com
+Password: jojoA2@19
 ```
 
 **IMPORTANT**: Changez le mot de passe apres la premiere connexion!

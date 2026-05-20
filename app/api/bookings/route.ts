@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { getBookings, createBooking } from "@/lib/store"
 import { sendAdminNotification } from "@/lib/email"
+import { sanitizeInput, isValidEmail, checkRateLimit } from "@/lib/utils"
 import type { ApiResponse, BookingRequest } from "@/lib/types"
 
 export async function GET() {
@@ -20,6 +21,17 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    // Rate limiting: 5 requests per minute per IP
+    const ip = request.headers.get("x-forwarded-for") || "unknown"
+    const rateLimit = checkRateLimit(`booking:${ip}`, 5, 60000)
+    
+    if (!rateLimit.allowed) {
+      return NextResponse.json<ApiResponse>(
+        { success: false, error: "Trop de requêtes. Veuillez patienter." },
+        { status: 429 }
+      )
+    }
+
     const body = await request.json()
 
     const { service, customerName, customerEmail, customerPhone, date, details } = body
@@ -34,21 +46,21 @@ export async function POST(request: Request) {
       )
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(customerEmail)) {
+    if (!isValidEmail(customerEmail)) {
       return NextResponse.json<ApiResponse>(
         { success: false, error: "Adresse email invalide" },
         { status: 400 }
       )
     }
 
+    // Sanitize all inputs to prevent XSS
     const booking = createBooking({
-      service,
-      customerName,
-      customerEmail,
-      customerPhone: customerPhone || "",
-      date,
-      details: details || "",
+      service: sanitizeInput(service),
+      customerName: sanitizeInput(customerName),
+      customerEmail: sanitizeInput(customerEmail),
+      customerPhone: customerPhone ? sanitizeInput(customerPhone) : "",
+      date: sanitizeInput(date),
+      details: details ? sanitizeInput(details) : "",
     })
 
     // Send admin notification email
