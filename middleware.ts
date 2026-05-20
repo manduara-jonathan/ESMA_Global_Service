@@ -19,9 +19,8 @@ function addSecurityHeaders(response: NextResponse): void {
   }
 }
 
-// Middleware to protect admin routes
-// NOTE: Middleware runs on Edge Runtime and cannot call Redis directly.
-// We only check cookie existence here. Full session validation happens in API routes.
+// Middleware adds security headers to all admin routes
+// Session validation is handled by the admin layout component for better reliability
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const sessionId = request.cookies.get(SESSION_COOKIE_NAME)?.value
@@ -30,19 +29,8 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next()
   addSecurityHeaders(response)
 
-  // Protect admin routes (except login page)
-  if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
-    if (!sessionId) {
-      const loginUrl = new URL("/admin/login", request.url)
-      const redirect = NextResponse.redirect(loginUrl)
-      addSecurityHeaders(redirect)
-      return redirect
-    }
-    // Cookie exists - allow through. API routes will validate session in Redis.
-    return response
-  }
-
   // Login page: redirect to dashboard if already has session cookie
+  // This prevents showing login to already authenticated users
   if (pathname === "/admin/login" && sessionId) {
     const adminUrl = new URL("/admin", request.url)
     const redirect = NextResponse.redirect(adminUrl)
@@ -50,6 +38,8 @@ export function middleware(request: NextRequest) {
     return redirect
   }
 
+  // For all other admin routes, just add security headers
+  // The admin layout will verify authentication client-side
   return response
 }
 

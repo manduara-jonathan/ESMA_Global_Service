@@ -33,7 +33,6 @@ export async function POST(request: Request) {
     const userAgent = request.headers.get("user-agent") || "unknown"
     
     const result = await authenticateUser(email, password, ip, userAgent)
-    console.log("[v0] POST /api/auth - Auth result:", result.success ? "success" : "failed")
 
     if (!result.success) {
       return NextResponse.json<ApiResponse>(
@@ -98,12 +97,8 @@ export async function DELETE(request: Request) {
 export async function GET(request: Request) {
   try {
     const cookieHeader = request.headers.get("cookie") || ""
-    console.log("[v0] GET /api/auth - Cookie header:", cookieHeader ? "present" : "empty")
-    
     const sessionIdMatch = cookieHeader.match(new RegExp(`${SESSION_COOKIE_NAME}=([^;]+)`))
     const sessionId = sessionIdMatch?.[1]
-    
-    console.log("[v0] Session ID from cookie:", sessionId ? sessionId.substring(0, 8) + "..." : "none")
 
     if (!sessionId) {
       return NextResponse.json<ApiResponse>(
@@ -113,7 +108,6 @@ export async function GET(request: Request) {
     }
 
     const result = await validateSession(sessionId)
-    console.log("[v0] Session validation result:", result.valid ? "valid" : "invalid")
 
     if (!result.valid) {
       const response = NextResponse.json<ApiResponse>(
