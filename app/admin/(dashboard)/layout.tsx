@@ -17,7 +17,7 @@ import {
   Loader2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, mobileLabel: "Dashboard" },
@@ -39,18 +39,34 @@ export default function AdminLayout({
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  // Mark as mounted (client-side only)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Verify session on mount with retry logic for timing issues
   useEffect(() => {
+    if (!mounted) return
+    
+    let isCancelled = false
     let attempts = 0
-    const maxAttempts = 2
+    const maxAttempts = 3
+    const delayBetweenAttempts = 200
     
     const verifySession = async () => {
+      if (isCancelled) return
+      
       try {
         const res = await fetch("/api/auth", { 
           method: "GET",
-          credentials: "include" 
+          credentials: "include",
+          cache: "no-store"
         })
+        
+        if (isCancelled) return
+        
         if (res.ok) {
           const data = await res.json()
           if (data.success) {
@@ -58,22 +74,33 @@ export default function AdminLayout({
             return
           }
         }
-        // Retry once after a short delay (handles cookie timing issues)
+        
+        // Retry with increasing delay (handles cookie timing issues)
         attempts++
         if (attempts < maxAttempts) {
-          await new Promise(resolve => setTimeout(resolve, 100))
+          await new Promise(resolve => setTimeout(resolve, delayBetweenAttempts * attempts))
           return verifySession()
         }
+        
         // Not authenticated after retries - redirect to login
-        setIsAuthenticated(false)
-        window.location.replace("/admin/login")
-      } catch {
-        setIsAuthenticated(false)
-        window.location.replace("/admin/login")
+        if (!isCancelled) {
+          setIsAuthenticated(false)
+          window.location.replace("/admin/login")
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          setIsAuthenticated(false)
+          window.location.replace("/admin/login")
+        }
       }
     }
+    
     verifySession()
-  }, [])
+    
+    return () => {
+      isCancelled = true
+    }
+  }, [mounted])
 
   // Detect mobile/tablet
   useEffect(() => {
