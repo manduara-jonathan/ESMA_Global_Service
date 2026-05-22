@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const messages = getContactMessages()
+    const messages = await getContactMessages()
     return NextResponse.json<ApiResponse<{ messages: ContactMessage[] }>>({
       success: true,
       data: { messages },

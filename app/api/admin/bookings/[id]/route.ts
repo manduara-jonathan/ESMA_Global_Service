@@ -25,7 +25,7 @@ export async function PATCH(
       )
     }
 
-    const booking = updateBookingStatus(id, status as BookingRequest["status"])
+    const booking = await updateBookingStatus(id, status as BookingRequest["status"])
 
     if (!booking) {
       return NextResponse.json<ApiResponse>(
@@ -58,7 +58,7 @@ export async function DELETE(
 
   try {
     const { id } = params
-    const success = deleteBooking(id)
+    const success = await deleteBooking(id)
 
     if (!success) {
       return NextResponse.json<ApiResponse>(

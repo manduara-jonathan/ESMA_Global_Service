@@ -8,7 +8,7 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params
-    const updated = markNotificationAsRead(id)
+    const updated = await markNotificationAsRead(id)
 
     if (!updated) {
       return NextResponse.json<ApiResponse>(

@@ -6,7 +6,7 @@ import type { ApiResponse, BookingRequest } from "@/lib/types"
 
 export async function GET() {
   try {
-    const bookings = getBookings()
+    const bookings = await getBookings()
     return NextResponse.json<ApiResponse<BookingRequest[]>>({
       success: true,
       data: bookings,
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     }
 
     // Sanitize all inputs to prevent XSS
-    const booking = createBooking({
+    const booking = await createBooking({
       service: sanitizeInput(service),
       customerName: sanitizeInput(customerName),
       customerEmail: sanitizeInput(customerEmail),

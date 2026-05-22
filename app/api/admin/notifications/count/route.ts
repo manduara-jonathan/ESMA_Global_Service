@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const notifications = getNotifications()
+    const notifications = await getNotifications()
     return NextResponse.json<ApiResponse<{ total: number }>>({
       success: true,
       data: { total: notifications.length },

@@ -15,7 +15,7 @@ export async function DELETE(
 
   try {
     const { id } = params
-    const success = deleteNotification(id)
+    const success = await deleteNotification(id)
 
     if (!success) {
       return NextResponse.json<ApiResponse>(

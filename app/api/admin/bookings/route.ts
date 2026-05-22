@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const bookings = getBookings()
+    const bookings = await getBookings()
     return NextResponse.json<ApiResponse<{ bookings: BookingRequest[] }>>({
       success: true,
       data: { bookings },

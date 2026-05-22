@@ -18,7 +18,7 @@ export async function PATCH(
       )
     }
 
-    const updated = updateContactMessageStatus(id, status)
+    const updated = await updateContactMessageStatus(id, status)
 
     if (!updated) {
       return NextResponse.json<ApiResponse>(

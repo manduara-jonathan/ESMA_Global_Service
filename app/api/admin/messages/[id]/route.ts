@@ -25,7 +25,7 @@ export async function PATCH(
       )
     }
 
-    const message = updateContactMessageStatus(id, status as ContactMessage["status"])
+    const message = await updateContactMessageStatus(id, status as ContactMessage["status"])
 
     if (!message) {
       return NextResponse.json<ApiResponse>(
@@ -58,7 +58,7 @@ export async function DELETE(
 
   try {
     const { id } = params
-    const success = deleteContactMessage(id)
+    const success = await deleteContactMessage(id)
 
     if (!success) {
       return NextResponse.json<ApiResponse>(

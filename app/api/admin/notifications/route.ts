@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const notifications = getNotifications()
+    const notifications = await getNotifications()
     return NextResponse.json<ApiResponse<{ notifications: Notification[] }>>({
       success: true,
       data: { notifications },
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const notification = createNotification({
+    const notification = await createNotification({
       type,
       title,
       message,

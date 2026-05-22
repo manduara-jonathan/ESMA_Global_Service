@@ -6,7 +6,7 @@ import type { ApiResponse, ContactMessage } from "@/lib/types"
 
 export async function GET() {
   try {
-    const messages = getContactMessages()
+    const messages = await getContactMessages()
     return NextResponse.json<ApiResponse<ContactMessage[]>>({
       success: true,
       data: messages,
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     }
 
     // Sanitize all inputs to prevent XSS
-    const contactMessage = createContactMessage({
+    const contactMessage = await createContactMessage({
       firstName: sanitizeInput(firstName),
       lastName: sanitizeInput(lastName),
       email: sanitizeInput(email),

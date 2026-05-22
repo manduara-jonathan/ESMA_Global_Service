@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const count = getPendingBookingCount()
+    const count = await getPendingBookingCount()
     return NextResponse.json<ApiResponse<{ pending: number }>>({
       success: true,
       data: { pending: count },
