@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const count = getUnreadMessageCount()
+    const count = await getUnreadMessageCount()
     return NextResponse.json<ApiResponse<{ unread: number }>>({
       success: true,
       data: { unread: count },

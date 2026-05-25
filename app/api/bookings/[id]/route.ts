@@ -21,7 +21,7 @@ export async function PATCH(
       )
     }
 
-    const updated = updateBookingStatus(id, status)
+    const updated = await updateBookingStatus(id, status)
 
     if (!updated) {
       return NextResponse.json<ApiResponse>(
