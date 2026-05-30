@@ -122,6 +122,34 @@ export async function getContactMessages(): Promise<ContactMessage[]> {
   }
 }
 
+export async function getContactMessageById(id: string): Promise<ContactMessage | null> {
+  try {
+    const { data, error } = await supabase
+      .from("contact_messages")
+      .select("*")
+      .eq("id", id)
+      .single()
+
+    if (error) throw error
+    if (!data) return null
+
+    return {
+      id: data.id.toString(),
+      firstName: data.first_name,
+      lastName: data.last_name,
+      email: data.email,
+      phone: data.phone,
+      service: data.service,
+      message: data.message,
+      status: data.status,
+      createdAt: data.created_at,
+    }
+  } catch (error) {
+    console.error("Error fetching contact message by id:", error)
+    return null
+  }
+}
+
 export async function createContactMessage(
   data: Omit<ContactMessage, "id" | "status" | "createdAt">
 ): Promise<ContactMessage> {
@@ -183,6 +211,22 @@ export async function getUnreadMessageCount(): Promise<number> {
   } catch (error) {
     console.error("Error fetching unread message count:", error)
     return 0
+  }
+}
+
+export async function updateContactMessageStatus(
+  id: string,
+  status: "new" | "read" | "replied" | "archived"
+): Promise<void> {
+  try {
+    const { error } = await supabase
+      .from("contact_messages")
+      .update({ status })
+      .eq("id", id)
+
+    if (error) throw error
+  } catch (error) {
+    console.error("Error updating message status:", error)
   }
 }
 
