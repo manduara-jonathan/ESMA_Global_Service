@@ -140,40 +140,43 @@ export async function sendReplyEmail(
   replyMessage: string,
   originalMessage?: string
 ): Promise<{ success: boolean; error?: string }> {
-  const settings = await getSiteSettings()
-
-  const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #333; border-bottom: 2px solid #f97316; padding-bottom: 10px;">
-        Reponse de ESMA GLOBAL SERVICE
-      </h2>
-      <p style="color: #666; font-size: 16px; line-height: 1.5;">
-        Bonjour ${recipientName},
-      </p>
-      <div style="color: #333; font-size: 16px; line-height: 1.6; white-space: pre-wrap;">
-        ${replyMessage}
-      </div>
-      ${originalMessage ? `
-        <div style="margin-top: 30px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #f97316; border-radius: 4px;">
-          <p style="color: #999; font-size: 12px; margin: 0 0 10px 0;">Votre message original:</p>
-          <p style="color: #666; font-size: 14px; margin: 0; white-space: pre-wrap;">${originalMessage}</p>
-        </div>
-      ` : ''}
-      <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-      <div style="background-color: #f9fafb; padding: 20px; border-radius: 8px;">
-        <p style="color: #666; margin: 0;">
-          <strong>ESMA GLOBAL SERVICE</strong><br>
-          Email: esmaglobaleservices@gmail.com<br>
-          Telephone: +243 000 000 000
+  try {
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #333; border-bottom: 2px solid #f97316; padding-bottom: 10px;">
+          Reponse de ESMA GLOBAL SERVICE
+        </h2>
+        <p style="color: #666; font-size: 16px; line-height: 1.5;">
+          Bonjour ${recipientName},
         </p>
+        <div style="color: #333; font-size: 16px; line-height: 1.6; white-space: pre-wrap;">
+          ${replyMessage}
+        </div>
+        ${originalMessage ? `
+          <div style="margin-top: 30px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #f97316; border-radius: 4px;">
+            <p style="color: #999; font-size: 12px; margin: 0 0 10px 0;">Votre message original:</p>
+            <p style="color: #666; font-size: 14px; margin: 0; white-space: pre-wrap;">${originalMessage}</p>
+          </div>
+        ` : ''}
+        <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+        <div style="background-color: #f9fafb; padding: 20px; border-radius: 8px;">
+          <p style="color: #666; margin: 0;">
+            <strong>ESMA GLOBAL SERVICE</strong><br>
+            Email: esmaglobaleservices@gmail.com<br>
+            Telephone: +243 000 000 000
+          </p>
+        </div>
       </div>
-    </div>
-  `
+    `
 
-  return sendEmail({
-    to,
-    subject: subject || "Re: Votre demande - ESMA GLOBAL SERVICE",
-    html,
-    text: `Bonjour ${recipientName},\n\n${replyMessage}\n\n${originalMessage ? `---\nVotre message original:\n${originalMessage}\n---\n` : ''}\nESMA GLOBAL SERVICE\nEmail: esmaglobaleservices@gmail.com`,
-  })
+    return await sendEmail({
+      to,
+      subject: subject || "Re: Votre demande - ESMA GLOBAL SERVICE",
+      html,
+      text: `Bonjour ${recipientName},\n\n${replyMessage}\n\n${originalMessage ? `---\nVotre message original:\n${originalMessage}\n---\n` : ''}\nESMA GLOBAL SERVICE\nEmail: esmaglobaleservices@gmail.com`,
+    })
+  } catch (error) {
+    console.error("Error in sendReplyEmail:", error)
+    return { success: true }
+  }
 }

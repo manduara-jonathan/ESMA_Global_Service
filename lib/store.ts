@@ -214,6 +214,22 @@ export async function getUnreadMessageCount(): Promise<number> {
   }
 }
 
+export async function updateContactMessageStatus(
+  id: string,
+  status: "new" | "read" | "replied" | "archived"
+): Promise<void> {
+  try {
+    const { error } = await supabase
+      .from("contact_messages")
+      .update({ status })
+      .eq("id", id)
+
+    if (error) throw error
+  } catch (error) {
+    console.error("Error updating message status:", error)
+  }
+}
+
 // Bookings - using Supabase
 export async function getBookings(): Promise<BookingRequest[]> {
   try {
