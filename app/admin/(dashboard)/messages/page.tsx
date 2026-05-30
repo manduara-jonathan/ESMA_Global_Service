@@ -109,6 +109,9 @@ export default function MessagesAdminPage() {
   }
 
   const updateStatus = async (id: string, status: ContactMessage["status"]) => {
+    // Optimistic update - update UI immediately
+    setMessages(prev => prev.map(m => m.id === id ? { ...m, status } : m))
+    
     try {
       const res = await fetch(`/api/admin/messages/${id}`, {
         method: "PATCH",
@@ -116,28 +119,36 @@ export default function MessagesAdminPage() {
         body: JSON.stringify({ status }),
         credentials: "include",
       })
-      if (res.ok) {
+      if (!res.ok) {
+        // Revert on error
         fetchMessages()
       }
     } catch {
-      // Silent fail
+      // Revert on error
+      fetchMessages()
     }
   }
 
   const deleteMessage = async (id: string) => {
     if (!confirm("Supprimer ce message ?")) return
+    
+    // Optimistic update - remove from UI immediately
+    setMessages(prev => prev.filter(m => m.id !== id))
+    setViewDialogOpen(false)
+    setSelectedMessage(null)
+    
     try {
       const res = await fetch(`/api/admin/messages/${id}`, {
         method: "DELETE",
         credentials: "include",
       })
-      if (res.ok) {
+      if (!res.ok) {
+        // Revert on error
         fetchMessages()
-        setViewDialogOpen(false)
-        setSelectedMessage(null)
       }
     } catch {
-      // Silent fail
+      // Revert on error
+      fetchMessages()
     }
   }
 
