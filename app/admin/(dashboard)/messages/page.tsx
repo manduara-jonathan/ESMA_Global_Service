@@ -84,7 +84,8 @@ export default function MessagesAdminPage() {
   const [replyMessage, setReplyMessage] = useState("")
   const [sendingReply, setSendingReply] = useState(false)
   const [replyError, setReplyError] = useState<string | null>(null)
-  const [replySuccess, setReplySuccess] = useState(false)
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [messageToDelete, setMessageToDelete] = useState<string | null>(null)
 
   useEffect(() => {
     fetchMessages()
@@ -109,6 +110,9 @@ export default function MessagesAdminPage() {
   }
 
   const updateStatus = async (id: string, status: ContactMessage["status"]) => {
+    // Optimistic update - update UI immediately
+    setMessages(prev => prev.map(m => m.id === id ? { ...m, status } : m))
+    
     try {
       const res = await fetch(`/api/admin/messages/${id}`, {
         method: "PATCH",
@@ -116,29 +120,56 @@ export default function MessagesAdminPage() {
         body: JSON.stringify({ status }),
         credentials: "include",
       })
-      if (res.ok) {
+      if (!res.ok) {
+        // Revert on error
         fetchMessages()
       }
     } catch {
-      // Silent fail
+      // Revert on error
+      fetchMessages()
     }
   }
 
-  const deleteMessage = async (id: string) => {
-    if (!confirm("Supprimer ce message ?")) return
+  const promptDelete = (id: string) => {
+    setMessageToDelete(id)
+    setDeleteConfirmOpen(true)
+  }
+
+  const confirmDelete = async () => {
+    if (!messageToDelete) return
+    
+    const id = messageToDelete
+    setDeleteConfirmOpen(false)
+    setMessageToDelete(null)
+    
+    // Optimistic update - remove from UI immediately
+    setMessages(prev => prev.filter(m => m.id !== id))
+    setViewDialogOpen(false)
+    setSelectedMessage(null)
+    
     try {
       const res = await fetch(`/api/admin/messages/${id}`, {
         method: "DELETE",
         credentials: "include",
       })
-      if (res.ok) {
+      if (!res.ok) {
+        // Revert on error
         fetchMessages()
-        setViewDialogOpen(false)
-        setSelectedMessage(null)
       }
     } catch {
-      // Silent fail
+      // Revert on error
+      fetchMessages()
     }
+  }
+
+  const deleteMessage = async (id: string, e?: React.MouseEvent) => {
+    // Prevent event propagation
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    
+    promptDelete(id)
   }
 
   const openViewDialog = (message: ContactMessage) => {
@@ -334,7 +365,7 @@ export default function MessagesAdminPage() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => deleteMessage(message.id)}
+                            onClick={(e) => deleteMessage(message.id, e)}
                             title="Supprimer"
                             className="text-destructive hover:text-destructive"
                           >
@@ -417,7 +448,7 @@ export default function MessagesAdminPage() {
               <DialogFooter className="flex-col sm:flex-row gap-2 mt-4">
                 <Button
                   variant="outline"
-                  onClick={() => deleteMessage(selectedMessage.id)}
+                  onClick={(e) => deleteMessage(selectedMessage.id, e)}
                   className="text-destructive hover:text-destructive"
                 >
                   <Trash2 className="h-4 w-4 mr-2" />
@@ -539,6 +570,33 @@ export default function MessagesAdminPage() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Supprimer le message</DialogTitle>
+            <DialogDescription>
+              Êtes-vous sûr de vouloir supprimer ce message ? Cette action ne peut pas être annulée.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setDeleteConfirmOpen(false)}
+            >
+              Annuler
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmDelete}
+            >
+              Supprimer
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
+

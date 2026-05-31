@@ -217,16 +217,47 @@ export async function getUnreadMessageCount(): Promise<number> {
 export async function updateContactMessageStatus(
   id: string,
   status: "new" | "read" | "replied" | "archived"
-): Promise<void> {
+): Promise<ContactMessage | null> {
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("contact_messages")
       .update({ status })
       .eq("id", id)
+      .select()
+      .single()
 
     if (error) throw error
+    if (!data) return null
+
+    return {
+      id: data.id.toString(),
+      firstName: data.first_name,
+      lastName: data.last_name,
+      email: data.email,
+      phone: data.phone,
+      service: data.service,
+      message: data.message,
+      status: data.status,
+      createdAt: data.created_at,
+    }
   } catch (error) {
     console.error("Error updating message status:", error)
+    return null
+  }
+}
+
+export async function deleteContactMessage(id: string): Promise<boolean> {
+  try {
+    const { error } = await supabase
+      .from("contact_messages")
+      .delete()
+      .eq("id", id)
+
+    if (error) throw error
+    return true
+  } catch (error) {
+    console.error("Error deleting contact message:", error)
+    return false
   }
 }
 
