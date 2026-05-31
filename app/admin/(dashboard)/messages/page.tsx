@@ -84,6 +84,7 @@ export default function MessagesAdminPage() {
   const [replyMessage, setReplyMessage] = useState("")
   const [sendingReply, setSendingReply] = useState(false)
   const [replyError, setReplyError] = useState<string | null>(null)
+  const [replySuccess, setReplySuccess] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [messageToDelete, setMessageToDelete] = useState<string | null>(null)
 
