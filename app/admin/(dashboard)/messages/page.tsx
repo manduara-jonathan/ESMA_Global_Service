@@ -111,10 +111,11 @@ export default function MessagesAdminPage() {
   }
 
   const updateStatus = async (id: string, status: ContactMessage["status"]) => {
-    // Optimistic update - update UI immediately
-    setMessages(prev => prev.map(m => m.id === id ? { ...m, status } : m))
-    
     try {
+      console.log("[v0] Updating status:", id, status)
+      // Optimistic update - update UI immediately
+      setMessages(prev => prev.map(m => m.id === id ? { ...m, status } : m))
+      
       const res = await fetch(`/api/admin/messages/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -122,10 +123,12 @@ export default function MessagesAdminPage() {
         credentials: "include",
       })
       if (!res.ok) {
+        console.error("[v0] Failed to update status, reverting")
         // Revert on error
         fetchMessages()
       }
-    } catch {
+    } catch (error) {
+      console.error("[v0] Error updating status:", error)
       // Revert on error
       fetchMessages()
     }
@@ -174,21 +177,31 @@ export default function MessagesAdminPage() {
   }
 
   const openViewDialog = (message: ContactMessage) => {
-    setSelectedMessage(message)
-    setViewDialogOpen(true)
-    // Mark as read if new
-    if (message.status === "new") {
-      updateStatus(message.id, "read")
+    try {
+      console.log("[v0] Opening view dialog for message:", message.id)
+      setSelectedMessage(message)
+      setViewDialogOpen(true)
+      // Mark as read if new
+      if (message.status === "new") {
+        updateStatus(message.id, "read")
+      }
+    } catch (error) {
+      console.error("[v0] Error opening view dialog:", error)
     }
   }
 
   const openReplyDialog = (message: ContactMessage) => {
-    setSelectedMessage(message)
-    setReplySubject(`Re: ${serviceLabels[message.service] || message.service} - ESMA GLOBAL SERVICE`)
-    setReplyMessage("")
-    setReplyError(null)
-    setReplySuccess(false)
-    setReplyDialogOpen(true)
+    try {
+      console.log("[v0] Opening reply dialog for message:", message.id)
+      setSelectedMessage(message)
+      setReplySubject(`Re: ${serviceLabels[message.service] || message.service} - ESMA GLOBAL SERVICE`)
+      setReplyMessage("")
+      setReplyError(null)
+      setReplySuccess(false)
+      setReplyDialogOpen(true)
+    } catch (error) {
+      console.error("[v0] Error opening reply dialog:", error)
+    }
   }
 
   const sendReply = async () => {
