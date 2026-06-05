@@ -2,12 +2,19 @@ import { NextResponse } from "next/server"
 import { sendReplyEmail } from "@/lib/email"
 import { getContactMessageById, updateContactMessageStatus } from "@/lib/store"
 import { sanitizeInput } from "@/lib/utils"
+import { checkAuth } from "@/lib/api-auth"
 import type { ApiResponse } from "@/lib/types"
 
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // Check authentication
+  const auth = await checkAuth(request)
+  if (!auth.authenticated) {
+    return auth.response
+  }
+
   try {
     const { id } = await params
     const body = await request.json()
