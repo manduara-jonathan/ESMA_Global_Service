@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js"
 import type { Service, ContactMessage, BookingRequest, Notification, SiteSettings } from "./types"
 
-// Initialize Supabase client
+// Initialize Supabase client (for read operations)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
@@ -10,6 +10,17 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// Admin client with service role key (for write/delete operations - bypasses RLS)
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const supabaseAdmin = supabaseServiceRoleKey 
+  ? createClient(supabaseUrl, supabaseServiceRoleKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
+  : supabase // Fallback to regular client if service role key not available
 
 // Services (static data - not in database yet)
 const services: Service[] = [
@@ -219,14 +230,18 @@ export async function updateContactMessageStatus(
   status: "new" | "read" | "replied" | "archived"
 ): Promise<ContactMessage | null> {
   try {
-    const { data, error } = await supabase
+    // Use admin client to bypass RLS policies
+    const { data, error } = await supabaseAdmin
       .from("contact_messages")
       .update({ status })
       .eq("id", id)
       .select()
       .single()
 
-    if (error) throw error
+    if (error) {
+      console.error("Supabase update error:", error)
+      throw error
+    }
     if (!data) return null
 
     return {
@@ -248,12 +263,16 @@ export async function updateContactMessageStatus(
 
 export async function deleteContactMessage(id: string): Promise<boolean> {
   try {
-    const { error } = await supabase
+    // Use admin client to bypass RLS policies
+    const { error } = await supabaseAdmin
       .from("contact_messages")
       .delete()
       .eq("id", id)
 
-    if (error) throw error
+    if (error) {
+      console.error("Supabase delete error:", error)
+      throw error
+    }
     return true
   } catch (error) {
     console.error("Error deleting contact message:", error)
