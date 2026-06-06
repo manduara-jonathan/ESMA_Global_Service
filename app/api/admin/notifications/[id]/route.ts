@@ -6,7 +6,7 @@ import type { ApiResponse } from "@/lib/types"
 // DELETE /api/admin/notifications/[id] - Delete a notification
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const auth = await checkAuth(request)
   if (!auth.authenticated) {
@@ -14,7 +14,7 @@ export async function DELETE(
   }
 
   try {
-    const { id } = params
+    const { id } = await params
     const success = await deleteNotification(id)
 
     if (!success) {
