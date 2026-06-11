@@ -448,6 +448,25 @@ export async function createNotification(
   }
 }
 
+export async function deleteNotification(id: string): Promise<boolean> {
+  try {
+    // Use admin client to bypass RLS policies
+    const { error } = await supabaseAdmin
+      .from("notifications")
+      .delete()
+      .eq("id", id)
+
+    if (error) {
+      console.error("Supabase delete notification error:", error)
+      throw error
+    }
+    return true
+  } catch (error) {
+    console.error("Error deleting notification:", error)
+    return false
+  }
+}
+
 // Site Settings - using Supabase
 let cachedSettings: SiteSettings | null = null
 

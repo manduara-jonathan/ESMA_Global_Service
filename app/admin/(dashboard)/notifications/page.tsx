@@ -61,6 +61,8 @@ export default function NotificationsAdminPage() {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [loading, setLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [notifToDelete, setNotifToDelete] = useState<string | null>(null)
 
   // Form state
   const [formData, setFormData] = useState({
@@ -112,18 +114,40 @@ export default function NotificationsAdminPage() {
     }
   }
 
-  const handleDeleteNotification = async (id: string) => {
-    if (!confirm("Supprimer cette notification ?")) return
+  const promptDeleteNotification = (id: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    setNotifToDelete(id)
+    setDeleteConfirmOpen(true)
+  }
+
+  const confirmDeleteNotification = async () => {
+    if (!notifToDelete) return
+
+    const id = notifToDelete
+    setDeleteConfirmOpen(false)
+    setNotifToDelete(null)
+
+    // Optimistic update - remove from UI immediately
+    setNotifications((prev) => prev.filter((n) => n.id !== id))
+
     try {
       const res = await fetch(`/api/admin/notifications/${id}`, {
         method: "DELETE",
         credentials: "include",
       })
-      if (res.ok) {
-        fetchNotifications()
+      // Re-sync with source of truth so deleted items don't reappear
+      // and reverted ones are restored on failure
+      fetchNotifications()
+      if (!res.ok) {
+        console.error("[v0] Failed to delete notification, status:", res.status)
       }
-    } catch {
-      // Silent fail
+    } catch (error) {
+      console.error("[v0] Error deleting notification:", error)
+      // Re-sync to restore correct state
+      fetchNotifications()
     }
   }
 
@@ -325,7 +349,7 @@ export default function NotificationsAdminPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleDeleteNotification(notif.id)}
+                        onClick={(e) => promptDeleteNotification(notif.id, e)}
                       >
                         <Trash2 className="h-4 w-4 text-red-500" />
                       </Button>
@@ -337,6 +361,30 @@ export default function NotificationsAdminPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Supprimer la notification</DialogTitle>
+            <DialogDescription>
+              Etes-vous sur de vouloir supprimer cette notification ? Cette action est definitive.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteConfirmOpen(false)}>
+              Annuler
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmDeleteNotification}
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              Supprimer
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
