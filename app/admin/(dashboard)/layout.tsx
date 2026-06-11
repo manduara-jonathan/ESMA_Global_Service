@@ -194,7 +194,12 @@ export default function AdminLayout({
             <nav className="flex-1 p-4 space-y-1">
               {navItems.map((item) => {
                 const Icon = item.icon
-                const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`)
+                // Dashboard root (/admin) must match exactly, otherwise it would
+                // stay active for every /admin/* sub-route. Other items use prefix match.
+                const isActive =
+                  item.href === "/admin"
+                    ? pathname === "/admin"
+                    : pathname === item.href || pathname?.startsWith(`${item.href}/`)
                 const label = isMobile ? item.mobileLabel : item.label
                 return (
                   <Link
