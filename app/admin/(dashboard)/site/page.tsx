@@ -49,10 +49,10 @@ interface SiteSettings {
 
 const defaultSettings: SiteSettings = {
   colors: {
-    primary: "#023020",
-    secondary: "#D4A373",
-    accent: "#D4A373",
-    dark: "#023020",
+    primary: "#2b2b2b",
+    secondary: "#E8772E",
+    accent: "#E8772E",
+    dark: "#2b2b2b",
   },
   typography: {
     headingFont: "Inter",

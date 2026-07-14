@@ -59,7 +59,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#023020] to-[#034a30] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#2b2b2b] to-[#3a3835] p-4">
       <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="space-y-4 text-center">
           <div className="mx-auto w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">

@@ -48,7 +48,7 @@ export default function NettoyagePage() {
       <section className="relative py-24 px-4 md:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image src="/images/cleaning.jpg" alt="Service de nettoyage" fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 to-[#034a30]/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2b2b2b]/90 to-[#3a3835]/60" />
         </div>
         <div className="container mx-auto relative z-10">
           <Link href="/services" className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-8 text-sm">
@@ -68,7 +68,7 @@ export default function NettoyagePage() {
               de professionnels assure l{"'"}entretien de vos espaces avec
               rigueur et des produits respectueux de l{"'"}environnement.
             </p>
-            <Button asChild size="lg" className="bg-[#D4A373] hover:bg-[#c28a52] text-white shadow-lg">
+            <Button asChild size="lg" className="bg-[#E8772E] hover:bg-[#d3641d] text-white shadow-lg">
               <Link href="/contact">Demander un devis gratuit</Link>
             </Button>
           </div>
@@ -79,7 +79,7 @@ export default function NettoyagePage() {
       <section className="py-20 px-4 md:px-6 lg:px-8 bg-background">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#023020]/10 text-sm font-medium text-[#023020] mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#2b2b2b]/10 text-sm font-medium text-[#2b2b2b] mb-4">
               Nos atouts
             </span>
             <h2 className="text-3xl font-bold tracking-tight mb-4 text-gradient">
@@ -90,8 +90,8 @@ export default function NettoyagePage() {
             {features.map((f) => (
               <Card key={f.title} className="card-hover border-none shadow-lg bg-card">
                 <CardContent className="pt-8 pb-6">
-                  <div className="w-14 h-14 rounded-xl bg-[#023020]/10 flex items-center justify-center mb-5">
-                    <f.icon className="h-7 w-7 text-[#023020]" />
+                  <div className="w-14 h-14 rounded-xl bg-[#2b2b2b]/10 flex items-center justify-center mb-5">
+                    <f.icon className="h-7 w-7 text-[#2b2b2b]" />
                   </div>
                   <h3 className="text-lg font-semibold mb-3 text-foreground">{f.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{f.desc}</p>
@@ -118,12 +118,12 @@ export default function NettoyagePage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 {prestations.map((p) => (
                   <div key={p} className="flex items-center gap-3 text-foreground">
-                    <CheckCircle2 className="h-5 w-5 text-[#023020] flex-shrink-0" />
+                    <CheckCircle2 className="h-5 w-5 text-[#2b2b2b] flex-shrink-0" />
                     <span className="text-sm">{p}</span>
                   </div>
                 ))}
               </div>
-              <Button asChild className="bg-[#023020] hover:bg-[#034a30] text-white">
+              <Button asChild className="bg-[#2b2b2b] hover:bg-[#3a3835] text-white">
                 <Link href="/contact">
                   Obtenir un devis <ArrowRight className="h-4 w-4 ml-2" />
                 </Link>
@@ -167,9 +167,9 @@ export default function NettoyagePage() {
                 items: ["Nettoyage quotidien", "Equipe attitre permanente", "Controle qualite journalier", "Remplacement garanti", "Support prioritaire", "Produits premium inclus"],
               },
             ].map((plan) => (
-              <Card key={plan.name} className={`card-hover border-none shadow-lg bg-card relative ${plan.popular ? "ring-2 ring-[#023020]" : ""}`}>
+              <Card key={plan.name} className={`card-hover border-none shadow-lg bg-card relative ${plan.popular ? "ring-2 ring-[#2b2b2b]" : ""}`}>
                 {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#023020] text-white text-xs font-medium rounded-full">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#2b2b2b] text-white text-xs font-medium rounded-full">
                     Populaire
                   </div>
                 )}
@@ -179,12 +179,12 @@ export default function NettoyagePage() {
                   <ul className="flex flex-col gap-3 mb-8">
                     {plan.items.map((item) => (
                       <li key={item} className="flex items-center gap-2 text-sm text-foreground">
-                        <CheckCircle2 className="h-4 w-4 text-[#023020] flex-shrink-0" />
+                        <CheckCircle2 className="h-4 w-4 text-[#2b2b2b] flex-shrink-0" />
                         {item}
                       </li>
                     ))}
                   </ul>
-                  <Button asChild className={`w-full ${plan.popular ? "bg-[#023020] hover:bg-[#034a30] text-white" : "bg-muted text-foreground hover:bg-muted/80"}`}>
+                  <Button asChild className={`w-full ${plan.popular ? "bg-[#2b2b2b] hover:bg-[#3a3835] text-white" : "bg-muted text-foreground hover:bg-muted/80"}`}>
                     <Link href="/contact">Demander un devis</Link>
                   </Button>
                 </CardContent>
@@ -198,7 +198,7 @@ export default function NettoyagePage() {
       <section className="relative py-20 px-4 md:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image src="/images/hero-bg.jpg" alt="Background" fill className="object-cover" />
-          <div className="absolute inset-0 bg-[#023020]/85" />
+          <div className="absolute inset-0 bg-[#2b2b2b]/85" />
         </div>
         <div className="container mx-auto text-center relative z-10">
           <h2 className="text-3xl font-bold tracking-tight mb-6 text-white text-balance">
@@ -209,7 +209,7 @@ export default function NettoyagePage() {
             espaces. Demandez votre devis gratuit des maintenant.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg" className="bg-[#D4A373] hover:bg-[#c28a52] text-white shadow-lg">
+            <Button asChild size="lg" className="bg-[#E8772E] hover:bg-[#d3641d] text-white shadow-lg">
               <Link href="/contact">Devis gratuit</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10">

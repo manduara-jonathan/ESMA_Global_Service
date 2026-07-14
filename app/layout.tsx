@@ -1,5 +1,5 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Header } from "@/components/header"
@@ -16,7 +16,11 @@ export const metadata: Metadata = {
   title: "ESMA GLOBAL SERVICE - Services de Voyage, Visa, Monnaie Mobile, Nettoyage et Traiteur",
   description:
     "ESMA GLOBAL SERVICE offre des services de vente de billets d'avion, facilitation de visas, monnaie mobile, nettoyage d'immeubles et service traiteur.",
-    generator: 'v0.app'
+  generator: "v0.app",
+}
+
+export const viewport: Viewport = {
+  themeColor: "#E8772E",
 }
 
 export default function RootLayout({

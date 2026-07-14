@@ -93,7 +93,7 @@ export default function ServicesPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 to-[#034a30]/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2b2b2b]/90 to-[#3a3835]/70" />
         </div>
         <div className="container mx-auto text-center relative z-10">
           <span className="inline-block px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-sm text-sm font-medium text-white mb-4 border border-white/20">
@@ -129,7 +129,7 @@ export default function ServicesPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <div className="w-10 h-10 rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center">
-                      <service.icon className="h-5 w-5 text-[#023020]" />
+                      <service.icon className="h-5 w-5 text-[#2b2b2b]" />
                     </div>
                   </div>
                 </div>
@@ -146,7 +146,7 @@ export default function ServicesPage() {
                         key={feat}
                         className="flex items-center gap-2 text-sm text-foreground"
                       >
-                        <ArrowRight className="h-3.5 w-3.5 text-[#023020] flex-shrink-0" />
+                        <ArrowRight className="h-3.5 w-3.5 text-[#2b2b2b] flex-shrink-0" />
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -155,7 +155,7 @@ export default function ServicesPage() {
                 <CardFooter>
                   <Button
                     asChild
-                    className="w-full bg-[#023020] hover:bg-[#034a30] text-white"
+                    className="w-full bg-[#2b2b2b] hover:bg-[#3a3835] text-white"
                   >
                     <Link href={`/services/${service.slug}`}>Decouvrir ce service</Link>
                   </Button>
@@ -224,7 +224,7 @@ export default function ServicesPage() {
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-[#023020]/85" />
+          <div className="absolute inset-0 bg-[#2b2b2b]/85" />
         </div>
         <div className="container mx-auto text-center relative z-10">
           <h2 className="text-3xl font-bold tracking-tight mb-6 text-white text-balance">
@@ -237,7 +237,7 @@ export default function ServicesPage() {
             <Button
               asChild
               size="lg"
-              className="bg-[#D4A373] hover:bg-[#c28a52] text-[#023020] shadow-lg"
+              className="bg-[#E8772E] hover:bg-[#d3641d] text-[#2b2b2b] shadow-lg"
             >
               <a href="https://wa.me/243819145660" target="_blank" rel="noopener noreferrer">Appeler maintenant</a>
             </Button>
