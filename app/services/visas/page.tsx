@@ -44,7 +44,7 @@ export default function VisasPage() {
       <section className="relative py-24 px-4 md:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image src="/images/visas.jpg" alt="Facilitation de visas" fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 to-[#034a30]/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2b2b2b]/90 to-[#3a3835]/60" />
         </div>
         <div className="container mx-auto relative z-10">
           <Link href="/services" className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-8 text-sm">
@@ -64,7 +64,7 @@ export default function VisasPage() {
               Nous vous accompagnons de A a Z pour maximiser vos chances
               d{"'"}obtenir votre visa.
             </p>
-            <Button asChild size="lg" className="bg-[#D4A373] hover:bg-[#c28a52] text-white shadow-lg">
+            <Button asChild size="lg" className="bg-[#E8772E] hover:bg-[#d3641d] text-white shadow-lg">
               <Link href="/contact">Commencer ma demande</Link>
             </Button>
           </div>
@@ -75,7 +75,7 @@ export default function VisasPage() {
       <section className="py-20 px-4 md:px-6 lg:px-8 bg-background">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#023020]/10 text-sm font-medium text-[#023020] mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#2b2b2b]/10 text-sm font-medium text-[#2b2b2b] mb-4">
               Types de visas
             </span>
             <h2 className="text-3xl font-bold tracking-tight mb-4 text-gradient">
@@ -86,12 +86,12 @@ export default function VisasPage() {
             {visaTypes.map((v) => (
               <Card key={v.title} className="card-hover border-none shadow-lg bg-card text-center">
                 <CardContent className="pt-8 pb-6">
-                  <div className="w-16 h-16 rounded-full bg-[#023020]/10 flex items-center justify-center mx-auto mb-5">
-                    <Stamp className="h-8 w-8 text-[#023020]" />
+                  <div className="w-16 h-16 rounded-full bg-[#2b2b2b]/10 flex items-center justify-center mx-auto mb-5">
+                    <Stamp className="h-8 w-8 text-[#2b2b2b]" />
                   </div>
                   <h3 className="text-lg font-semibold mb-2 text-foreground">{v.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed mb-4">{v.desc}</p>
-                  <span className="inline-block px-3 py-1 rounded-full bg-[#D4A373]/10 text-[#D4A373] text-xs font-medium">
+                  <span className="inline-block px-3 py-1 rounded-full bg-[#E8772E]/10 text-[#E8772E] text-xs font-medium">
                     Delai : {v.duration}
                   </span>
                 </CardContent>
@@ -124,12 +124,12 @@ export default function VisasPage() {
                   "Suivi en temps reel de votre demande",
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-foreground">
-                    <CheckCircle2 className="h-5 w-5 text-[#023020] flex-shrink-0" />
+                    <CheckCircle2 className="h-5 w-5 text-[#2b2b2b] flex-shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <Button asChild className="bg-[#023020] hover:bg-[#034a30] text-white">
+              <Button asChild className="bg-[#2b2b2b] hover:bg-[#3a3835] text-white">
                 <Link href="/contact">
                   Contactez un expert <ArrowRight className="h-4 w-4 ml-2" />
                 </Link>
@@ -154,8 +154,8 @@ export default function VisasPage() {
             {features.map((f) => (
               <Card key={f.title} className="card-hover border-none shadow-lg bg-card">
                 <CardContent className="pt-8 pb-6">
-                  <div className="w-14 h-14 rounded-xl bg-[#023020]/10 flex items-center justify-center mb-5">
-                    <f.icon className="h-7 w-7 text-[#023020]" />
+                  <div className="w-14 h-14 rounded-xl bg-[#2b2b2b]/10 flex items-center justify-center mb-5">
+                    <f.icon className="h-7 w-7 text-[#2b2b2b]" />
                   </div>
                   <h3 className="text-lg font-semibold mb-3 text-foreground">{f.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{f.desc}</p>
@@ -170,7 +170,7 @@ export default function VisasPage() {
       <section className="relative py-20 px-4 md:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image src="/images/hero-bg.jpg" alt="Background" fill className="object-cover" />
-          <div className="absolute inset-0 bg-[#023020]/85" />
+          <div className="absolute inset-0 bg-[#2b2b2b]/85" />
         </div>
         <div className="container mx-auto text-center relative z-10">
           <h2 className="text-3xl font-bold tracking-tight mb-6 text-white text-balance">
@@ -181,7 +181,7 @@ export default function VisasPage() {
             de voyage. Contactez-nous pour un accompagnement personnalise.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg" className="bg-[#D4A373] hover:bg-[#c28a52] text-white shadow-lg">
+            <Button asChild size="lg" className="bg-[#E8772E] hover:bg-[#d3641d] text-white shadow-lg">
               <Link href="/contact">Commencer maintenant</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10">

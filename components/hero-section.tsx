@@ -14,7 +14,7 @@ export function HeroSection() {
           priority
         />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 via-[#034a30]/70 to-[#D4A373]/50 z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#2b2b2b]/90 via-[#3a3835]/70 to-[#E8772E]/50 z-[1]" />
 
       <div className="container mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -24,7 +24,7 @@ export function HeroSection() {
             </span>
             <h1 className="text-4xl font-bold tracking-tight mb-6 lg:text-5xl xl:text-6xl text-balance leading-tight">
               Des services{" "}
-              <span className="text-[#D4A373]">exceptionnels</span> pour
+              <span className="text-[#E8772E]">exceptionnels</span> pour
               tous vos besoins
             </h1>
             <p className="mb-8 text-lg text-white/90 max-w-xl leading-relaxed">
@@ -37,7 +37,7 @@ export function HeroSection() {
               <Button
                 asChild
                 size="lg"
-                className="bg-[#D4A373] hover:bg-[#c28a52] text-[#023020] font-semibold shadow-lg shadow-[#D4A373]/25"
+                className="bg-[#E8772E] hover:bg-[#d3641d] text-[#2b2b2b] font-semibold shadow-lg shadow-[#E8772E]/25"
               >
                 <Link href="/services">Decouvrir nos services</Link>
               </Button>
@@ -67,7 +67,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[hsl(60,20%,97%)] to-transparent z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[hsl(40,33%,98%)] to-transparent z-10" />
     </section>
   )
 }

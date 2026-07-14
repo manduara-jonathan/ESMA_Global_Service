@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
@@ -29,10 +30,8 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b shadow-sm"
-          : "bg-transparent border-transparent"
+      className={`sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 transition-all duration-300 ${
+        scrolled ? "shadow-sm border-border" : "border-transparent"
       }`}
     >
       <div className="container flex h-16 items-center justify-between">
@@ -48,10 +47,16 @@ export function Header() {
               <div className="px-7">
                 <Link
                   href="/"
-                  className="flex items-center gap-2 font-bold text-xl text-gradient"
+                  className="flex items-center gap-2"
                   onClick={() => setIsOpen(false)}
                 >
-                  ESMA GLOBAL SERVICE
+                  <Image
+                    src="/logo.png"
+                    alt="ESMA GLOBAL SERVICE"
+                    width={150}
+                    height={60}
+                    className="h-12 w-auto"
+                  />
                 </Link>
               </div>
               <nav className="flex flex-col gap-4 text-lg mt-8 px-7">
@@ -77,11 +82,25 @@ export function Header() {
               </div>
             </SheetContent>
           </Sheet>
-          <Link href="/" className="font-bold text-xl hidden md:flex text-gradient">
-            ESMA GLOBAL SERVICE
+          <Link href="/" className="hidden md:flex items-center" aria-label="ESMA GLOBAL SERVICE - Accueil">
+            <Image
+              src="/logo.png"
+              alt="ESMA GLOBAL SERVICE"
+              width={170}
+              height={68}
+              priority
+              className="h-11 w-auto"
+            />
           </Link>
-          <Link href="/" className="font-bold text-xl md:hidden text-gradient">
-            ESMA
+          <Link href="/" className="md:hidden flex items-center" aria-label="ESMA GLOBAL SERVICE - Accueil">
+            <Image
+              src="/logo.png"
+              alt="ESMA GLOBAL SERVICE"
+              width={130}
+              height={52}
+              priority
+              className="h-9 w-auto"
+            />
           </Link>
         </div>
 

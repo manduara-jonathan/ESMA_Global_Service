@@ -17,7 +17,7 @@ export default function AboutPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 to-[#034a30]/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2b2b2b]/90 to-[#3a3835]/70" />
         </div>
         <div className="container mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -41,7 +41,7 @@ export default function AboutPage() {
               </p>
               <Button
                 asChild
-                className="bg-[#D4A373] hover:bg-[#c28a52] text-[#023020] shadow-lg"
+                className="bg-[#E8772E] hover:bg-[#d3641d] text-[#2b2b2b] shadow-lg"
               >
                 <Link href="/contact">Contactez-nous</Link>
               </Button>
