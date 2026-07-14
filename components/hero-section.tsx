@@ -11,7 +11,10 @@ export function HeroSection() {
           alt="ESMA Global Service background"
           fill
           className="object-cover"
+          sizes="100vw"
+          quality={70}
           priority
+          fetchPriority="high"
         />
       </div>
       <div className="absolute inset-0 bg-gradient-to-r from-[#2b2b2b]/90 via-[#3a3835]/70 to-[#E8772E]/50 z-[1]" />
@@ -59,7 +62,9 @@ export function HeroSection() {
                 width={800}
                 height={600}
                 className="w-full h-auto object-cover"
-                priority
+                sizes="(max-width: 1024px) 0px, 40vw"
+                quality={75}
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             </div>

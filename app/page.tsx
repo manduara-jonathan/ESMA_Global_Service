@@ -157,6 +157,9 @@ export default function Home() {
                       alt={service.title}
                       width={600}
                       height={400}
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      quality={75}
+                      loading="lazy"
                       className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
