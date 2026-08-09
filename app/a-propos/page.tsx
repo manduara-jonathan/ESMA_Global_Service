@@ -139,7 +139,6 @@ export default function AboutPage() {
 {
               name: "NGOY KEMBO MERVEILLE",
               role: "Fondatrice & Directrice",
-              desc: "Visionnaire et leader passionnée, guidant l'entreprise vers l'excellence.",
             },
               {
                 name: "MANDUARA TSHIMPAKA JONATHAN",
