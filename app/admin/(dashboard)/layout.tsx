@@ -17,16 +17,18 @@ import {
   Loader2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useLanguage } from "@/lib/i18n/context"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { useState, useEffect } from "react"
 
-const navItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, mobileLabel: "Dashboard" },
-  { href: "/admin/notifications", label: "Notifications", icon: Bell, mobileLabel: "Notifs" },
-  { href: "/admin/messages", label: "Messages", icon: MessageSquare, mobileLabel: "Messages" },
-  { href: "/admin/bookings", label: "Reservations", icon: Calendar, mobileLabel: "Resas" },
-  { href: "/admin/site", label: "Controle du site", icon: Palette, mobileLabel: "Site" },
-  { href: "/admin/settings", label: "Parametres", icon: Settings, mobileLabel: "Params" },
-]
+  const navItems = [
+  { href: "/admin", key: "dashboard", icon: LayoutDashboard },
+  { href: "/admin/notifications", key: "notifications", icon: Bell },
+  { href: "/admin/messages", key: "messages", icon: MessageSquare },
+  { href: "/admin/bookings", key: "bookings", icon: Calendar },
+  { href: "/admin/site", key: "site", icon: Palette },
+  { href: "/admin/settings", key: "settings", icon: Settings },
+] as const
 
 export default function AdminLayout({
   children,
@@ -35,6 +37,7 @@ export default function AdminLayout({
 }) {
   const pathname = usePathname()
   const router = useRouter()
+  const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -200,7 +203,8 @@ export default function AdminLayout({
                   item.href === "/admin"
                     ? pathname === "/admin"
                     : pathname === item.href || pathname?.startsWith(`${item.href}/`)
-                const label = isMobile ? item.mobileLabel : item.label
+                const label = t.admin.nav[item.key]
+                const mobileLabel = label.length > 10 ? label.slice(0, 10) : label
                 return (
                   <Link
                     key={item.href}
@@ -212,7 +216,7 @@ export default function AdminLayout({
                     }`}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" />
-                    <span className="font-medium">{label}</span>
+                    <span className="font-medium">{isMobile ? mobileLabel : label}</span>
                     {isActive && <ChevronRight className="h-4 w-4 ml-auto" />}
                   </Link>
                 )
@@ -249,7 +253,10 @@ export default function AdminLayout({
 
         {/* Main Content */}
         <main className="flex-1 min-h-screen w-full lg:ml-0">
-          <div className="p-3 sm:p-4 lg:p-8">{children}</div>
+          <div className="flex justify-end p-3 sm:p-4 lg:px-8 lg:pt-6">
+            <LanguageSwitcher />
+          </div>
+          <div className="p-3 sm:p-4 lg:px-8 lg:pb-8">{children}</div>
         </main>
       </div>
     </div>

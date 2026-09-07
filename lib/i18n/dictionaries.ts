@@ -12,7 +12,7 @@ export const LOCALES: Locale[] = ["fr", "en"]
 export const DEFAULT_LOCALE: Locale = "fr"
 
 // On dérive le type du dictionnaire à partir de la version française (source de vérité).
-export type Dictionary = (typeof dictionaries)["fr"]
+export type Dictionary = (typeof dictionaries)[Locale]
 
 export const dictionaries = {
   fr: {

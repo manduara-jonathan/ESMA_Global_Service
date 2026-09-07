@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const settings = getSiteSettings()
+    const settings = await getSiteSettings()
     return NextResponse.json<ApiResponse<SiteSettings>>({
       success: true,
       data: settings,
@@ -33,7 +33,7 @@ export async function PUT(request: Request) {
 
   try {
     const body = await request.json()
-    const settings = updateSiteSettings(body)
+    const settings = await updateSiteSettings(body)
     return NextResponse.json<ApiResponse<SiteSettings>>({
       success: true,
       data: settings,

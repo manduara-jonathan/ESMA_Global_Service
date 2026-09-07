@@ -6,7 +6,7 @@ import type { ApiResponse, BookingRequest } from "@/lib/types"
 // PATCH /api/admin/bookings/[id] - Update booking status
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const auth = await checkAuth(request)
   if (!auth.authenticated) {
@@ -14,7 +14,7 @@ export async function PATCH(
   }
 
   try {
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
     const { status } = body
 
@@ -49,7 +49,7 @@ export async function PATCH(
 // DELETE /api/admin/bookings/[id] - Delete booking
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const auth = await checkAuth(request)
   if (!auth.authenticated) {
@@ -57,7 +57,7 @@ export async function DELETE(
   }
 
   try {
-    const { id } = params
+    const { id } = await params
     const success = await deleteBooking(id)
 
     if (!success) {

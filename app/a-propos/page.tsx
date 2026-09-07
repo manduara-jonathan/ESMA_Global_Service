@@ -1,10 +1,15 @@
+"use client"
+
 import Image from "next/image"
+import { useLanguage } from "@/lib/i18n/context"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Award, Clock, Users, Heart } from "lucide-react"
 
 export default function AboutPage() {
+  const { t } = useLanguage()
+
   return (
     <main className="flex min-h-screen flex-col">
       {/* Hero Section */}
@@ -26,7 +31,7 @@ export default function AboutPage() {
                 Notre histoire
               </span>
               <h1 className="text-4xl font-bold tracking-tight mb-6 text-balance">
-                A propos de ESMA GLOBAL SERVICE
+                {t.about.pageTitle}
               </h1>
               <p className="text-white/90 mb-6 leading-relaxed">
                 Bienvenue chez ESMA GLOBAL SERVICE, votre partenaire de confiance
@@ -157,7 +162,9 @@ export default function AboutPage() {
                     {member.role}
                   </p>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    {member.desc}
+                    {member.role === "Fondatrice & Directrice"
+                      ? "Une direction engagée au service de nos clients."
+                      : "Une expertise technique au service d'une expérience fiable."}
                   </p>
                 </CardContent>
               </Card>

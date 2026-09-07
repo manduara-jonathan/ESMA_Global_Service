@@ -103,6 +103,7 @@ export interface SiteSettings {
   notificationsEnabled: boolean
   autoReplyEnabled: boolean
   maintenanceMode: boolean
+  colors?: Record<string, string>
   emailConfig?: {
     smtpHost: string
     smtpPort: number

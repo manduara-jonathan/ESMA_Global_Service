@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { useLanguage } from "@/lib/i18n/context"
 import {
   Accordion,
   AccordionContent,
@@ -52,6 +55,8 @@ const faqs = [
 ]
 
 export default function FAQPage() {
+  const { t } = useLanguage()
+
   return (
     <main className="flex min-h-screen flex-col">
       {/* Hero Section */}
@@ -71,11 +76,10 @@ export default function FAQPage() {
             Aide
           </span>
           <h1 className="text-4xl font-bold tracking-tight mb-6 text-white">
-            Questions frequemment posees
+            {t.faq.pageTitle}
           </h1>
           <p className="text-white/90 max-w-2xl mx-auto leading-relaxed">
-            Trouvez des reponses aux questions les plus courantes concernant nos
-            services. Si vous ne trouvez pas ce que vous cherchez, contactez-nous.
+            {t.faq.pageSubtitle}
           </p>
         </div>
       </section>
