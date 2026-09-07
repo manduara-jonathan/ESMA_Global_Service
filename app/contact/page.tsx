@@ -1,8 +1,13 @@
+"use client"
+
 import Image from "next/image"
+import { useLanguage } from "@/lib/i18n/context"
 import { ContactForm } from "@/components/contact-form"
 import { Phone, Mail, MapPin, Clock } from "lucide-react"
 
 export default function ContactPage() {
+  const { t } = useLanguage()
+
   return (
     <main className="flex min-h-screen flex-col">
       {/* Hero Section */}
@@ -22,11 +27,10 @@ export default function ContactPage() {
             Parlons ensemble
           </span>
           <h1 className="text-4xl font-bold tracking-tight mb-6 text-white">
-            Contactez-nous
+            {t.contact.pageTitle}
           </h1>
           <p className="text-white/90 max-w-2xl mx-auto leading-relaxed">
-            Vous avez des questions ou besoin d{"'"}informations supplementaires
-            sur nos services ? Notre equipe est a votre disposition.
+            {t.contact.pageSubtitle}
           </p>
         </div>
       </section>

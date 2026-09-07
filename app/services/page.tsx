@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { useLanguage } from "@/lib/i18n/context"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -81,6 +84,8 @@ const services = [
 ]
 
 export default function ServicesPage() {
+  const { t } = useLanguage()
+
   return (
     <main className="flex min-h-screen flex-col">
       {/* Hero Section */}
@@ -102,13 +107,11 @@ export default function ServicesPage() {
           <span className="inline-block px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-sm text-sm font-medium text-white mb-4 border border-white/20">
             Ce que nous offrons
           </span>
-          <h1 className="text-4xl font-bold tracking-tight mb-6 text-white text-balance">
-            Nos Services
-          </h1>
+            <h1 className="text-4xl font-bold tracking-tight mb-6 text-white text-balance">
+            {t.services.pageTitle}
+            </h1>
           <p className="text-white/90 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Decouvrez notre gamme complete de services professionnels concus
-            pour repondre a tous vos besoins, de la planification de voyages
-            aux services de restauration.
+            {t.services.pageSubtitle}
           </p>
         </div>
       </section>

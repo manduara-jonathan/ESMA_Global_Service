@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/lib/i18n/context"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { useState, useEffect } from "react"
 
   const navItems = [
@@ -252,7 +253,10 @@ export default function AdminLayout({
 
         {/* Main Content */}
         <main className="flex-1 min-h-screen w-full lg:ml-0">
-          <div className="p-3 sm:p-4 lg:p-8">{children}</div>
+          <div className="flex justify-end p-3 sm:p-4 lg:px-8 lg:pt-6">
+            <LanguageSwitcher />
+          </div>
+          <div className="p-3 sm:p-4 lg:px-8 lg:pb-8">{children}</div>
         </main>
       </div>
     </div>
