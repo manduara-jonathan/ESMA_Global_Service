@@ -356,6 +356,49 @@ export async function createBooking(
   }
 }
 
+export async function updateBookingStatus(
+  id: string,
+  status: BookingRequest["status"]
+): Promise<BookingRequest | null> {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("bookings")
+      .update({ status })
+      .eq("id", id)
+      .select()
+      .single()
+
+    if (error) throw error
+    if (!data) return null
+
+    return {
+      id: data.id.toString(),
+      service: data.service,
+      customerName: data.customer_name,
+      customerEmail: data.customer_email,
+      customerPhone: data.customer_phone,
+      date: data.booking_date,
+      details: data.details,
+      status: data.status,
+      createdAt: data.created_at,
+    }
+  } catch (error) {
+    console.error("Error updating booking status:", error)
+    return null
+  }
+}
+
+export async function deleteBooking(id: string): Promise<boolean> {
+  try {
+    const { error } = await supabaseAdmin.from("bookings").delete().eq("id", id)
+    if (error) throw error
+    return true
+  } catch (error) {
+    console.error("Error deleting booking:", error)
+    return false
+  }
+}
+
 export async function getPendingBookingCount(): Promise<number> {
   try {
     const { count, error } = await supabase
@@ -445,6 +488,33 @@ export async function createNotification(
   } catch (error) {
     console.error("Error creating notification:", error)
     throw error
+  }
+}
+
+export async function markNotificationAsRead(id: string): Promise<Notification | null> {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("notifications")
+      .update({ is_read: true })
+      .eq("id", id)
+      .select()
+      .single()
+
+    if (error) throw error
+    if (!data) return null
+
+    return {
+      id: data.id.toString(),
+      type: data.type,
+      title: data.title,
+      message: data.message,
+      read: data.is_read,
+      link: data.link,
+      createdAt: data.created_at,
+    }
+  } catch (error) {
+    console.error("Error marking notification as read:", error)
+    return null
   }
 }
 
