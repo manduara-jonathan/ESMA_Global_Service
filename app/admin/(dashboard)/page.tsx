@@ -21,6 +21,7 @@ import {
 } from "lucide-react"
 
 import type { AnalyticsData } from "@/lib/types"
+import { useLanguage } from "@/lib/i18n/context"
 
 interface TrafficStats {
   activeUsers: number
@@ -32,6 +33,7 @@ interface TrafficStats {
 
 export default function AdminDashboard() {
   const router = useRouter()
+  const { t } = useLanguage()
   const [stats, setStats] = useState<TrafficStats>({
     activeUsers: 0,
     totalVisits: 0,
@@ -124,22 +126,22 @@ export default function AdminDashboard() {
 
   const statCards = [
     {
-      title: "Visiteurs actifs",
+      title: t.admin.dashboard.activeVisitors,
       value: stats.activeUsers,
       icon: Users,
     },
     {
-      title: "Visites totales",
+      title: t.admin.dashboard.totalVisits,
       value: stats.totalVisits.toLocaleString(),
       icon: Eye,
     },
     {
-      title: "Pages vues",
+      title: t.admin.dashboard.pageViews,
       value: stats.pageViews.toLocaleString(),
       icon: MousePointerClick,
     },
     {
-      title: "Temps moyen",
+      title: t.admin.dashboard.avgTime,
       value: stats.avgSessionTime,
       icon: Clock,
     },

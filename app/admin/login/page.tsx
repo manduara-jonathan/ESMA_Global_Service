@@ -41,12 +41,8 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        // Wait longer for the cookie to be stored by the browser
-        // This is critical for production environments where cookie processing may take longer
-        await new Promise(resolve => setTimeout(resolve, 300))
-        
-        // Navigate to admin with the session cookie
-        window.location.href = "/admin"
+        // The response already includes the session cookie; navigate immediately.
+        router.replace("/admin")
         return
       } else {
         setError(data.error || "Erreur de connexion")

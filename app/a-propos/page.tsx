@@ -157,7 +157,9 @@ export default function AboutPage() {
                     {member.role}
                   </p>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    {member.desc}
+                    {member.role === "Fondatrice & Directrice"
+                      ? "Une direction engagée au service de nos clients."
+                      : "Une expertise technique au service d'une expérience fiable."}
                   </p>
                 </CardContent>
               </Card>
