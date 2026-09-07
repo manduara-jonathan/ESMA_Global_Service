@@ -30,15 +30,9 @@ Toutes les API admin verifient l'authentification via `checkAuth()`:
 - `/api/admin/notifications/*` - Notifications
 - `/api/analytics` - Statistiques
 
-### 4. Identifiants par defaut
-```
-Email: esmaglobaleservices@gmail.com
-Password: jojoA2@19
-```
-
 **IMPORTANT**: Changez le mot de passe apres la premiere connexion!
 
-### 5. Gestion des sessions
+### 4. Gestion des sessions
 - Nettoyage automatique des sessions expirees
 - Deconnexion possible via le bouton dans le sidebar
 - Invalidation immediate du token cote serveur lors de la deconnexion
