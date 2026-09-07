@@ -17,7 +17,6 @@ export const metadata: Metadata = {
   title: "ESMA GLOBAL SERVICE - Services de Voyage, Visa, Monnaie Mobile, Nettoyage et Traiteur",
   description:
     "ESMA GLOBAL SERVICE offre des services de vente de billets d'avion, facilitation de visas, monnaie mobile, nettoyage d'immeubles et service traiteur.",
-  generator: "v0.app",
 }
 
 export const viewport: Viewport = {
