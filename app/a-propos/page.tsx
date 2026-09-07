@@ -136,15 +136,13 @@ export default function AboutPage() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {[
-{
-              name: "NGOY KEMBO MERVEILLE",
-              role: "Fondatrice & Directrice",
-              desc: "Visionnaire et leader passionnée, guidant l'entreprise vers l'excellence.",
-            },
+              {
+                name: "NGOY KEMBO MERVEILLE",
+                role: "Fondatrice & Directrice",
+              },
               {
                 name: "MANDUARA TSHIMPAKA JONATHAN",
                 role: "Responsable Technique",
-                desc: "Développeur Web et mobile avec 3 ans d'expérience en réseau et télécommunications. Expert en graphisme, design visuel et marketing pour la plateforme.",
               },
             ].map((member) => (
               <Card key={member.name} className="card-hover border-none shadow-lg bg-card text-center">

@@ -5,6 +5,7 @@ import "./globals.css"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
+import { LanguageProvider } from "@/lib/i18n/context"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { ScrollRestoration } from "@/components/scroll-restoration"
 
@@ -32,12 +33,14 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning className="bg-background">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <AnalyticsTracker />
-          <ScrollRestoration />
-          <Header />
-          {children}
-          <Footer />
-          <ScrollToTop />
+          <LanguageProvider>
+            <AnalyticsTracker />
+            <ScrollRestoration />
+            <Header />
+            {children}
+            <Footer />
+            <ScrollToTop />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

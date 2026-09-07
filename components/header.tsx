@@ -7,24 +7,29 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 import { NotificationBell } from "@/components/notification-bell"
-
-const navLinks = [
-  { href: "/", label: "Accueil" },
-  { href: "/a-propos", label: "A propos" },
-  { href: "/services", label: "Services" },
-  { href: "/contact", label: "Contact" },
-  { href: "/faq", label: "FAQ" },
-]
+import { LanguageSwitcher } from "@/components/language-switcher"
+import { useLanguage } from "@/lib/i18n/context"
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const { t } = useLanguage()
+
+  // Liens de navigation traduits (dérivés du dictionnaire courant).
+  const navLinks = [
+    { href: "/", label: t.nav.home },
+    { href: "/vols", label: t.nav.flights },
+    { href: "/services", label: t.nav.services },
+    { href: "/a-propos", label: t.nav.about },
+    { href: "/contact", label: t.nav.contact },
+    { href: "/faq", label: t.nav.faq },
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10)
     }
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -40,16 +45,12 @@ export function Header() {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle menu</span>
+                <span className="sr-only">Menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="pr-0 bg-background">
               <div className="px-7">
-                <Link
-                  href="/"
-                  className="flex items-center gap-2"
-                  onClick={() => setIsOpen(false)}
-                >
+                <Link href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
                   <Image
                     src="/logo.png"
                     alt="ESMA GLOBAL SERVICE"
@@ -71,18 +72,19 @@ export function Header() {
                   </Link>
                 ))}
               </nav>
-              <div className="mt-8 px-7">
+              <div className="mt-8 flex flex-col gap-4 px-7">
+                <LanguageSwitcher />
                 <Button
                   asChild
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                   onClick={() => setIsOpen(false)}
                 >
-                  <Link href="/contact">Demander un devis</Link>
+                  <Link href="/contact">{t.common.requestQuote}</Link>
                 </Button>
               </div>
             </SheetContent>
           </Sheet>
-          <Link href="/" className="hidden md:flex items-center" aria-label="ESMA GLOBAL SERVICE - Accueil">
+          <Link href="/" className="hidden md:flex items-center" aria-label={`${t.common.brand} - ${t.nav.home}`}>
             <Image
               src="/logo.png"
               alt="ESMA GLOBAL SERVICE"
@@ -92,7 +94,7 @@ export function Header() {
               className="h-11 w-auto"
             />
           </Link>
-          <Link href="/" className="md:hidden flex items-center" aria-label="ESMA GLOBAL SERVICE - Accueil">
+          <Link href="/" className="md:hidden flex items-center" aria-label={`${t.common.brand} - ${t.nav.home}`}>
             <Image
               src="/logo.png"
               alt="ESMA GLOBAL SERVICE"
@@ -117,10 +119,11 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <LanguageSwitcher className="hidden sm:inline-flex" />
           <NotificationBell />
           <div className="hidden md:flex">
             <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-md">
-              <Link href="/contact">Demander un devis</Link>
+              <Link href="/contact">{t.common.requestQuote}</Link>
             </Button>
           </div>
         </div>

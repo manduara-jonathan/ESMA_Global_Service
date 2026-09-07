@@ -91,7 +91,10 @@ export default function ServicesPage() {
             alt="Nos services"
             fill
             className="object-cover"
+            sizes="100vw"
+            quality={70}
             priority
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#2b2b2b]/90 to-[#3a3835]/70" />
         </div>
@@ -124,6 +127,9 @@ export default function ServicesPage() {
                     src={service.image || "/placeholder.svg"}
                     alt={service.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    quality={75}
+                    loading="lazy"
                     className="object-cover transition-transform duration-500 hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
