@@ -1,11 +1,16 @@
 import { jwtVerify, SignJWT, type JWTPayload } from "jose"
+import { promises as fs } from "node:fs"
+import path from "node:path"
+import crypto from "node:crypto"
 
 export const SESSION_COOKIE_NAME = "esma_admin_session"
 const SESSION_EXPIRY = 60 * 60 * 24 * 7
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "contact@esmaglobalservice.com"
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "jojoA2@19"
+const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "D@dou#Dec21!"
+const PASSWORD_FILE = path.join(process.cwd(), ".data", "admin-password.json")
 
-interface SessionClaims extends JWTPayload {
+interface SessionClaims
+ extends JWTPayload {
   userId: string
   email: string
   role: string
@@ -34,6 +39,40 @@ async function createSessionToken(claims: SessionClaims): Promise<string> {
     .sign(getSessionSecret())
 }
 
+type PasswordRecord = { hash: string; salt: string }
+
+function hashPassword(password: string, salt: string): string {
+  return crypto.pbkdf2Sync(password, salt, 210000, 64, "sha512").toString("hex")
+}
+
+async function readPasswordRecord(): Promise<PasswordRecord> {
+  try {
+    return JSON.parse(await fs.readFile(PASSWORD_FILE, "utf8")) as PasswordRecord
+  } catch {
+    const salt = crypto.randomBytes(16).toString("hex")
+    const record = { salt, hash: hashPassword(DEFAULT_ADMIN_PASSWORD, salt) }
+    await fs.mkdir(path.dirname(PASSWORD_FILE), { recursive: true })
+    await fs.writeFile(PASSWORD_FILE, JSON.stringify(record), { mode: 0o600 })
+    return record
+  }
+}
+
+async function verifyPassword(password: string): Promise<boolean> {
+  const record = await readPasswordRecord()
+  const actual = Buffer.from(hashPassword(password, record.salt), "hex")
+  const expected = Buffer.from(record.hash, "hex")
+  return actual.length === expected.length && crypto.timingSafeEqual(actual, expected)
+}
+
+export async function changeAdminPassword(currentPassword: string, newPassword: string): Promise<boolean> {
+  if (!(await verifyPassword(currentPassword))) return false
+  const salt = crypto.randomBytes(16).toString("hex")
+  const record = { salt, hash: hashPassword(newPassword, salt) }
+  await fs.mkdir(path.dirname(PASSWORD_FILE), { recursive: true })
+  await fs.writeFile(PASSWORD_FILE, JSON.stringify(record), { mode: 0o600 })
+  return true
+}
+
 export async function authenticateUser(
   email: string,
   password: string,
@@ -50,7 +89,7 @@ export async function authenticateUser(
   }
 
   const validCredentials =
-    email.toLowerCase().trim() === ADMIN_EMAIL.toLowerCase().trim() && password === ADMIN_PASSWORD
+    email.toLowerCase().trim() === ADMIN_EMAIL.toLowerCase().trim() && (await verifyPassword(password))
 
   if (!validCredentials) {
     const current = loginAttempts.get(attemptKey) || { count: 0, blockedUntil: 0 }
@@ -118,5 +157,5 @@ export function getAdminEmail(): string {
 }
 
 export function getAdminPassword(): string {
-  return ADMIN_PASSWORD
+  return DEFAULT_ADMIN_PASSWORD
 }

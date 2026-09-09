@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { checkAuth } from "@/lib/api-auth"
+import { changeAdminPassword } from "@/lib/auth"
 import type { ApiResponse } from "@/lib/types"
 
 // PUT /api/auth/password - Change admin password
@@ -22,12 +23,22 @@ export async function PUT(request: Request) {
       )
     }
 
-    // In this version, credentials are hardcoded.
-    // To change the password, update lib/auth.ts directly.
-    return NextResponse.json<ApiResponse>(
-      { success: false, error: "Le changement de mot de passe n'est pas disponible dans cette version." },
-      { status: 400 }
-    )
+    if (newPassword.length < 8) {
+      return NextResponse.json<ApiResponse>(
+        { success: false, error: "Le mot de passe doit faire au moins 8 caracteres" },
+        { status: 400 }
+      )
+    }
+
+    const changed = await changeAdminPassword(oldPassword, newPassword)
+    if (!changed) {
+      return NextResponse.json<ApiResponse>(
+        { success: false, error: "Le mot de passe actuel est incorrect" },
+        { status: 400 }
+      )
+    }
+
+    return NextResponse.json<ApiResponse>({ success: true, data: { message: "Mot de passe modifie" } })
   } catch {
     return NextResponse.json<ApiResponse>(
       { success: false, error: "Erreur lors du changement de mot de passe" },

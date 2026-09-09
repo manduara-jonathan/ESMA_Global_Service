@@ -6,7 +6,6 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
-import { NotificationBell } from "@/components/notification-bell"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { useLanguage } from "@/lib/i18n/context"
 
@@ -120,7 +119,6 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <LanguageSwitcher className="hidden sm:inline-flex" />
-          <NotificationBell />
           <div className="hidden md:flex">
             <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-md">
               <Link href="/contact">{t.common.requestQuote}</Link>
