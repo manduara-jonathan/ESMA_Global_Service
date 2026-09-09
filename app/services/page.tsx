@@ -23,6 +23,7 @@ const services = [
     image: "/images/flights.jpg",
     description:
       "Vente de billets d'avion pour toutes les destinations nationales et internationales aux meilleurs tarifs.",
+    manager: "MUDEKEREZA Prince",
     features: [
       "Reservations de vols nationaux et internationaux",
       "Tarifs preferentiels avec les principales compagnies",
@@ -62,6 +63,7 @@ const services = [
     image: "/images/cleaning.jpg",
     description:
       "Entretien professionnel de vos locaux avec des equipements modernes et des produits ecologiques.",
+    manager: "IN’naka Fabrice",
     features: [
       "Nettoyage regulier ou ponctuel de bureaux et immeubles",
       "Personnel qualifie et materiel professionnel",
@@ -75,6 +77,7 @@ const services = [
     image: "/images/catering.jpg",
     description:
       "Menus varies et personnalises pour tous vos evenements avec des plats prepares par nos chefs.",
+    manager: "Tshimpaka Perside",
     features: [
       "Menus adaptes a tous types d'evenements",
       "Ingredients frais et de qualite",
@@ -149,6 +152,11 @@ export default function ServicesPage() {
                   <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                     {service.description}
                   </p>
+                  {service.manager && (
+                    <p className="mb-4 text-sm font-medium text-primary">
+                      Responsable : {service.manager}
+                    </p>
+                  )}
                   <ul className="flex flex-col gap-2">
                     {service.features.map((feat) => (
                       <li
@@ -213,7 +221,7 @@ export default function ServicesPage() {
                   <a href="https://wa.me/243819145660" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">+243 819 145 660</a>
                 </p>
                 <p className="font-medium">
-                  <a href="mailto:esmaglobaleservices@gmail.com" className="text-primary hover:underline">esmaglobaleservices@gmail.com</a>
+                  <a href="mailto:contact@esmaglobalservice.com" className="text-primary hover:underline">contact@esmaglobalservice.com</a>
                 </p>
               </div>
             </div>
@@ -256,7 +264,7 @@ export default function ServicesPage() {
               variant="outline"
               className="bg-transparent border-white/30 text-white hover:bg-white/10"
             >
-              <a href="mailto:esmaglobaleservices@gmail.com">Envoyer un email</a>
+              <a href="mailto:contact@esmaglobalservice.com">Envoyer un email</a>
             </Button>
           </div>
         </div>

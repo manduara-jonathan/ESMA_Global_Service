@@ -565,7 +565,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
           colors: data.colors,
         }
       : {
-          adminEmail: "esmaglobaleservices@gmail.com",
+          adminEmail: "contact@esmaglobalservice.com",
           notificationsEnabled: true,
           autoReplyEnabled: false,
           maintenanceMode: false,
@@ -576,7 +576,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   } catch (error) {
     console.error("Error fetching site settings:", error)
     return {
-      adminEmail: "esmaglobaleservices@gmail.com",
+      adminEmail: "contact@esmaglobalservice.com",
       notificationsEnabled: true,
       autoReplyEnabled: false,
       maintenanceMode: false,

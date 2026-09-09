@@ -142,12 +142,16 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {[
               {
-                name: "NGOY KEMBO MERVEILLE",
-                role: "Fondatrice & Directrice",
+                name: "MUDEKEREZA Prince",
+                role: "Responsable billets d’avion",
               },
               {
-                name: "MANDUARA TSHIMPAKA JONATHAN",
-                role: "Responsable Technique",
+                name: "Tshimpaka Perside",
+                role: "Responsable service traiteur",
+              },
+              {
+                name: "IN’naka Fabrice",
+                role: "Responsable nettoyage",
               },
             ].map((member) => (
               <Card key={member.name} className="card-hover border-none shadow-lg bg-card text-center">
