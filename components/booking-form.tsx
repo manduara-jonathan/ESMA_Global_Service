@@ -215,8 +215,8 @@ export function BookingForm({ defaultService }: BookingFormProps) {
           +243 819 145 660
         </a>
         {` `}|{` `}
-        <a href="mailto:contact@esmaglobalservice.com" className="text-primary hover:underline">
-          contact@esmaglobalservice.com
+        <a href="mailto:esmaglobaleservices@gmail.com" className="text-primary hover:underline">
+          esmaglobaleservices@gmail.com
         </a>
       </div>
     </form>

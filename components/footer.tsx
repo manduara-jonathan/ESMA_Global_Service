@@ -106,7 +106,7 @@ export function Footer() {
             <ul className="flex flex-col gap-4">
               <li className="flex items-start gap-3 text-sm text-white/60">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#E8772E]" aria-hidden="true" />
-                <span>{t.contact.address}</span>
+                <span>Kinshasa, RDC</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-white/60">
                 <Phone className="h-4 w-4 shrink-0 text-[#E8772E]" aria-hidden="true" />
@@ -121,8 +121,8 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-white/60">
                 <Mail className="h-4 w-4 shrink-0 text-[#E8772E]" aria-hidden="true" />
-                <a href={`mailto:${t.contact.email}`} className="transition-colors hover:text-white">
-                  {t.contact.email}
+                <a href="mailto:esmaglobaleservices@gmail.com" className="transition-colors hover:text-white">
+                  esmaglobaleservices@gmail.com
                 </a>
               </li>
             </ul>

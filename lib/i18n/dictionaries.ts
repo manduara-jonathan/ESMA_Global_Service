@@ -166,8 +166,6 @@ export const dictionaries = {
       emailLabel: "E-mail",
       hoursLabel: "Horaires",
       hours: "Lun - Sam : 08h00 - 18h00",
-      address: "Commune de Kinshasa, Avenue Itaga, Quartier Ngwaka, N° 121",
-      email: "contact@esmaglobalservice.com",
     },
 
     /* ------------------------------- FAQ -------------------------------- */
@@ -382,8 +380,6 @@ export const dictionaries = {
       emailLabel: "Email",
       hoursLabel: "Hours",
       hours: "Mon - Sat: 8:00 AM - 6:00 PM",
-      address: "Kinshasa Commune, Itaga Avenue, Ngwaka Quarter, No. 121",
-      email: "contact@esmaglobalservice.com",
     },
 
     /* ------------------------------- FAQ -------------------------------- */

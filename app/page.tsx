@@ -145,8 +145,8 @@ export default function Home() {
               <div className="flex flex-col gap-8">
                 {[
                   { icon: Phone, title: t.contact.phoneLabel, value: "+243 819 145 660", link: "https://wa.me/243819145660" },
-                  { icon: Mail, title: t.contact.emailLabel, value: t.contact.email, link: `mailto:${t.contact.email}` },
-                  { icon: MapPin, title: t.contact.addressLabel, value: t.contact.address, link: null },
+                  { icon: Mail, title: t.contact.emailLabel, value: "esmaglobaleservices@gmail.com", link: "mailto:esmaglobaleservices@gmail.com" },
+                  { icon: MapPin, title: t.contact.addressLabel, value: "Kinshasa, RDC", link: null },
                 ].map((item) => (
                   <div key={item.title} className="flex items-start gap-5">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">

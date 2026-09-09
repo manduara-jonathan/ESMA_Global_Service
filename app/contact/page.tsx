@@ -54,12 +54,12 @@ export default function ContactPage() {
                   {
                     icon: Mail,
                     title: "Email",
-                    lines: [t.contact.email],
+                    lines: ["esmaglobaleservices@gmail.com"],
                   },
                   {
                     icon: MapPin,
                     title: "Adresse",
-                    lines: t.contact.address.split(", "),
+                    lines: ["123 Avenue Principale", "Ville, Pays"],
                   },
                   {
                     icon: Clock,

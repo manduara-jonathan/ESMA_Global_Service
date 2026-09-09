@@ -24,7 +24,7 @@ export default function SettingsAdminPage() {
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState("")
   const [settings, setSettings] = useState<SiteSettings>({
-    adminEmail: "contact@esmaglobalservice.com",
+    adminEmail: "esmaglobaleservices@gmail.com",
     notificationsEnabled: true,
     autoReplyEnabled: false,
     maintenanceMode: false,

@@ -4,7 +4,7 @@
 
 ```bash
 # Authentification Admin
-ADMIN_EMAIL=contact@esmaglobalservice.com
+ADMIN_EMAIL=admin@esmaglobaleservices.com
 ADMIN_PASSWORD=ChangerMoiEnProduction123!
 
 # Upstash Redis (KV Store)
