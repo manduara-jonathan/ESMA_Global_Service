@@ -106,7 +106,7 @@ export function Footer() {
             <ul className="flex flex-col gap-4">
               <li className="flex items-start gap-3 text-sm text-white/60">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#E8772E]" aria-hidden="true" />
-                <span>Kinshasa, RDC</span>
+                <span>Commune de Kinshasa, Avenue Itaga, Quartier Ngwaka, Numéro 121</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-white/60">
                 <Phone className="h-4 w-4 shrink-0 text-[#E8772E]" aria-hidden="true" />
@@ -121,8 +121,8 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-white/60">
                 <Mail className="h-4 w-4 shrink-0 text-[#E8772E]" aria-hidden="true" />
-                <a href="mailto:esmaglobaleservices@gmail.com" className="transition-colors hover:text-white">
-                  esmaglobaleservices@gmail.com
+                <a href="mailto:contact@esmaglobalservice.com" className="transition-colors hover:text-white">
+                  contact@esmaglobalservice.com
                 </a>
               </li>
             </ul>

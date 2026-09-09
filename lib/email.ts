@@ -117,7 +117,7 @@ export async function sendAutoReply(
       <div style="background-color: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0;">
         <p style="color: #666; margin: 0;">
           <strong>ESMA GLOBAL SERVICE</strong><br>
-          Email: esmaglobaleservices@gmail.com<br>
+          Email: contact@esmaglobalservice.com<br>
           Téléphone: +243 000 000 000
         </p>
       </div>
@@ -162,7 +162,7 @@ export async function sendReplyEmail(
         <div style="background-color: #f9fafb; padding: 20px; border-radius: 8px;">
           <p style="color: #666; margin: 0;">
             <strong>ESMA GLOBAL SERVICE</strong><br>
-            Email: esmaglobaleservices@gmail.com<br>
+            Email: contact@esmaglobalservice.com<br>
             Telephone: +243 000 000 000
           </p>
         </div>
@@ -173,7 +173,7 @@ export async function sendReplyEmail(
       to,
       subject: subject || "Re: Votre demande - ESMA GLOBAL SERVICE",
       html,
-      text: `Bonjour ${recipientName},\n\n${replyMessage}\n\n${originalMessage ? `---\nVotre message original:\n${originalMessage}\n---\n` : ''}\nESMA GLOBAL SERVICE\nEmail: esmaglobaleservices@gmail.com`,
+      text: `Bonjour ${recipientName},\n\n${replyMessage}\n\n${originalMessage ? `---\nVotre message original:\n${originalMessage}\n---\n` : ''}\nESMA GLOBAL SERVICE\nEmail: contact@esmaglobalservice.com`,
     })
   } catch (error) {
     console.error("Error in sendReplyEmail:", error)

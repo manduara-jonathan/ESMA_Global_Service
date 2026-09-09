@@ -54,12 +54,12 @@ export default function ContactPage() {
                   {
                     icon: Mail,
                     title: "Email",
-                    lines: ["esmaglobaleservices@gmail.com"],
+                    lines: ["contact@esmaglobalservice.com"],
                   },
                   {
                     icon: MapPin,
                     title: "Adresse",
-                    lines: ["123 Avenue Principale", "Ville, Pays"],
+                    lines: ["Commune de Kinshasa", "Avenue Itaga", "Quartier Ngwaka", "Numéro 121"],
                   },
                   {
                     icon: Clock,
