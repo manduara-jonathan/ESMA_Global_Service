@@ -2,7 +2,7 @@ import { jwtVerify, SignJWT, type JWTPayload } from "jose"
 
 export const SESSION_COOKIE_NAME = "esma_admin_session"
 const SESSION_EXPIRY = 60 * 60 * 24 * 7
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "esmaglobaleservices@gmail.com"
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "contact@esmaglobalservice.com"
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "jojoA2@19"
 
 interface SessionClaims extends JWTPayload {
