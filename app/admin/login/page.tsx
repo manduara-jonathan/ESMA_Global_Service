@@ -84,7 +84,8 @@ export default function AdminLoginPage() {
                 name="email"
                 type="email"
                 required
-                placeholder="votre@email.com"
+                placeholder="contact@esmaglobalservice.com"
+                defaultValue="contact@esmaglobalservice.com"
                 autoComplete="email"
                 disabled={isLoading}
               />
