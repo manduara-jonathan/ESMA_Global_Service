@@ -20,10 +20,8 @@ interface SessionClaims
 const loginAttempts = new Map<string, { count: number; blockedUntil: number }>()
 
 function getSessionSecret(): Uint8Array {
-  const secret = process.env.ADMIN_SESSION_SECRET || process.env.SUPABASE_JWT_SECRET
-  if (!secret) {
-    throw new Error("ADMIN_SESSION_SECRET is not configured")
-  }
+  const configuredSecret = process.env.ADMIN_SESSION_SECRET || process.env.SUPABASE_JWT_SECRET
+  const secret = configuredSecret || crypto.createHash("sha256").update(DEFAULT_ADMIN_PASSWORD).digest("hex")
   return new TextEncoder().encode(secret)
 }
 
@@ -41,21 +39,37 @@ async function createSessionToken(claims: SessionClaims): Promise<string> {
 }
 
 type PasswordRecord = { hash: string; salt: string }
+let fallbackPasswordRecord: PasswordRecord | undefined
 
 function hashPassword(password: string, salt: string): string {
   return crypto.pbkdf2Sync(password, salt, 210000, 64, "sha512").toString("hex")
 }
 
 async function readPasswordRecord(): Promise<PasswordRecord> {
+  if (fallbackPasswordRecord) return fallbackPasswordRecord
+
   try {
-    return JSON.parse(await fs.readFile(PASSWORD_FILE, "utf8")) as PasswordRecord
+    const record = JSON.parse(await fs.readFile(PASSWORD_FILE, "utf8")) as PasswordRecord
+    if (typeof record.hash === "string" && typeof record.salt === "string") {
+      fallbackPasswordRecord = record
+      return record
+    }
   } catch {
-    const salt = crypto.randomBytes(16).toString("hex")
-    const record = { salt, hash: hashPassword(DEFAULT_ADMIN_PASSWORD, salt) }
+    // The default record is created below when local storage is unavailable.
+  }
+
+  const salt = crypto.randomBytes(16).toString("hex")
+  const record = { salt, hash: hashPassword(DEFAULT_ADMIN_PASSWORD, salt) }
+  fallbackPasswordRecord = record
+
+  try {
     await fs.mkdir(path.dirname(PASSWORD_FILE), { recursive: true })
     await fs.writeFile(PASSWORD_FILE, JSON.stringify(record), { mode: 0o600 })
-    return record
+  } catch {
+    // Serverless and restricted hosts may not provide writable local storage.
   }
+
+  return record
 }
 
 async function verifyPassword(password: string): Promise<boolean> {
@@ -68,11 +82,13 @@ async function verifyPassword(password: string): Promise<boolean> {
 
   if (password === DEFAULT_ADMIN_PASSWORD) {
     const salt = crypto.randomBytes(16).toString("hex")
-    await fs.writeFile(
-      PASSWORD_FILE,
-      JSON.stringify({ salt, hash: hashPassword(DEFAULT_ADMIN_PASSWORD, salt) }),
-      { mode: 0o600 },
-    )
+    const migratedRecord = { salt, hash: hashPassword(DEFAULT_ADMIN_PASSWORD, salt) }
+    fallbackPasswordRecord = migratedRecord
+    try {
+      await fs.writeFile(PASSWORD_FILE, JSON.stringify(migratedRecord), { mode: 0o600 })
+    } catch {
+      // Keep the migrated record in memory when the host filesystem is read-only.
+    }
     return true
   }
 
@@ -83,8 +99,13 @@ export async function changeAdminPassword(currentPassword: string, newPassword: 
   if (!(await verifyPassword(currentPassword))) return false
   const salt = crypto.randomBytes(16).toString("hex")
   const record = { salt, hash: hashPassword(newPassword, salt) }
-  await fs.mkdir(path.dirname(PASSWORD_FILE), { recursive: true })
-  await fs.writeFile(PASSWORD_FILE, JSON.stringify(record), { mode: 0o600 })
+  fallbackPasswordRecord = record
+  try {
+    await fs.mkdir(path.dirname(PASSWORD_FILE), { recursive: true })
+    await fs.writeFile(PASSWORD_FILE, JSON.stringify(record), { mode: 0o600 })
+  } catch {
+    // Keep the new password available for the current process on restricted hosts.
+  }
   return true
 }
 

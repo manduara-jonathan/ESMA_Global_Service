@@ -50,8 +50,9 @@ export async function POST(request: Request) {
 
     return response
   } catch (error) {
+    console.error("[auth] Login request failed:", error)
     return NextResponse.json<ApiResponse>(
-      { success: false, error: "Erreur lors de la connexion" },
+      { success: false, error: "Erreur lors de la connexion. Vérifiez la configuration du serveur." },
       { status: 500 }
     )
   }
