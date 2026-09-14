@@ -13,7 +13,7 @@ const testimonials = [
     role: "Service traiteur",
   },
   {
-    text: "Grace a ESMA GLOBAL SERVICE, j'ai pu obtenir mon visa rapidement et sans stress. Leur equipe m'a guide tout au long du processus. Je les recommande sans hesitation.",
+    text: "Le service de nettoyage de ESMA GLOBAL SERVICE a ete soigneux et efficace. L'equipe a respecte les horaires et a laisse les locaux parfaitement propres. Je les recommande vivement.",
     name: "IN’naka Fabrice",
     role: "Nettoyage",
   },
