@@ -11,8 +11,8 @@ export function HeroSection() {
 
   const stats = [
     { value: "15+", label: t.hero.stats.destinations },
-    { value: "5K+", label: t.hero.stats.clients },
-    { value: "10+", label: t.hero.stats.experience },
+    { value: "1K+", label: t.hero.stats.clients },
+    { value: "2+", label: t.hero.stats.experience },
   ]
 
   return (
